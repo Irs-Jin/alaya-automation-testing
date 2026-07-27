@@ -13,7 +13,6 @@ async function login(page, { baseURL, clientId, username, password } = {}) {
 
   const { locator: clientIdField } = await heal(page, {
     id: 'login.clientId',
-    kbFile: 'login',
     label: 'Client ID',
     strategies: [
       { type: 'css', value: '#cbpCallback_txtClientId_I' }, // confirmed via DevTools inspection
@@ -24,11 +23,11 @@ async function login(page, { baseURL, clientId, username, password } = {}) {
       { type: 'css', value: 'input[id*="txtClientId" i]' },
     ],
   });
-  await clientIdField.fill(clientId);
+  await clientIdField.click();
+  await clientIdField.pressSequentially(clientId, { delay: 30 });
 
   const { locator: usernameField } = await heal(page, {
     id: 'login.username',
-    kbFile: 'login',
     label: 'User ID',
     strategies: [
       { type: 'css', value: '#cbpCallback_txtUserName_I' }, // confirmed via DevTools inspection
@@ -39,11 +38,21 @@ async function login(page, { baseURL, clientId, username, password } = {}) {
       { type: 'css', value: 'input[id*="txtUserName" i]' },
     ],
   });
-  await usernameField.fill(username);
+  // BUG FIXED (2026-07-27): `.fill()` sets the value directly via JS,
+  // which sometimes never "took" on this field — confirmed live via a
+  // screenshot showing Client ID filled but User ID still empty with a
+  // "User ID Required" validation error, non-deterministically (passed on
+  // retry with no code change). Same root cause already diagnosed on the
+  // Customer search box: DevExpress's ASPxClientEdit wrapper tracks its
+  // own focus/blur state and can miss a JS-direct value set, especially
+  // under the timing pressure of a page that's still settling right after
+  // Client ID's own postback. Real keystrokes (already used for Password,
+  // just never extended to this field) don't have that gap.
+  await usernameField.click();
+  await usernameField.pressSequentially(username, { delay: 30 });
 
   const { locator: passwordField } = await heal(page, {
     id: 'login.password',
-    kbFile: 'login',
     label: 'Password',
     strategies: [
       { type: 'css', value: '#cbpCallback_txtPassword_I_CLND' }, // visible masking clone — the one you actually interact with
@@ -60,7 +69,6 @@ async function login(page, { baseURL, clientId, username, password } = {}) {
 
   const { locator: loginButton } = await heal(page, {
     id: 'login.submitButton',
-    kbFile: 'login',
     label: 'Login',
     strategies: [
       { type: 'css', value: '#cbpCallback_btnLogin' }, // guess, following confirmed cbpCallback_xxx pattern (no _I suffix — buttons aren't edit areas)

@@ -319,6 +319,11 @@ class CashBookReceiptPage {
     await this.page.waitForTimeout(1500);
   }
 
+  /**
+   * Same `input.nav.print_button` pattern as Cash Sales / Journal Entry —
+   * see their printReport() comments. Timeout widened to 30s for the same
+   * reason: too tight once running deep into the full suite under load.
+   */
   async printReport() {
     const p = this.page;
     const printSelector = 'input.nav.print_button, input[title="Print from Adobe Reader" i]';
@@ -326,7 +331,7 @@ class CashBookReceiptPage {
     const reportFrame = await findFrame(p, async (frame) => {
       const btn = frame.locator(printSelector);
       return (await btn.count()) > 0 && (await btn.first().isVisible().catch(() => false));
-    });
+    }, { timeout: 30000 });
     if (!reportFrame) {
       await p.screenshot({ path: 'test-results/debug-cbr-report-not-found.png', fullPage: true }).catch(() => {});
       throw new Error(

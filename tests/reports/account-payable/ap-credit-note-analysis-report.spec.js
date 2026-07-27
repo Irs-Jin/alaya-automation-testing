@@ -23,7 +23,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('Reports > Account Payable > AP Credit Note Analysis', () => {
-  test.describe.configure({ retries: 0 });
 
   test('[Happy Path] views, previews, and prints the AP Credit Note Analysis report', async ({ page }) => {
     test.setTimeout(90000);

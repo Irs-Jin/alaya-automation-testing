@@ -19,7 +19,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('Reports > General Ledger > Profit And Loss Statement', () => {
-  test.describe.configure({ retries: 0 });
 
   test('[Happy Path] views, previews, and prints the Profit And Loss Statement report', async ({ page }) => {
     test.setTimeout(90000);

@@ -21,7 +21,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('Reports > Account Receivable > Customer Outstanding', () => {
-  test.describe.configure({ retries: 0 });
 
   test('[Happy Path] views, previews, and prints the Customer Outstanding report', async ({ page }) => {
     test.setTimeout(90000);

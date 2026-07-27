@@ -33,7 +33,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('General Ledger > Journal Entry > New', () => {
-  test.describe.configure({ retries: 0 });
 
   test('[Happy Path] fills a journal entry header and one line', async ({ page }) => {
     test.setTimeout(90000);

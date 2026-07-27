@@ -2,35 +2,21 @@ const fs = require('fs');
 const path = require('path');
 const { bestFuzzyMatch } = require('./fuzzyMatch');
 
-const KB_DIR = process.env.KNOWLEDGE_BASE_DIR
-  ? path.resolve(process.cwd(), process.env.KNOWLEDGE_BASE_DIR)
-  : path.resolve(__dirname, 'knowledge-base');
+const KB_PATH = process.env.KNOWLEDGE_BASE_PATH
+  ? path.resolve(process.cwd(), process.env.KNOWLEDGE_BASE_PATH)
+  : path.resolve(__dirname, 'knowledge-base.json');
 
-/**
- * Knowledge base is split into one file per module (e.g. inventory.json,
- * ar.json, login.json) instead of a single shared file. This matters when
- * multiple QA commit to the same repo — a single shared JSON file means
- * everyone touching any test collides on the same file in git, causing
- * constant merge conflicts. Splitting by module means people working on
- * different modules never touch the same file.
- */
-function kbFilePath(kbFile) {
-  const safeName = (kbFile || 'default').replace(/[^a-zA-Z0-9_-]/g, '_');
-  return path.join(KB_DIR, `${safeName}.json`);
-}
-
-function loadKB(kbFile) {
+function loadKB() {
   try {
-    return JSON.parse(fs.readFileSync(kbFilePath(kbFile), 'utf-8'));
+    return JSON.parse(fs.readFileSync(KB_PATH, 'utf-8'));
   } catch {
     return { _meta: { description: 'Locator knowledge base', lastUpdated: null }, elements: {} };
   }
 }
 
-function saveKB(kb, kbFile) {
+function saveKB(kb) {
   kb._meta.lastUpdated = new Date().toISOString();
-  fs.mkdirSync(KB_DIR, { recursive: true });
-  fs.writeFileSync(kbFilePath(kbFile), JSON.stringify(kb, null, 2), 'utf-8');
+  fs.writeFileSync(KB_PATH, JSON.stringify(kb, null, 2), 'utf-8');
 }
 
 function strategyToLocator(page, strategy) {
@@ -95,14 +81,13 @@ function recordResult(kb, elementId, strategy, success, discovered = false) {
  * {
  *   id: 'createItem.itemCodeInput',   // stable logical name, used as KB key
  *   label: 'Item Code',               // semantic label, used for fuzzy fallback
- *   kbFile: 'inventory',              // which module's knowledge base file to read/write (default: 'default')
  *   strategies: [ {type, value/role, options} ... ],  // ordered preference if KB has no history
  *   timeout: 5000,                    // per-strategy timeout in ms
  * }
  * Returns { locator, strategyUsed, healed } — throws if nothing works, including fuzzy fallback.
  */
 async function heal(page, spec) {
-  const kb = loadKB(spec.kbFile);
+  const kb = loadKB();
   const candidates = orderedStrategies(kb, spec.id, spec.strategies);
   const timeout = spec.timeout || 3000;
 
@@ -111,7 +96,7 @@ async function heal(page, spec) {
       const locator = strategyToLocator(page, strategy);
       await locator.first().waitFor({ state: 'attached', timeout });
       recordResult(kb, spec.id, strategy, true, strategy.discovered);
-      saveKB(kb, spec.kbFile);
+      saveKB(kb);
       return { locator: locator.first(), strategyUsed: strategy, healed: strategy.discovered === true };
     } catch {
       recordResult(kb, spec.id, strategy, false, strategy.discovered);
@@ -125,12 +110,11 @@ async function heal(page, spec) {
     if (healedLocator) return healedLocator;
   }
 
-  saveKB(kb, spec.kbFile);
+  saveKB(kb);
   throw new Error(
     `Self-healing locator failed for "${spec.id}" (label: "${spec.label || 'n/a'}"). ` +
     `Tried ${candidates.length} known strategies and fuzzy discovery. ` +
-    `The page structure may have changed significantly — inspect the page and update ` +
-    `this element's strategies in its page object, or edit framework/knowledge-base/${spec.kbFile || 'default'}.json manually.`
+    `The page structure may have changed significantly — update framework/pageDefinitions or knowledge-base.json manually.`
   );
 }
 
@@ -174,9 +158,9 @@ async function fuzzyDiscover(page, spec, kb) {
 
   const locator = page.locator(discoveredStrategy.value);
   recordResult(kb, spec.id, discoveredStrategy, true, true);
-  saveKB(kb, spec.kbFile);
+  saveKB(kb);
 
   return { locator, strategyUsed: discoveredStrategy, healed: true };
 }
 
-module.exports = { heal, loadKB, saveKB, KB_DIR };
+module.exports = { heal, loadKB, saveKB, KB_PATH };

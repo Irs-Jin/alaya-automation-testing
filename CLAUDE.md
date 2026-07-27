@@ -1,138 +1,162 @@
-# CLAUDE.md — AI instructions for this repo
+# Instructions for AI agents working in this repo
 
-This file tells Claude (or any AI assistant) how to generate new automation
-test cases for ALAYA in a way that's consistent with the rest of this repo.
-If you're a QA who wants to generate new tests with AI: **copy this file's
-conventions, don't skip them** — the whole point of this repo is that every
-module looks and behaves the same way, so anyone can jump into anyone
-else's tests.
+This is a shared Playwright test suite for the ALAYA ERP (DevExpress
+ASPxWebForms). Multiple QAs use AI agents (including you) to add test cases
+to it. Follow this file exactly — it is the distilled result of many real,
+sometimes costly, debugging sessions. Don't rediscover these the hard way.
 
-## What this project is
+Full rationale for everything below lives in **CONTRIBUTING.md** — read it
+before your first test case in a session if you have any doubt about a
+convention here. This file is the actionable checklist version.
 
-Playwright test automation for ALAYA (ERP system: AR, AP, Inventory, Sales
-Branch/POS, Business Intelligence, System Administration modules), built on
-top of a custom self-healing locator framework. ALAYA is an ASP.NET
-WebForms + DevExpress application — expect DevExpress-specific quirks (see
-"DevExpress gotchas" below).
+## Before writing anything
 
-## Repo structure (do not deviate from this)
+Ask what ground truth is available, in this order of preference, and use
+whichever exists:
+1. A Katalon Object Repository entry for the same screen (real, confirmed
+   selectors — check `Object Repository/**/*.rs` in any Katalon project the
+   user points you to, even if the object's auto-generated name looks
+   wrong/misleading; the selector inside it is what matters).
+2. A Playwright codegen recording the user pastes or records
+   (`npm run record`).
+3. A screenshot (selectors from this are unconfirmed guesses — say so).
+
+If a codegen recording ends with an action that looks disconnected from the
+rest of the flow (e.g. a bare `page.locator('a').first().click()` with no
+clear purpose), that's very likely a recorder artifact from the user
+clicking around after finishing — leave it out and say you did, rather than
+replicating it blindly.
+
+## File layout — always this shape, no exceptions
 
 ```
-framework/                 <- SHARED code. Do not copy/duplicate into a module folder.
-  selfHealingLocator.js     <- heal(target, spec) — use this for every locator, no raw page.locator() in page objects
-  fuzzyMatch.js
-  frameHelper.js            <- findFrame(page, checkFn) — use for anything inside an iframe
-  loginHelper.js
-  knowledge-base/<module>.json   <- one per module, auto-updated, don't hand-edit except to clear a bad entry
-modules/<module>/
-  pages/<Screen>Page.js     <- one page object per screen
-  tests/<screen>.spec.js    <- one spec file per screen/flow
+tests/<module>/<name>.spec.js
+framework/pages/<name>Page.js
+runners/<module>/run-<name>.bat
 ```
 
-Module names in use: `inventory`, `ar`, `ap`, `sales-branch`, `bi`,
-`sysadmin`, `login` (shared, lives in framework/ since every module needs it).
+Copy the nearest existing file in the same category as your starting point.
+Don't invent a new shape.
 
-## The self-healing pattern — always use it
+## Page object rules
 
-Never write a raw `page.locator(...)` or `page.getByRole(...)` directly for
-an element that's part of the application UI (fine for one-off assertions
-in tests, but page-object element getters should go through `heal()`).
+- Constructor takes `page`, stores a `frame` reference initialized to
+  `null`.
+- Resolve the iframe via `findFrame(page, checkFn)` — **never** hardcode an
+  iframe name. Every DevExpress screen in this app puts its content in an
+  iframe with a dynamic or literally-`"undefined"` name. This is confirmed
+  true for every module built so far, with zero exceptions.
+- Use `heal()` (`framework/selfHealingLocator.js`) for buttons/fields that
+  might drift. Use a plain, specific `page.locator(cssId)` only for an id
+  you've confirmed is stable (toolbar button, fixed grid-header control).
+- **Never pass a RegExp inside a `heal()` strategy's `options`.** The
+  knowledge base is plain JSON; `JSON.stringify(/regex/)` produces `{}` and
+  permanently corrupts that strategy on the very first save (the merge
+  logic can't tell the corrupted entry apart from a correct one by key
+  alone, so it never self-heals). If you need a regex-based accessible-name
+  match, call `frame.getByRole(role, { name: /regex/ })` directly, bypassing
+  `heal()` for that one lookup.
+- Never hardcode a per-row action-button id (e.g. something ending in
+  `_DXCBtn60Img`) — it reflects that row's position at recording time, not
+  a stable identity. Select by role + accessible name instead
+  (`getByRole('link', { name: 'Edit', exact: true })`), scoped to a row
+  you've already verified matches your target.
 
-```js
-const { heal } = require('../../../framework/selfHealingLocator');
+## Interacting with fields — read before writing any `.fill()` call
 
-const { locator } = await heal(page /* or frame */, {
-  id: 'createItem.itemCode',       // stable logical name — used as the KB key, never changes even if the real selector does
-  label: 'Item Code',              // semantic label — used for fuzzy fallback matching if all strategies fail
-  kbFile: 'inventory',             // REQUIRED — must match the module folder name
-  strategies: [                     // ordered by confidence; put confirmed exact selectors first
-    { type: 'css', value: '#txtItemCode_I' },        // confirmed via DevTools/codegen
-    { type: 'label', value: 'Item Code' },           // fallback guesses after
-    { type: 'placeholder', value: 'Item Code' },
-  ],
-});
-```
+- If a field just needs a value present when the form submits (most text
+  inputs), `.fill()` is fine.
+- If a field's value needs to actually register with the app's own JS
+  (triggers a live filter, a postback, a client-side validation state) —
+  confirmed necessary for: search/filter boxes, the login form's User ID
+  field — use real keystrokes instead:
+  ```js
+  await field.click();
+  await field.pressSequentially(value, { delay: 30 });
+  ```
+  `.fill()` sets the DOM value directly and has been confirmed, more than
+  once, to silently fail to register with DevExpress's `ASPxClientEdit`
+  wrapper — the field looks filled in a screenshot taken right after, but
+  the value doesn't stick or the framework never "sees" it.
+- To clear a field before retyping, use a real triple-click
+  (`field.click({ clickCount: 3 })`), never `.fill('')`.
+- Don't use `.press('Enter')` to force a postback on a field that hasn't
+  been confirmed to need it — on at least one screen this had the
+  unintended side effect of submitting the surrounding form and navigating
+  to whatever the browser's default action was, instead of just filtering.
 
-Strategy types available: `testid`, `label`, `placeholder`, `role` (needs
-`role` + optional `options`), `text`, `css`.
+## Timeouts — set these explicitly, every time
 
-**Always set `kbFile` to the module you're working in.** This is what keeps
-knowledge-base files from colliding between QA working on different modules.
+- `test.setTimeout(90000)` at minimum for anything that posts, saves, or
+  waits on a generated report. Never rely on the global 30s default — it is
+  measurably too tight once a test runs deep into the full ~90-test suite,
+  against a server under sustained load, even though the exact same test
+  passes fine standalone. This is a confirmed, repeated failure mode in this
+  repo, not a hypothetical.
+- If a specific action waits on something async (a report's print button
+  appearing, a popup rendering), give that specific `findFrame()`/`waitFor()`
+  call its own generous timeout too (e.g. `{ timeout: 30000 }`) — the
+  surrounding test-level timeout doesn't rescue a tighter per-action cap.
+- Do not add `test.describe.configure({ retries: 0 })`. The suite-wide
+  `retries: 1` default exists specifically to absorb the slow-render-under-
+  load failure mode above without masking a genuinely broken selector (which
+  would fail identically on the retry too, under the same load — a real bug
+  survives a retry; a load-related timeout doesn't).
 
-## DevExpress gotchas (read before inspecting elements)
+## Safety — non-negotiable
 
-These cost real debugging time on the Inventory module — don't repeat that:
+This repo has a real incident history: a loosely-scoped delete-confirmation
+helper once deleted an unrelated real row, because it searched for a "Yes"
+button by role/text across the whole page instead of one specific,
+already-verified frame, and a retried click landed on a second dialog.
 
-1. **One logical field can be two DOM elements.** Password fields
-   especially: a hidden "real" input plus a visible masking clone (id
-   suffix `_CLND`) for iOS/browser compatibility. If filling a field seems
-   to do nothing, check for a clone.
-2. **Interactive elements are often inside iframes**, with `name`
-   attributes that are session-specific (a random number) or literally the
-   string `"undefined"`. Never hardcode an iframe name/selector. Always use
-   `framework/frameHelper.js`'s `findFrame(page, checkFn)` to locate the
-   right frame by its *content* (e.g. "does this frame contain a textbox
-   named 'Description:'"), not by name.
-3. **Toolbar icons are often plain `<img>` tags with an `onclick` handler**,
-   not semantic `<button>`s — no visible text, sometimes only a `title`
-   tooltip. `fuzzyMatch.js` already checks `title`/`alt` for this reason —
-   don't remove that.
-4. **Standard Playwright `.click()` can fail** on some of these DevExpress
-   elements even when the selector is correct, due to actionability checks
-   (visibility/pointer-events). If a confirmed-correct selector still won't
-   click, fall back to invoking the element's `onclick` directly via
-   `page.evaluate()`.
-5. Field labels in the app don't always match what you'd guess from the
-   PBI — e.g. what you'd assume is "Item Name" is actually labeled
-   "Description" in the real form. Confirm labels against the real UI,
-   don't assume from the PBI wording alone.
+- Scope every delete-confirm / save-confirm dialog interaction to the exact
+  frame you're already working in. Never fall back to a page-wide
+  `getByRole`/`getByText` "Yes" search.
+- After clicking a confirm "Yes", wait for that element to become hidden
+  (`.waitFor({ state: 'hidden' })`) as proof the click registered exactly
+  once — not a fixed `waitForTimeout`.
+- Before any Edit/Delete action on a searched/filtered grid, verify a
+  genuine matching data row is actually visible first (not just that the
+  search box holds the typed text, and not just "count > 0" against a
+  locator that might also match the search box's own wrapper cell — require
+  the match come from a row that also carries the row's own action links).
+  Throw loudly if it never appears; do not proceed on an assumption.
+- Never click "Select All" on a multi-row picker (warehouse, item, etc.) —
+  confirmed to hang some reports for minutes or indefinitely. Select one row
+  unless a human explicitly asks for more.
+- If a recorded/requested action is destructive (delete, post, modify real
+  data) and you're not fully certain it's intended exactly as given, ask.
+  Don't pick the "probably fine" interpretation on your own.
+- If you observe unexplained behavior during a live run (a dialog you didn't
+  trigger, a field that silently didn't take a value), **investigate with a
+  read-only repro before touching anything destructive again** — don't
+  guess-and-check with real delete/save actions in a live ERP system. Prefer
+  isolating the variable (e.g. search for a nonexistent term) over repeating
+  the exact failing action hoping it resolves itself.
 
-## Workflow: generating tests for a screen that has NO confirmed selectors yet
+## Before calling a test case done
 
-This is the common case for a new module (AR, AP, etc.) or a new screen.
+1. `node -c` the new page object and spec.
+2. `npx playwright test --list` — confirm it's discovered.
+3. Run it live, headed, standalone. If it fails, read the actual failure
+   screenshot in `test-results/.../test-failed-1.png` before changing
+   anything — every wrong-selector fix in this repo's history came from
+   reading a real screenshot, never from re-guessing blind.
+4. If the test creates data, confirm it deletes it again — search for the
+   record by name after the run and verify it's gone, independent of
+   whether the test's own assertions passed (a "Deleted Successfully"
+   banner appearing is not, by itself, proof the row is actually gone —
+   verify with a fresh search in a clean session).
+5. Use an obviously-fake, greppable test-data name (`TESTING001`, not a
+   realistic-looking name).
 
-1. **Read the PBI** (or ask the QA for the PBI number/description) and
-   design test cases first, using our standard categories: `Happy Path`,
-   `Negative`, `UI`, `Edge Case`, `Security`, `Integration`, `Formula`.
-   Flag ambiguities as open questions instead of guessing at business
-   rules.
-2. **Don't guess selectors from scratch.** Ask the QA to record the flow:
-   ```
-   record.bat
-   ```
-   (or `npx playwright codegen <url>` directly). They perform the flow by
-   hand once; you get real, confirmed selectors back, including correct
-   iframe detection that manual DevTools inspection often misses.
-3. **Fold the recorded selectors into a page object** using the `heal()`
-   pattern above — don't just paste the raw recorded script as the final
-   test. The recording is a source of truth for *what the real selectors
-   are*, not the final architecture.
-4. **Mark anything the recording didn't cover** as `// TODO(<name>):
-   unconfirmed guess` in the code, and wrap it so a missing selector
-   doesn't crash the whole test (see `modules/inventory/pages/createItemPage.js`
-   for the pattern — optional fields use `.catch(() => {})` / null-checks).
-5. **Write the spec file** in `modules/<module>/tests/`, tagged with
-   category prefixes in the test titles.
-6. **Run it.** If something fails, check `test-results/` (screenshot,
-   video, trace) and the module's knowledge-base file before guessing again.
+## Never do this without explicit user confirmation first
 
-## Workflow: adding to a module that already has confirmed selectors
-
-Just follow the existing page object's pattern in that module. Reuse
-`loginHelper.js` for auth — don't reimplement login per module.
-
-## Reference implementation
-
-`modules/inventory/pages/createItemPage.js` and
-`modules/inventory/tests/create-item.spec.js` are the canonical example —
-when in doubt, match their structure.
-
-## Migrating old Katalon scripts
-
-If asked to migrate an existing Katalon project into this repo: Katalon's
-Object Repository often has human-readable element descriptions even after
-its selectors have gone stale post-deployment. Use those descriptions as
-the `label` field for `heal()` calls (they're exactly what fuzzy fallback
-matches against), use any still-valid selectors as confirmed `strategies`
-entries, and re-confirm anything that no longer resolves via codegen
-recording rather than guessing.
+- `git push`, especially to a shared branch.
+- Deleting or modifying a record you didn't create yourself in this session
+  (e.g. anything that looks like real customer/business data, not a
+  `TESTING*`-named row you just made).
+- Widening a delete-confirmation selector's scope back to page-wide/generic
+  after it was deliberately narrowed — that narrowing is there because of a
+  real incident, not by accident.

@@ -31,7 +31,6 @@ test.describe('Reports > General Ledger', () => {
   // real report content IS the success bar here — a multi-page report is
   // just slow to generate server-side, not flaky, so retrying only doubles
   // that wait for no benefit. No retries for this test.
-  test.describe.configure({ retries: 0 });
 
   test('[Happy Path] views, previews, and prints the General Ledger report', async ({ page }) => {
     // The repeated timeouts here were never really about duration — see

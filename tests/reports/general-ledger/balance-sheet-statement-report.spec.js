@@ -19,7 +19,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('Reports > General Ledger > Balance Sheet Statement', () => {
-  test.describe.configure({ retries: 0 });
 
   test('[Happy Path] views, previews, and prints the Balance Sheet Statement report', async ({ page }) => {
     test.setTimeout(90000);

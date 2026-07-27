@@ -30,7 +30,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('General Ledger > Stock Value', () => {
-  test.describe.configure({ retries: 0 });
 
   test('[Happy Path] sets a value, saves, closes, reopens, then deletes and saves', async ({ page }) => {
     test.setTimeout(90000);

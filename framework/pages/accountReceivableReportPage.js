@@ -94,6 +94,56 @@ class AccountReceivableReportPage {
       .waitFor({ state: 'hidden', timeout }).catch(() => {});
   }
 
+  /**
+   * NEW PARAMETER SHAPE (confirmed live via Jin's codegen recording,
+   * 2026-07-27, Customer Statement Balance): every report before this one
+   * defaults Customer to "ALL". This report instead defaults Customer to
+   * "Filter By Selection" with an EMPTY "Selection" multi-select grid —
+   * View Grid/Preview won't return anything useful until at least one
+   * customer is ticked. Per Jin's recording: open the Selection dropdown
+   * and click the grid's "Select All" header checkbox before proceeding.
+   * Self-skips if this report's Customer field isn't in that state (i.e.
+   * every report before this one, and presumably most after it too) —
+   * call this unconditionally right after goto(), same self-skip
+   * convention as viewGrid()/previewReport().
+   */
+  async selectAllCustomersIfNeeded() {
+    const f = this.reportFrame;
+    const openButton = f.locator('[id$="_cbCustomer_glCustomer_B-1Img"]');
+    const present = await openButton.count().catch(() => 0);
+    if (!present || !(await openButton.first().isVisible().catch(() => false))) {
+      return; // this report's Customer field defaults to ALL — nothing to do
+    }
+
+    const { locator } = await heal(f, {
+      id: 'accountReceivableReport.customerSelectionDropdownButton',
+      label: 'Customer Selection dropdown',
+      strategies: [
+        {
+          type: 'css',
+          value: '#ctl00_MainContent_ReportFrameWork1_cbpReport_cbpReportFrameworkParameter_rpReportFramework_formReportFrameworkParameter_cbCustomer_glCustomer_B-1Img',
+        },
+        { type: 'css', value: '[id$="_cbCustomer_glCustomer_B-1Img"]' },
+      ],
+      timeout: 3000,
+    });
+    await locator.click();
+
+    const { locator: selectAllCheckbox } = await heal(f, {
+      id: 'accountReceivableReport.customerSelectionSelectAll',
+      label: 'Select All customers',
+      strategies: [
+        {
+          type: 'css',
+          value: '#ctl00_MainContent_ReportFrameWork1_cbpReport_cbpReportFrameworkParameter_rpReportFramework_formReportFrameworkParameter_cbCustomer_glCustomer_DDD_gv_DXSelAllBtn0_D',
+        },
+        { type: 'css', value: '[id$="_cbCustomer_glCustomer_DDD_gv_DXSelAllBtn0_D"]' },
+      ],
+      timeout: 5000,
+    });
+    await selectAllCheckbox.click();
+  }
+
   /** Same self-skip behavior as the other two report categories' viewGrid(). */
   async viewGrid() {
     const f = this.reportFrame;
@@ -116,7 +166,15 @@ class AccountReceivableReportPage {
     await this._waitForLoadingPanelHidden();
   }
 
-  /** Same shape as the other two report categories' previewReport(). */
+  /**
+   * Same shape as the other two report categories' previewReport().
+   *
+   * Confirmed live (2026-07-27, Warranty Due Listing): a heavy report can
+   * leave `#ctl00_LoadingPanel_LD` intercepting clicks on the "Preview
+   * Report" button itself for well over 20s (34+ retries observed) — the
+   * button click timeout needs the same generous allowance already given
+   * to printReport()'s frame search, not just a pre-click hidden-wait.
+   */
   async previewReport(templateName = 'Customer Outstanding By Customer') {
     const f = this.reportFrame;
     await this._waitForLoadingPanelHidden();
@@ -133,7 +191,7 @@ class AccountReceivableReportPage {
       ],
       timeout: 3000,
     });
-    await previewReportButton.click({ timeout: 20000 });
+    await previewReportButton.click({ timeout: 60000 });
 
     const dialogAppeared = await f.getByText('Reports Format', { exact: true }).first()
       .waitFor({ state: 'visible', timeout: 3000 }).then(() => true).catch(() => false);

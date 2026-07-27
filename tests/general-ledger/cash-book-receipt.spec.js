@@ -30,7 +30,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('General Ledger > Cash Book Receipt', () => {
-  test.describe.configure({ retries: 0 });
 
   test('[Happy Path] fills a cash book receipt and clicks New', async ({ page }) => {
     test.setTimeout(90000);

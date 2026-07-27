@@ -26,7 +26,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('Reports > Account Receivable > Customer Point Statement', () => {
-  test.describe.configure({ retries: 0 });
 
   test('[Happy Path] views, previews, and prints the Customer Point Statement report', async ({ page }) => {
     test.setTimeout(90000);

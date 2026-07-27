@@ -32,7 +32,6 @@ test.describe('Reports > General Ledger > Trial Balance', () => {
   // Same rationale as the sibling report specs: reaching the print-preview
   // tab with real content IS success; report generation is slow, not
   // flaky, so retrying just doubles the wait for no benefit.
-  test.describe.configure({ retries: 0 });
 
   test('[Happy Path] views, previews, and prints the Trial Balance report', async ({ page }) => {
     test.setTimeout(90000);

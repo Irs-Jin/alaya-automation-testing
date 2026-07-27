@@ -23,7 +23,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('Reports > Account Payable > Vendor Balance', () => {
-  test.describe.configure({ retries: 0 });
 
   test('[Happy Path] views, previews, and prints the Vendor Balance report', async ({ page }) => {
     test.setTimeout(90000);

@@ -221,10 +221,10 @@ class CashSalesPage {
   }
 
   /**
-   * Customer selection is a DevExpress popup-grid pick, same shape as
-   * Item Group in createItemPage.js: click the search-icon trigger, then
-   * click the grid row matching `customerCode`, then confirm with OK.
-   * The OK button's id is only known from Katalon (unconfirmed) — falls
+   * Customer selection is a DevExpress popup-grid pick: click the
+   * search-icon trigger, then click the grid row matching
+   * `customerCode`, then confirm with OK. The OK button's id is only
+   * known from Katalon (unconfirmed) — falls
    * back to matching visible "OK" text within whichever frame the popup
    * actually rendered in, since DevExpress may render it one iframe level
    * deeper than the trigger (seen in the Katalon ref_element metadata).
@@ -511,10 +511,19 @@ class CashSalesPage {
     const p = this.page;
     const printSelector = 'input.nav.print_button, input[title="Print from Adobe Reader" i]';
 
+    // BUG FIXED (2026-07-27): findFrame()'s default 10s timeout was only
+    // ever tight enough when this test ran standalone, against a fresh/
+    // fast server. Confirmed live: running it as part of the full ~100-
+    // test suite (over an hour of sustained load), the SAME report
+    // occasionally took longer than 10s to finish rendering — the first
+    // attempt failed with this exact error, and only the retry (once
+    // retries:1 was enabled suite-wide) passed. Widened to give slow
+    // rendering under load room to finish, matching the longer timeouts
+    // already used for report generation elsewhere in this app.
     const reportFrame = await findFrame(p, async (frame) => {
       const btn = frame.locator(printSelector);
       return (await btn.count()) > 0 && (await btn.first().isVisible().catch(() => false));
-    });
+    }, { timeout: 30000 });
     if (!reportFrame) {
       await p.screenshot({ path: 'test-results/debug-gst-report-not-found.png', fullPage: true }).catch(() => {});
       throw new Error(
@@ -548,7 +557,7 @@ class CashSalesPage {
     return f.getByRole('cell', { name: itemDescription, exact: true }).first().isVisible().catch(() => false);
   }
 
-  /** Same visible-only filtering rationale as createItemPage.js — DevExpress keeps a hidden validation-summary template in the DOM. */
+  /** Visible-only filtering — DevExpress keeps a hidden validation-summary template in the DOM. */
   async getValidationErrors() {
     const scope = this.formFrame || this.page;
     const candidates = scope.locator('[class*="error" i], [class*="validation" i]');

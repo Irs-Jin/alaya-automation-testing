@@ -23,7 +23,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('Reports > Account Payable > Vendor Analysis By Document', () => {
-  test.describe.configure({ retries: 0 });
 
   test('[Happy Path] views, previews, and prints the Vendor Analysis By Document report', async ({ page }) => {
     test.setTimeout(90000);

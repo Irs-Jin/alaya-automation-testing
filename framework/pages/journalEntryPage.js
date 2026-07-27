@@ -360,10 +360,14 @@ class JournalEntryPage {
     const p = this.page;
     const printSelector = 'input.nav.print_button, input[title="Print from Adobe Reader" i]';
 
+    // BUG FIXED (2026-07-27): widened from findFrame()'s default 10s —
+    // confirmed live to be too tight when this runs deep into the full
+    // ~100-test suite under sustained load, not just standalone. See
+    // cashSalesPage.js's printReport() for the full incident writeup.
     const reportFrame = await findFrame(p, async (frame) => {
       const btn = frame.locator(printSelector);
       return (await btn.count()) > 0 && (await btn.first().isVisible().catch(() => false));
-    });
+    }, { timeout: 30000 });
     if (!reportFrame) {
       await p.screenshot({ path: 'test-results/debug-je-report-not-found.png', fullPage: true }).catch(() => {});
       throw new Error(

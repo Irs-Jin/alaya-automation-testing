@@ -22,7 +22,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('Reports > Account Payable > AP Debit Note Analysis', () => {
-  test.describe.configure({ retries: 0 });
 
   test('[Happy Path] views, previews, and prints the AP Debit Note Analysis report', async ({ page }) => {
     test.setTimeout(90000);

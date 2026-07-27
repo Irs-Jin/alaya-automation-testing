@@ -28,7 +28,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('Reports > Account Payable > Vendor Monthly Purchase And Payment Analysis', () => {
-  test.describe.configure({ retries: 0 });
 
   test('[Happy Path] views, previews, and prints the Vendor Monthly Purchase And Payment Analysis report', async ({ page }) => {
     test.setTimeout(90000);

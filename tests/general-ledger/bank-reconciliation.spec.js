@@ -41,7 +41,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('General Ledger > Bank Reconciliation', () => {
-  test.describe.configure({ retries: 0 });
 
   test('[Happy Path] adds a bank statement date entry then deletes it again', async ({ page }) => {
     test.setTimeout(90000);

@@ -1,7 +1,7 @@
 {
   "_meta": {
     "description": "Persistent locator knowledge base. Each key is a logical element ID. 'strategies' is ordered by confidence (successCount - failureCount). The self-healing locator promotes a fallback to primary once it consistently outperforms it.",
-    "lastUpdated": "2026-07-26T23:52:29.177Z"
+    "lastUpdated": "2026-07-27T11:34:30.343Z"
   },
   "elements": {
     "login.clientId": {
@@ -10,10 +10,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtClientId_I",
-          "successCount": 119,
+          "successCount": 517,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T23:52:20.467Z"
+          "lastUsed": "2026-07-27T11:34:22.484Z"
         }
       ]
     },
@@ -23,10 +23,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtUserName_I",
-          "successCount": 119,
+          "successCount": 517,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T23:52:20.512Z"
+          "lastUsed": "2026-07-27T11:34:22.536Z"
         }
       ]
     },
@@ -36,10 +36,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtPassword_I_CLND",
-          "successCount": 119,
+          "successCount": 517,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T23:52:20.556Z"
+          "lastUsed": "2026-07-27T11:34:22.587Z"
         }
       ]
     },
@@ -49,10 +49,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_btnLogin",
-          "successCount": 119,
+          "successCount": 516,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T23:52:20.730Z"
+          "lastUsed": "2026-07-27T11:34:23.110Z"
         }
       ]
     },
@@ -62,10 +62,10 @@
         {
           "type": "css",
           "value": "span:text-is(\"View Grid\")",
-          "successCount": 13,
+          "successCount": 21,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T07:41:43.894Z"
+          "lastUsed": "2026-07-27T10:53:40.146Z"
         }
       ]
     },
@@ -75,10 +75,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_ReportFrameWork1_cbpReport_cbpReportFramework_formReportFramework_btnPrint_CD",
-          "successCount": 21,
+          "successCount": 37,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T07:51:20.462Z"
+          "lastUsed": "2026-07-27T10:54:08.724Z"
         }
       ]
     },
@@ -88,10 +88,10 @@
         {
           "type": "css",
           "value": "span:text-is(\"Preview\")",
-          "successCount": 19,
+          "successCount": 34,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T07:51:20.863Z"
+          "lastUsed": "2026-07-27T10:54:09.221Z"
         }
       ]
     },
@@ -101,10 +101,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashSalesDetail_cbpCashSales_cbpSalesHeader_ASPxRoundPanel1_formCashSalesHeader_cbCustomer_cbSelectCust_B1Img",
-          "successCount": 3,
+          "successCount": 13,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T04:19:15.243Z"
+          "lastUsed": "2026-07-27T11:34:29.383Z"
         }
       ]
     },
@@ -114,10 +114,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashSalesDetail_cbpCashSales_cbpSalesHeader_ASPxRoundPanel1_formCashSalesHeader_cbCustomer_gsc_cbSelectCust_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD",
-          "successCount": 3,
+          "successCount": 6,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T04:19:17.396Z"
+          "lastUsed": "2026-07-27T10:34:01.664Z"
         }
       ]
     },
@@ -135,10 +135,10 @@
         {
           "type": "css",
           "value": "img[id*=\"txtItemSearchUpdate\" i]",
-          "successCount": 3,
+          "successCount": 7,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T04:19:17.742Z"
+          "lastUsed": "2026-07-27T11:34:29.562Z"
         }
       ]
     },
@@ -148,10 +148,10 @@
         {
           "type": "css",
           "value": "span.dx-vam:visible:text-is(\"OK\")",
-          "successCount": 3,
+          "successCount": 6,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T04:19:21.257Z"
+          "lastUsed": "2026-07-27T10:34:05.726Z"
         }
       ]
     },
@@ -161,10 +161,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashSalesDetail_cbpCashSales_mCashSalesDetailsToolBar_mToolBars_DXI2_T",
-          "successCount": 3,
+          "successCount": 6,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T04:19:23.207Z"
+          "lastUsed": "2026-07-27T10:34:07.943Z"
         }
       ]
     },
@@ -174,10 +174,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashSalesDetail_cbpCashSales_pcCSMultipayment_formCSMultipayment_gvCSMultiPayment_header0_Add",
-          "successCount": 3,
+          "successCount": 6,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T04:19:25.587Z"
+          "lastUsed": "2026-07-27T10:34:10.539Z"
         }
       ]
     },
@@ -187,10 +187,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashSalesDetail_cbpCashSales_pcCSMultipayment_formCSMultipayment_gvCSMultiPayment_DXEditor3_B-1Img",
-          "successCount": 3,
+          "successCount": 6,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T04:19:26.972Z"
+          "lastUsed": "2026-07-27T10:34:12.002Z"
         }
       ]
     },
@@ -200,10 +200,10 @@
         {
           "type": "css",
           "value": "td[id*=\"CSMultipayment\" i][id*=\"DDD_L_LBI\" i]:visible:text-is(\"CASH\")",
-          "successCount": 3,
+          "successCount": 6,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T04:19:28.131Z"
+          "lastUsed": "2026-07-27T10:34:13.369Z"
         }
       ]
     },
@@ -213,10 +213,10 @@
         {
           "type": "css",
           "value": "span.dx-vam:visible:text-is(\"OK\")",
-          "successCount": 3,
+          "successCount": 6,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T04:19:29.899Z"
+          "lastUsed": "2026-07-27T10:34:15.280Z"
         }
       ]
     },
@@ -278,10 +278,10 @@
             "name": "<",
             "exact": true
           },
-          "successCount": 2,
+          "successCount": 4,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T07:41:43.464Z"
+          "lastUsed": "2026-07-27T10:52:36.945Z"
         }
       ]
     },
@@ -291,10 +291,10 @@
         {
           "type": "css",
           "value": "img[id*=\"Bank\" i]:visible",
-          "successCount": 4,
+          "successCount": 6,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T07:51:18.886Z"
+          "lastUsed": "2026-07-27T10:52:51.333Z"
         }
       ]
     },
@@ -304,10 +304,10 @@
         {
           "type": "css",
           "value": "span.dx-vam:visible:text-is(\"OK\")",
-          "successCount": 4,
+          "successCount": 6,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T07:51:20.268Z"
+          "lastUsed": "2026-07-27T10:52:52.806Z"
         }
       ]
     },
@@ -317,10 +317,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_ReportFrameWork1_cbpReport_cbpReportFrameworkParameter_rpReportFramework_formReportFrameworkParameter_cbDocDate_dtDocDate_B-1Img",
-          "successCount": 2,
+          "successCount": 4,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T07:41:43.199Z"
+          "lastUsed": "2026-07-27T10:52:36.726Z"
         }
       ]
     },
@@ -330,10 +330,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_JournalEntryDetail_cbpJournalEntry_cbpJournalEntryDetail_ASPxRoundPanel1_formJEHeader_txtDescription_I",
-          "successCount": 70,
+          "successCount": 116,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T09:07:31.568Z"
+          "lastUsed": "2026-07-27T10:39:31.599Z"
         }
       ]
     },
@@ -343,10 +343,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_JournalEntryDetail_cbpJournalEntry_cpnlJEItem_formJEItem_PC_0_gvJEItem_header0_Add",
-          "successCount": 70,
+          "successCount": 116,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T09:07:32.309Z"
+          "lastUsed": "2026-07-27T10:39:31.799Z"
         }
       ]
     },
@@ -356,10 +356,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_JournalEntryDetail_cbpJournalEntry_mJEDetailsToolBar_mToolBars_DXI10_T",
-          "successCount": 70,
+          "successCount": 116,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T09:07:32.459Z"
+          "lastUsed": "2026-07-27T10:39:31.936Z"
         }
       ]
     },
@@ -369,10 +369,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_JournalEntryDetail_cbpJournalEntry_mJEDetailsToolBar_mToolBars_DXI0_T",
-          "successCount": 70,
+          "successCount": 116,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T09:07:32.524Z"
+          "lastUsed": "2026-07-27T10:39:32.058Z"
         }
       ]
     },
@@ -382,10 +382,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_JournalEntryDetail_cbpJournalEntry_mJEDetailsToolBar_mToolBars_DXI2_T",
-          "successCount": 70,
+          "successCount": 116,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T09:07:32.619Z"
+          "lastUsed": "2026-07-27T10:39:32.116Z"
         }
       ]
     },
@@ -395,10 +395,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_JournalEntryDetail_cbpJournalEntry_mJEDetailsToolBar_mToolBars_DXI4_T",
-          "successCount": 70,
+          "successCount": 116,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T09:07:32.679Z"
+          "lastUsed": "2026-07-27T10:39:32.174Z"
         }
       ]
     },
@@ -408,10 +408,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_JournalEntryDetail_cbpJournalEntry_cpnlJEItem_formJEItem_PC_0_gvJEItem_DXEditor3_B-1Img",
-          "successCount": 24,
+          "successCount": 40,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T09:07:27.442Z"
+          "lastUsed": "2026-07-27T10:39:27.481Z"
         }
       ]
     },
@@ -421,10 +421,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_cbpAPJournalEntryDetail_ASPxRoundPanel1_formAPJEHeader_txtPayTo_I",
-          "successCount": 52,
+          "successCount": 82,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:52:05.330Z"
+          "lastUsed": "2026-07-27T10:37:04.451Z"
         }
       ]
     },
@@ -434,10 +434,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_mAPPaymentDetailsToolBar_mToolBars_DXI10_T",
-          "successCount": 52,
+          "successCount": 82,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:52:05.397Z"
+          "lastUsed": "2026-07-27T10:37:04.515Z"
         }
       ]
     },
@@ -447,10 +447,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_mAPPaymentDetailsToolBar_mToolBars_DXI0_T",
-          "successCount": 52,
+          "successCount": 82,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:52:05.474Z"
+          "lastUsed": "2026-07-27T10:37:04.575Z"
         }
       ]
     },
@@ -460,10 +460,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_mAPPaymentDetailsToolBar_mToolBars_DXI2_T",
-          "successCount": 52,
+          "successCount": 82,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:52:05.548Z"
+          "lastUsed": "2026-07-27T10:37:04.636Z"
         }
       ]
     },
@@ -473,10 +473,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_mAPPaymentDetailsToolBar_mToolBars_DXI4_T",
-          "successCount": 52,
+          "successCount": 82,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:52:05.615Z"
+          "lastUsed": "2026-07-27T10:37:04.701Z"
         }
       ]
     },
@@ -486,10 +486,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_mAPPaymentDetailsToolBar_mToolBars_DXI1_T",
-          "successCount": 52,
+          "successCount": 82,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:52:05.686Z"
+          "lastUsed": "2026-07-27T10:37:04.765Z"
         }
       ]
     },
@@ -499,10 +499,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_ASPxFormLayout2_gvAPPItem_header0_Add",
-          "successCount": 20,
+          "successCount": 31,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:51:55.507Z"
+          "lastUsed": "2026-07-27T10:36:54.681Z"
         }
       ]
     },
@@ -512,10 +512,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_ASPxFormLayout2_gvAPPItem_DXEditor3_B-1Img",
-          "successCount": 20,
+          "successCount": 31,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:51:56.681Z"
+          "lastUsed": "2026-07-27T10:36:55.784Z"
         }
       ]
     },
@@ -525,10 +525,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_ASPxFormLayout2_gvAPPItem_DXEditor7_I",
-          "successCount": 20,
+          "successCount": 31,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:51:58.788Z"
+          "lastUsed": "2026-07-27T10:36:57.944Z"
         }
       ]
     },
@@ -538,10 +538,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_cbpAPPaymentDtl2_formAPPaymentDtl2_gvAPJEItem_header0_Add",
-          "successCount": 10,
+          "successCount": 16,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:51:59.337Z"
+          "lastUsed": "2026-07-27T10:36:58.544Z"
         }
       ]
     },
@@ -564,10 +564,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_cbpAPPaymentDtl2_formAPPaymentDtl2_gvAPJEItem_DXEditor11_I",
-          "successCount": 10,
+          "successCount": 16,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:52:02.340Z"
+          "lastUsed": "2026-07-27T10:37:01.490Z"
         }
       ]
     },
@@ -577,10 +577,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_cbpAPPaymentDtl2_formAPPaymentDtl2_gvAPJEItem_DXEditor3_B-1",
-          "successCount": 8,
+          "successCount": 14,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:52:00.462Z"
+          "lastUsed": "2026-07-27T10:36:59.688Z"
         }
       ]
     },
@@ -590,10 +590,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_ASPxFormLayout2_gvAPPItem_DXEditor3_DDD_L_LBI4T0",
-          "successCount": 9,
+          "successCount": 20,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:51:57.445Z"
+          "lastUsed": "2026-07-27T10:36:56.566Z"
         }
       ]
     },
@@ -603,10 +603,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_cbpAPJournalEntryDetail_ASPxRoundPanel1_formAPJEHeader_txtReceivedFrom_I",
-          "successCount": 11,
+          "successCount": 44,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:53:30.510Z"
+          "lastUsed": "2026-07-27T10:38:19.949Z"
         }
       ]
     },
@@ -616,10 +616,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_mAPReceiptDetailsToolBar_mToolBars_DXI10_T",
-          "successCount": 11,
+          "successCount": 44,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:53:30.563Z"
+          "lastUsed": "2026-07-27T10:38:19.996Z"
         }
       ]
     },
@@ -629,10 +629,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_mAPReceiptDetailsToolBar_mToolBars_DXI0_T",
-          "successCount": 11,
+          "successCount": 44,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:53:30.619Z"
+          "lastUsed": "2026-07-27T10:38:20.065Z"
         }
       ]
     },
@@ -642,10 +642,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_mAPReceiptDetailsToolBar_mToolBars_DXI2_T",
-          "successCount": 11,
+          "successCount": 44,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:53:30.670Z"
+          "lastUsed": "2026-07-27T10:38:20.134Z"
         }
       ]
     },
@@ -655,10 +655,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_mAPReceiptDetailsToolBar_mToolBars_DXI4_T",
-          "successCount": 11,
+          "successCount": 44,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:53:30.724Z"
+          "lastUsed": "2026-07-27T10:38:20.184Z"
         }
       ]
     },
@@ -668,10 +668,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_mAPReceiptDetailsToolBar_mToolBars_DXI1_T",
-          "successCount": 11,
+          "successCount": 44,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:53:30.780Z"
+          "lastUsed": "2026-07-27T10:38:20.234Z"
         }
       ]
     },
@@ -681,10 +681,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_ASPxFormLayout2_gvAPPItem_header0_Add",
-          "successCount": 4,
+          "successCount": 16,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:53:21.304Z"
+          "lastUsed": "2026-07-27T10:38:10.941Z"
         }
       ]
     },
@@ -694,10 +694,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_ASPxFormLayout2_gvAPPItem_DXEditor3_B-1",
-          "successCount": 4,
+          "successCount": 16,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:53:22.372Z"
+          "lastUsed": "2026-07-27T10:38:11.995Z"
         }
       ]
     },
@@ -707,10 +707,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_ASPxFormLayout2_gvAPPItem_DXEditor3_DDD_L_LBI4T0",
-          "successCount": 4,
+          "successCount": 16,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:53:23.118Z"
+          "lastUsed": "2026-07-27T10:38:12.727Z"
         }
       ]
     },
@@ -720,10 +720,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_ASPxFormLayout2_gvAPPItem_DXEditor7_I",
-          "successCount": 4,
+          "successCount": 16,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:53:24.418Z"
+          "lastUsed": "2026-07-27T10:38:13.997Z"
         }
       ]
     },
@@ -733,10 +733,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_cbpAPReceiptDtl2_formAPReceiptDtl2_gvAPJEItem_header0_Add",
-          "successCount": 2,
+          "successCount": 8,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:53:24.902Z"
+          "lastUsed": "2026-07-27T10:38:14.441Z"
         }
       ]
     },
@@ -746,10 +746,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_cbpAPReceiptDtl2_formAPReceiptDtl2_gvAPJEItem_DXEditor3_B-1",
-          "successCount": 2,
+          "successCount": 8,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:53:26.010Z"
+          "lastUsed": "2026-07-27T10:38:15.553Z"
         }
       ]
     },
@@ -759,10 +759,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_cbpAPReceiptDtl2_formAPReceiptDtl2_gvAPJEItem_DXEditor11_I",
-          "successCount": 2,
+          "successCount": 8,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T08:53:27.724Z"
+          "lastUsed": "2026-07-27T10:38:17.242Z"
         }
       ]
     },
@@ -772,10 +772,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_JournalEntryDetail_cbpJournalEntry_mJEDetailsToolBar_mToolBars_DXI1_T",
-          "successCount": 66,
+          "successCount": 112,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T09:07:32.730Z"
+          "lastUsed": "2026-07-27T10:39:32.225Z"
         }
       ]
     },
@@ -785,10 +785,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_JournalEntryDetail_cbpJournalEntry_cpnlJEItem_formJEItem_PC_0_gvJEItem_DXEditor12_I",
-          "successCount": 8,
+          "successCount": 19,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T09:07:28.763Z"
+          "lastUsed": "2026-07-27T10:39:28.565Z"
         }
       ]
     },
@@ -798,10 +798,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_JournalEntryDetail_cbpJournalEntry_cpnlJEItem_formJEItem_PC_0_gvJEItem_DXEditor11_I",
-          "successCount": 4,
+          "successCount": 9,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T09:07:25.532Z"
+          "lastUsed": "2026-07-27T10:39:25.398Z"
         }
       ]
     },
@@ -811,10 +811,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_StockValue_cpnlStockValue_frmStockValue_gvStockValueMaintenance_header0_addButton_PRJCC",
-          "successCount": 2,
+          "successCount": 5,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T09:24:15.148Z"
+          "lastUsed": "2026-07-27T10:39:40.563Z"
         }
       ]
     },
@@ -824,10 +824,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_StockValue_cpnlStockValue_pcProjectCostCentre_formPopup_cbProject_B0Img",
-          "successCount": 2,
+          "successCount": 5,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T09:24:16.239Z"
+          "lastUsed": "2026-07-27T10:39:41.634Z"
         }
       ]
     },
@@ -837,10 +837,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_StockValue_cpnlStockValue_pcProjectCostCentre_gsc_cbProject_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD",
-          "successCount": 2,
+          "successCount": 5,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T09:24:17.578Z"
+          "lastUsed": "2026-07-27T10:39:42.858Z"
         }
       ]
     },
@@ -850,10 +850,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_StockValue_cpnlStockValue_pcProjectCostCentre_formPopup_cbCostCentre_B0Img",
-          "successCount": 2,
+          "successCount": 5,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T09:24:18.351Z"
+          "lastUsed": "2026-07-27T10:39:43.529Z"
         }
       ]
     },
@@ -863,10 +863,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_StockValue_cpnlStockValue_pcProjectCostCentre_gsc_cbCostCentre_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD",
-          "successCount": 2,
+          "successCount": 5,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T09:24:19.477Z"
+          "lastUsed": "2026-07-27T10:39:44.444Z"
         }
       ]
     },
@@ -876,10 +876,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_StockValue_cpnlStockValue_pcProjectCostCentre_formPopup_btnSave_CD",
-          "successCount": 2,
+          "successCount": 5,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T09:24:20.164Z"
+          "lastUsed": "2026-07-27T10:39:45.084Z"
         }
       ]
     },
@@ -889,10 +889,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_StockValue_cpnlStockValue_frmStockValue_gvStockValueMaintenance_DXEditor15_I",
-          "successCount": 2,
+          "successCount": 5,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T09:24:21.826Z"
+          "lastUsed": "2026-07-27T10:39:46.600Z"
         }
       ]
     },
@@ -902,10 +902,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_StockValue_mOBToolBar_mToolBars_DXI4_T",
-          "successCount": 4,
+          "successCount": 10,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T09:24:26.406Z"
+          "lastUsed": "2026-07-27T10:39:50.778Z"
         }
       ]
     },
@@ -919,10 +919,10 @@
             "name": "Delete",
             "exact": true
           },
-          "successCount": 2,
+          "successCount": 5,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T09:24:26.201Z"
+          "lastUsed": "2026-07-27T10:39:50.576Z"
         }
       ]
     },
@@ -936,10 +936,10 @@
             "name": "Add",
             "exact": true
           },
-          "successCount": 8,
+          "successCount": 11,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T10:01:41.645Z"
+          "lastUsed": "2026-07-27T10:35:36.440Z"
         }
       ]
     },
@@ -949,10 +949,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_BankReconciliation1_cpnlBankRecon_pcBRBankStatementDate_btnBRBankStatementDateYes_CD",
-          "successCount": 8,
+          "successCount": 11,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T10:01:42.366Z"
+          "lastUsed": "2026-07-27T10:35:37.076Z"
         }
       ]
     },
@@ -965,10 +965,10 @@
           "options": {
             "exact": true
           },
-          "successCount": 4,
+          "successCount": 7,
           "failureCount": 4,
           "discovered": false,
-          "lastUsed": "2026-07-26T10:01:45.050Z"
+          "lastUsed": "2026-07-27T10:35:39.553Z"
         }
       ]
     },
@@ -978,10 +978,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_BankReconciliation1_cpnlBankRecon_formBankRecon_gvBankRecon_dxdt0_gvBankReconDTL_DXCBtn2",
-          "successCount": 11,
+          "successCount": 14,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T10:01:48.747Z"
+          "lastUsed": "2026-07-27T10:35:42.762Z"
         }
       ]
     },
@@ -994,10 +994,10 @@
           "options": {
             "exact": true
           },
-          "successCount": 4,
+          "successCount": 7,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T10:01:46.718Z"
+          "lastUsed": "2026-07-27T10:35:40.824Z"
         }
       ]
     },
@@ -1007,10 +1007,10 @@
         {
           "type": "css",
           "value": "#ctl00_pcConfirmDel_btnYes_CD",
-          "successCount": 4,
+          "successCount": 7,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T10:01:49.411Z"
+          "lastUsed": "2026-07-27T10:35:43.387Z"
         }
       ]
     },
@@ -1020,10 +1020,10 @@
         {
           "type": "css",
           "value": "span:text-is(\"View Grid\")",
-          "successCount": 16,
+          "successCount": 36,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T15:07:13.203Z"
+          "lastUsed": "2026-07-27T10:43:10.916Z"
         }
       ]
     },
@@ -1033,10 +1033,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_ReportFrameWork1_cbpReport_cbpReportFramework_formReportFramework_btnPrint_CD",
-          "successCount": 16,
+          "successCount": 36,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T15:07:15.085Z"
+          "lastUsed": "2026-07-27T10:43:11.147Z"
         }
       ]
     },
@@ -1046,10 +1046,10 @@
         {
           "type": "css",
           "value": "span:text-is(\"Preview\")",
-          "successCount": 13,
+          "successCount": 31,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T15:07:19.052Z"
+          "lastUsed": "2026-07-27T10:43:15.383Z"
         }
       ]
     },
@@ -1059,10 +1059,10 @@
         {
           "type": "css",
           "value": "span:text-is(\"View Grid\")",
-          "successCount": 9,
+          "successCount": 52,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T23:52:26.878Z"
+          "lastUsed": "2026-07-27T10:52:01.269Z"
         }
       ]
     },
@@ -1072,10 +1072,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_ReportFrameWork1_cbpReport_cbpReportFramework_formReportFramework_btnPrint_CD",
-          "successCount": 9,
+          "successCount": 52,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T23:52:28.277Z"
+          "lastUsed": "2026-07-27T10:52:03.211Z"
         }
       ]
     },
@@ -1085,10 +1085,880 @@
         {
           "type": "css",
           "value": "span:text-is(\"Preview\")",
+          "successCount": 48,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T10:52:04.112Z"
+        }
+      ]
+    },
+    "accountReceivableReport.customerSelectionDropdownButton": {
+      "label": "accountReceivableReport.customerSelectionDropdownButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_MainContent_ReportFrameWork1_cbpReport_cbpReportFrameworkParameter_rpReportFramework_formReportFrameworkParameter_cbCustomer_glCustomer_B-1Img",
+          "successCount": 5,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T10:51:09.404Z"
+        }
+      ]
+    },
+    "accountReceivableReport.customerSelectionSelectAll": {
+      "label": "accountReceivableReport.customerSelectionSelectAll",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_MainContent_ReportFrameWork1_cbpReport_cbpReportFrameworkParameter_rpReportFramework_formReportFrameworkParameter_cbCustomer_glCustomer_DDD_gv_DXSelAllBtn0_D",
+          "successCount": 5,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T10:51:09.755Z"
+        }
+      ]
+    },
+    "inventoryReport.viewGridButton": {
+      "label": "inventoryReport.viewGridButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "span:text-is(\"View Grid\")",
+          "successCount": 95,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:12:25.339Z"
+        }
+      ]
+    },
+    "inventoryReport.previewReportButton": {
+      "label": "inventoryReport.previewReportButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_cbpReport_cbpReportFramework_formReportFramework_btnPrint_CD\"]",
+          "successCount": 95,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:12:27.842Z"
+        }
+      ]
+    },
+    "inventoryReport.previewConfirmButton": {
+      "label": "inventoryReport.previewConfirmButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "span:text-is(\"Preview\")",
+          "successCount": 84,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:12:28.558Z"
+        }
+      ]
+    },
+    "inventoryReport.warehouseSelectionDropdownButton": {
+      "label": "inventoryReport.warehouseSelectionDropdownButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_glWarehouse_B-1Img\" i]",
+          "successCount": 29,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:12:22.225Z"
+        }
+      ]
+    },
+    "inventoryReport.warehouseSelectionSelectAll": {
+      "label": "inventoryReport.warehouseSelectionSelectAll",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_glWarehouse_DDD_gv_DXSelAllBtn0_D\" i]",
+          "successCount": 6,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T01:41:34.802Z"
+        }
+      ]
+    },
+    "inventoryReport.warehouseSelectionFirstRow": {
+      "label": "inventoryReport.warehouseSelectionFirstRow",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_glWarehouse_DDD_gv_DXSelBtn0_D\" i]",
+          "successCount": 23,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:12:23.637Z"
+        }
+      ]
+    },
+    "inventoryReport.itemSelectionDropdownButton": {
+      "label": "inventoryReport.itemSelectionDropdownButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_glItem_B-1Img\" i]",
+          "successCount": 4,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:09:33.596Z"
+        }
+      ]
+    },
+    "inventoryReport.itemSelectionFirstRow": {
+      "label": "inventoryReport.itemSelectionFirstRow",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_glItem_DDD_gv_DXSelBtn0_D\" i]",
+          "successCount": 4,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:09:35.091Z"
+        }
+      ]
+    },
+    "purchaseReport.viewGridButton": {
+      "label": "purchaseReport.viewGridButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "span:text-is(\"View Grid\")",
+          "successCount": 16,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:16:18.999Z"
+        }
+      ]
+    },
+    "purchaseReport.previewReportButton": {
+      "label": "purchaseReport.previewReportButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_cbpReport_cbpReportFramework_formReportFramework_btnPrint_CD\"]",
+          "successCount": 16,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:16:20.466Z"
+        }
+      ]
+    },
+    "purchaseReport.previewConfirmButton": {
+      "label": "purchaseReport.previewConfirmButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "span:text-is(\"Preview\")",
+          "successCount": 12,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:16:21.423Z"
+        }
+      ]
+    },
+    "purchaseReport.itemSelectionDropdownButton": {
+      "label": "purchaseReport.itemSelectionDropdownButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_glItem_B-1Img\" i]",
+          "successCount": 4,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:14:20.258Z"
+        }
+      ]
+    },
+    "purchaseReport.itemSelectionFirstRow": {
+      "label": "purchaseReport.itemSelectionFirstRow",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_glItem_DDD_gv_DXSelBtn0_D\" i]",
+          "successCount": 4,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:14:21.783Z"
+        }
+      ]
+    },
+    "purchaseReport.vendorSelectionDropdownButton": {
+      "label": "purchaseReport.vendorSelectionDropdownButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_glVendor_B-1Img\" i]",
           "successCount": 8,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-26T23:52:29.177Z"
+          "lastUsed": "2026-07-27T11:16:15.720Z"
+        }
+      ]
+    },
+    "purchaseReport.vendorSelectionFirstRow": {
+      "label": "purchaseReport.vendorSelectionFirstRow",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_glVendor_DDD_gv_DXSelBtn0_D\" i]",
+          "successCount": 8,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:16:17.192Z"
+        }
+      ]
+    },
+    "salesReport.customerSelectionDropdownButton": {
+      "label": "salesReport.customerSelectionDropdownButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_glCustomer_B-1Img\" i]",
+          "successCount": 33,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:29:11.612Z"
+        }
+      ]
+    },
+    "salesReport.customerSelectionFirstRow": {
+      "label": "salesReport.customerSelectionFirstRow",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_glCustomer_DDD_gv_DXSelBtn0_D\" i]",
+          "successCount": 33,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:29:13.210Z"
+        }
+      ]
+    },
+    "salesReport.viewGridButton": {
+      "label": "salesReport.viewGridButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "span:text-is(\"View Grid\")",
+          "successCount": 62,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:30:37.430Z"
+        }
+      ]
+    },
+    "salesReport.previewReportButton": {
+      "label": "salesReport.previewReportButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_cbpReport_cbpReportFramework_formReportFramework_btnPrint_CD\"]",
+          "successCount": 60,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:30:39.300Z"
+        }
+      ]
+    },
+    "salesReport.previewConfirmButton": {
+      "label": "salesReport.previewConfirmButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "span:text-is(\"Preview\")",
+          "successCount": 46,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:30:40.229Z"
+        }
+      ]
+    },
+    "salesReport.itemSelectionDropdownButton": {
+      "label": "salesReport.itemSelectionDropdownButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_glItem_B-1Img\" i]",
+          "successCount": 15,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:24:33.106Z"
+        }
+      ]
+    },
+    "salesReport.itemSelectionFirstRow": {
+      "label": "salesReport.itemSelectionFirstRow",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_glItem_DDD_gv_DXSelBtn0_D\" i]",
+          "successCount": 15,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:24:34.585Z"
+        }
+      ]
+    },
+    "promotionReport.itemSelectionDropdownButton": {
+      "label": "promotionReport.itemSelectionDropdownButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_glItem_B-1Img\" i]",
+          "successCount": 3,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T05:49:40.988Z"
+        }
+      ]
+    },
+    "promotionReport.itemSelectionFirstRow": {
+      "label": "promotionReport.itemSelectionFirstRow",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_glItem_DDD_gv_DXSelBtn0_D\" i]",
+          "successCount": 3,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T05:49:42.392Z"
+        }
+      ]
+    },
+    "promotionReport.viewGridButton": {
+      "label": "promotionReport.viewGridButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "span:text-is(\"View Grid\")",
+          "successCount": 3,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T05:49:43.970Z"
+        }
+      ]
+    },
+    "promotionReport.previewReportButton": {
+      "label": "promotionReport.previewReportButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_cbpReport_cbpReportFramework_formReportFramework_btnPrint_CD\"]",
+          "successCount": 3,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T05:50:14.413Z"
+        }
+      ]
+    },
+    "gstReport.viewGridButton": {
+      "label": "gstReport.viewGridButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "span:text-is(\"View Grid\")",
+          "successCount": 3,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T10:54:22.455Z"
+        }
+      ]
+    },
+    "gstReport.previewReportButton": {
+      "label": "gstReport.previewReportButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_cbpReport_cbpReportFramework_formReportFramework_btnPrint_CD\"]",
+          "successCount": 3,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T10:54:26.184Z"
+        }
+      ]
+    },
+    "gstReport.previewConfirmButton": {
+      "label": "gstReport.previewConfirmButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "span:text-is(\"Preview\")",
+          "successCount": 3,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T10:54:26.770Z"
+        }
+      ]
+    },
+    "membershipVoucherReport.customerSelectionDropdownButton": {
+      "label": "membershipVoucherReport.customerSelectionDropdownButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_glCustomer_B-1Img\" i]",
+          "successCount": 3,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:13:03.896Z"
+        }
+      ]
+    },
+    "membershipVoucherReport.customerSelectionFirstRow": {
+      "label": "membershipVoucherReport.customerSelectionFirstRow",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_glCustomer_DDD_gv_DXSelBtn0_D\" i]",
+          "successCount": 3,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:13:05.326Z"
+        }
+      ]
+    },
+    "membershipVoucherReport.viewGridButton": {
+      "label": "membershipVoucherReport.viewGridButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "span:text-is(\"View Grid\")",
+          "successCount": 3,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:13:07.076Z"
+        }
+      ]
+    },
+    "membershipVoucherReport.previewReportButton": {
+      "label": "membershipVoucherReport.previewReportButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_cbpReport_cbpReportFramework_formReportFramework_btnPrint_CD\"]",
+          "successCount": 3,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:13:08.744Z"
+        }
+      ]
+    },
+    "membershipVoucherReport.previewConfirmButton": {
+      "label": "membershipVoucherReport.previewConfirmButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "span:text-is(\"Preview\")",
+          "successCount": 3,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:13:09.691Z"
+        }
+      ]
+    },
+    "staffReport.viewGridButton": {
+      "label": "staffReport.viewGridButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "span:text-is(\"View Grid\")",
+          "successCount": 2,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:31:33.212Z"
+        }
+      ]
+    },
+    "staffReport.previewReportButton": {
+      "label": "staffReport.previewReportButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_cbpReport_cbpReportFramework_formReportFramework_btnPrint_CD\"]",
+          "successCount": 2,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:31:38.643Z"
+        }
+      ]
+    },
+    "staffReport.previewConfirmButton": {
+      "label": "staffReport.previewConfirmButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "span:text-is(\"Preview\")",
+          "successCount": 2,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:31:39.294Z"
+        }
+      ]
+    },
+    "othersReport.viewGridButton": {
+      "label": "othersReport.viewGridButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "span:text-is(\"View Grid\")",
+          "successCount": 4,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:13:40.950Z"
+        }
+      ]
+    },
+    "othersReport.previewReportButton": {
+      "label": "othersReport.previewReportButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_cbpReport_cbpReportFramework_formReportFramework_btnPrint_CD\"]",
+          "successCount": 4,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:13:42.394Z"
+        }
+      ]
+    },
+    "othersReport.previewConfirmButton": {
+      "label": "othersReport.previewConfirmButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "span:text-is(\"Preview\")",
+          "successCount": 3,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:13:43.236Z"
+        }
+      ]
+    },
+    "customer.saveButton": {
+      "label": "customer.saveButton",
+      "strategies": [
+        {
+          "type": "text",
+          "value": "Save",
+          "options": {
+            "exact": true
+          },
+          "successCount": 22,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T10:35:20.743Z"
+        }
+      ]
+    },
+    "customer.backButton": {
+      "label": "customer.backButton",
+      "strategies": [
+        {
+          "type": "text",
+          "value": "Back",
+          "successCount": 22,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T10:35:23.108Z"
+        }
+      ]
+    },
+    "customer.searchFilterBox": {
+      "label": "customer.searchFilterBox",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_MainContent_Customer_cbpCustomerCreation_formCustomerCreation_FilterTextBoxGridView_txtFilterGridView_I",
+          "successCount": 41,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T10:35:25.276Z"
+        }
+      ]
+    },
+    "customer.editLink": {
+      "label": "customer.editLink",
+      "strategies": [
+        {
+          "type": "role",
+          "role": "link",
+          "options": {
+            "name": "Edit",
+            "exact": true
+          },
+          "successCount": 10,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T10:35:17.702Z"
+        }
+      ]
+    },
+    "customer.deleteLink": {
+      "label": "customer.deleteLink",
+      "strategies": [
+        {
+          "type": "role",
+          "role": "link",
+          "options": {
+            "name": "Delete",
+            "exact": true
+          },
+          "successCount": 9,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T10:35:27.684Z"
+        }
+      ]
+    },
+    "customer.deleteConfirmYesButton": {
+      "label": "customer.deleteConfirmYesButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_pcConfirmDel_btnYes_CD span:has-text(\"Yes\")",
+          "successCount": 9,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T10:35:27.838Z"
+        }
+      ]
+    },
+    "customer.newIcon": {
+      "label": "customer.newIcon",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_MainContent_Customer_cbpCustomerCreation_formCustomerCreation_gvCustomer_header0_Add",
+          "successCount": 10,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T10:35:04.280Z"
+        }
+      ]
+    },
+    "customer.companyNameField": {
+      "label": "customer.companyNameField",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_MainContent_CustomerDetails_cbpCustomerDetails_formCustomerHeader_txtName_I",
+          "successCount": 19,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T10:35:20.095Z"
+        }
+      ]
+    },
+    "birthdaySetting.BeforeBday.spinUp": {
+      "label": "birthdaySetting.BeforeBday.spinUp",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_SEBeforeBday_B-2Img\" i]",
+          "successCount": 3,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T10:39:58.809Z"
+        }
+      ]
+    },
+    "birthdaySetting.PointBenefit.spinUp": {
+      "label": "birthdaySetting.PointBenefit.spinUp",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_SEPointBenefit_B-2Img\" i]",
+          "successCount": 3,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T10:39:59.265Z"
+        }
+      ]
+    },
+    "birthdaySetting.AfterBday.spinUp": {
+      "label": "birthdaySetting.AfterBday.spinUp",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_SEAfterBday_B-2Img\" i]",
+          "successCount": 3,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T10:39:59.766Z"
+        }
+      ]
+    },
+    "birthdaySetting.saveButton": {
+      "label": "birthdaySetting.saveButton",
+      "strategies": [
+        {
+          "type": "text",
+          "value": "Save",
+          "options": {
+            "exact": true
+          },
+          "successCount": 6,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T10:40:02.898Z"
+        }
+      ]
+    },
+    "birthdaySetting.BeforeBday.spinDown": {
+      "label": "birthdaySetting.BeforeBday.spinDown",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_SEBeforeBday_B-3Img\" i]",
+          "successCount": 3,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T10:40:01.510Z"
+        }
+      ]
+    },
+    "birthdaySetting.PointBenefit.spinDown": {
+      "label": "birthdaySetting.PointBenefit.spinDown",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_SEPointBenefit_B-3Img\" i]",
+          "successCount": 3,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T10:40:01.932Z"
+        }
+      ]
+    },
+    "birthdaySetting.AfterBday.spinDown": {
+      "label": "birthdaySetting.AfterBday.spinDown",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"_SEAfterBday_B-3Img\" i]",
+          "successCount": 3,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T10:40:02.445Z"
+        }
+      ]
+    },
+    "createItem.itemCode": {
+      "label": "createItem.itemCode",
+      "strategies": [
+        {
+          "type": "label",
+          "value": "Item Code",
+          "successCount": 9,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T09:23:51.352Z"
+        }
+      ]
+    },
+    "createItem.unitPrice": {
+      "label": "createItem.unitPrice",
+      "strategies": [
+        {
+          "type": "label",
+          "value": "Unit Price",
+          "successCount": 0,
+          "failureCount": 9,
+          "discovered": false,
+          "lastUsed": "2026-07-27T09:23:53.223Z"
+        },
+        {
+          "type": "placeholder",
+          "value": "Unit Price",
+          "successCount": 0,
+          "failureCount": 9,
+          "discovered": false,
+          "lastUsed": "2026-07-27T09:23:54.879Z"
+        },
+        {
+          "type": "css",
+          "value": "input[id*=\"txtUnitPrice\" i]",
+          "successCount": 0,
+          "failureCount": 9,
+          "discovered": false,
+          "lastUsed": "2026-07-27T09:23:56.489Z"
+        }
+      ]
+    },
+    "createItem.isSerialItem": {
+      "label": "createItem.isSerialItem",
+      "strategies": [
+        {
+          "type": "label",
+          "value": "Serial Item",
+          "successCount": 0,
+          "failureCount": 9,
+          "discovered": false,
+          "lastUsed": "2026-07-27T09:23:58.235Z"
+        },
+        {
+          "type": "css",
+          "value": "input[type=\"checkbox\"][id*=\"chkSerial\" i]",
+          "successCount": 0,
+          "failureCount": 9,
+          "discovered": false,
+          "lastUsed": "2026-07-27T09:23:59.848Z"
+        }
+      ]
+    },
+    "createItem.itemGroupTrigger": {
+      "label": "createItem.itemGroupTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_MainContent_ItemCreationDetails_cbpItemCreationDetails_cbpDtl_formItemCreationDetails_tabs_formLayoutGeneral_ddlItemGroup_B-1Img",
+          "successCount": 9,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T09:24:00.275Z"
+        }
+      ]
+    },
+    "cashSales.newButton": {
+      "label": "cashSales.newButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_MainContent_CashSalesDetail_cbpCashSales_mCashSalesDetailsToolBar_mToolBars_DXI10_T",
+          "successCount": 1,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:34:29.821Z"
+        }
+      ]
+    },
+    "cashSales.saveDraftButton": {
+      "label": "cashSales.saveDraftButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_MainContent_CashSalesDetail_cbpCashSales_mCashSalesDetailsToolBar_mToolBars_DXI4_T",
+          "successCount": 1,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:34:30.094Z"
+        }
+      ]
+    },
+    "cashSales.backButton": {
+      "label": "cashSales.backButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_MainContent_CashSalesDetail_cbpCashSales_mCashSalesDetailsToolBar_mToolBars_DXI0_T",
+          "successCount": 1,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-07-27T11:34:30.343Z"
         }
       ]
     }

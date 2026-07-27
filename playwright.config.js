@@ -2,7 +2,7 @@ require('dotenv').config();
 const { defineConfig, devices } = require('@playwright/test');
 
 module.exports = defineConfig({
-  testDir: './modules',
+  testDir: './tests',
   timeout: 30 * 1000,
   expect: { timeout: 5000 },
   fullyParallel: false, // ERP forms often share state; run serially unless you confirm otherwise

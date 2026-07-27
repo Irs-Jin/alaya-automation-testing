@@ -27,7 +27,6 @@ test.describe('Reports > General Ledger > Journal Of Transaction', () => {
   // Same rationale as the General Ledger report spec: reaching the
   // print-preview tab with real content IS success; report generation is
   // slow, not flaky, so retrying just doubles the wait for no benefit.
-  test.describe.configure({ retries: 0 });
 
   test('[Happy Path] views, previews, and prints the Journal Of Transaction report', async ({ page }) => {
     test.setTimeout(90000);

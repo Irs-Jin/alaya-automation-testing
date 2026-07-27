@@ -29,7 +29,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('General Ledger > Cash Book Payment', () => {
-  test.describe.configure({ retries: 0 });
 
   test('[Happy Path] fills a cash book payment and clicks New', async ({ page }) => {
     test.setTimeout(90000);

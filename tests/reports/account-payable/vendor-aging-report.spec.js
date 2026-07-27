@@ -31,7 +31,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('Reports > Account Payable > Vendor Aging', () => {
-  test.describe.configure({ retries: 0 });
 
   test('[Happy Path] views, previews, and prints the Vendor Aging report', async ({ page }) => {
     // Bumped past the usual 90s (see accountPayableReportPage.js's

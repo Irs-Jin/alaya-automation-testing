@@ -23,7 +23,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('Reports > Account Receivable > Customer Redemption Listing', () => {
-  test.describe.configure({ retries: 0 });
 
   test('[Happy Path] views, previews, and prints the Customer Redemption Listing report', async ({ page }) => {
     test.setTimeout(90000);

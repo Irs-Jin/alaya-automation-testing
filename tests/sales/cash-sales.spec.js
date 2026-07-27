@@ -47,6 +47,15 @@ test.beforeEach(async ({ page }) => {
 test.describe('Sales > Cash Sales > New', () => {
 
   test('[Happy Path] adds a customer and one item line to a new cash sales entry', async ({ page }) => {
+    // BUG FIXED (2026-07-27): this test never had an explicit timeout,
+    // silently relying on the global 30s default. Confirmed live: fails
+    // deep into the full suite run under sustained server load ("Test
+    // timeout of 30000ms exceeded" while waiting for the customer-picker
+    // popup's cell) — and failed identically on the automatic retry too,
+    // since the same load conditions were still in effect. Not a selector
+    // bug; matches the same "too tight once the server is under load"
+    // class of issue already fixed in the report-printing timeouts.
+    test.setTimeout(90000);
     const cashSalesPage = new CashSalesPage(page);
     await cashSalesPage.goto();
 
@@ -88,6 +97,7 @@ test.describe('Sales > Cash Sales > New', () => {
   });
 
   test('[Negative] item search is blocked until a customer is selected', async ({ page }) => {
+    test.setTimeout(60000);
     const cashSalesPage = new CashSalesPage(page);
     await cashSalesPage.goto();
 

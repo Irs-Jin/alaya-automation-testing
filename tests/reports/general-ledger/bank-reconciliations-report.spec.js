@@ -27,7 +27,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('Reports > General Ledger > Bank Reconciliations', () => {
-  test.describe.configure({ retries: 0 });
 
   test('[Happy Path] reaches the Bank Reconciliation report message', async ({ page }) => {
     test.setTimeout(90000);

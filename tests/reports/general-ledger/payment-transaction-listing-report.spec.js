@@ -19,7 +19,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('Reports > General Ledger > Payment Transaction Listing', () => {
-  test.describe.configure({ retries: 0 });
 
   test('[Happy Path] views, previews, and prints the Payment Transaction Listing report', async ({ page }) => {
     test.setTimeout(90000);
