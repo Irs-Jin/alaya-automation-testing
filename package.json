@@ -1,0 +1,18 @@
+{
+  "name": "alaya-playwright-tests",
+  "version": "1.0.0",
+  "description": "Self-healing Playwright test suite for ALAYA ERP",
+  "scripts": {
+    "install:browsers": "npx playwright install --with-deps chromium",
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:debug": "npx playwright test --debug",
+    "test:ui": "npx playwright test --ui",
+    "report": "npx playwright show-report",
+    "record": "npx playwright codegen https://sit.irsbizsuite.com.my/Account/Login.aspx --output=recordings/codegen-output.spec.js"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "dotenv": "^16.4.5"
+  }
+}
