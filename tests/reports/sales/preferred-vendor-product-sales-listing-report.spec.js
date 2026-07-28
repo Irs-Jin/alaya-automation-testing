@@ -31,6 +31,15 @@ test.describe('Reports > Sales > Preferred Vendor Product Sales Listing', () => 
     await salesReportPage.selectFirstItemIfNeeded();
     await salesReportPage.viewGrid();
     await salesReportPage.previewReport('Preferred Vendor Product Sales Listing');
+
+    // REVERTED (2026-07-28): tried removing this, reasoning it was just
+    // timing out uselessly (per a diagnostic showing ~21s spent here) —
+    // WRONG, confirmed live: removing it made the test fail outright
+    // (Test timeout of 90000ms exceeded, print button never found at
+    // all). This report genuinely DOES use the async "Report Output
+    // Listing" pattern; the ~21s is real, necessary work (Click Here ->
+    // Refresh List polling -> Preview cell), not a wasted race timeout —
+    // don't remove this again without re-confirming against a live run.
     await salesReportPage.handleAsyncReportOutputIfPresent();
 
     const reportPage = await salesReportPage.printReport();

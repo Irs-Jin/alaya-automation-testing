@@ -1,7 +1,7 @@
 {
   "_meta": {
     "description": "Persistent locator knowledge base. Each key is a logical element ID. 'strategies' is ordered by confidence (successCount - failureCount). The self-healing locator promotes a fallback to primary once it consistently outperforms it.",
-    "lastUpdated": "2026-07-28T02:59:11.368Z"
+    "lastUpdated": "2026-07-28T03:30:22.620Z"
   },
   "elements": {
     "login.clientId": {
@@ -10,10 +10,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtClientId_I",
-          "successCount": 684,
+          "successCount": 694,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-28T02:58:51.724Z"
+          "lastUsed": "2026-07-28T03:30:21.421Z"
         }
       ]
     },
@@ -23,10 +23,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtUserName_I",
-          "successCount": 684,
+          "successCount": 694,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-28T02:58:51.930Z"
+          "lastUsed": "2026-07-28T03:30:21.670Z"
         }
       ]
     },
@@ -36,10 +36,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtPassword_I_CLND",
-          "successCount": 684,
+          "successCount": 694,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-28T02:58:52.204Z"
+          "lastUsed": "2026-07-28T03:30:22.089Z"
         }
       ]
     },
@@ -49,10 +49,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_btnLogin",
-          "successCount": 683,
+          "successCount": 693,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-28T02:58:52.421Z"
+          "lastUsed": "2026-07-28T03:30:22.620Z"
         }
       ]
     },
@@ -62,10 +62,10 @@
         {
           "type": "css",
           "value": "span:text-is(\"View Grid\")",
-          "successCount": 25,
+          "successCount": 28,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-27T23:58:52.417Z"
+          "lastUsed": "2026-07-28T03:28:16.795Z"
         }
       ]
     },
@@ -75,10 +75,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_ReportFrameWork1_cbpReport_cbpReportFramework_formReportFramework_btnPrint_CD",
-          "successCount": 45,
+          "successCount": 48,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-27T23:59:16.365Z"
+          "lastUsed": "2026-07-28T03:28:17.154Z"
         }
       ]
     },
@@ -88,10 +88,10 @@
         {
           "type": "css",
           "value": "span:text-is(\"Preview\")",
-          "successCount": 42,
+          "successCount": 45,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-27T23:59:16.953Z"
+          "lastUsed": "2026-07-28T03:28:25.179Z"
         }
       ]
     },
@@ -1345,10 +1345,10 @@
         {
           "type": "css",
           "value": "span:text-is(\"View Grid\")",
-          "successCount": 95,
+          "successCount": 101,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-28T02:59:06.316Z"
+          "lastUsed": "2026-07-28T03:24:10.152Z"
         }
       ]
     },
@@ -1358,10 +1358,10 @@
         {
           "type": "css",
           "value": "[id$=\"_cbpReport_cbpReportFramework_formReportFramework_btnPrint_CD\"]",
-          "successCount": 93,
+          "successCount": 99,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-28T02:59:09.340Z"
+          "lastUsed": "2026-07-28T03:24:12.013Z"
         }
       ]
     },
@@ -1371,10 +1371,10 @@
         {
           "type": "css",
           "value": "span:text-is(\"Preview\")",
-          "successCount": 79,
+          "successCount": 85,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-28T02:59:11.368Z"
+          "lastUsed": "2026-07-28T03:24:13.237Z"
         }
       ]
     },
@@ -1384,10 +1384,10 @@
         {
           "type": "css",
           "value": "[id$=\"_glItem_B-1Img\" i]",
-          "successCount": 27,
+          "successCount": 33,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-28T02:42:35.740Z"
+          "lastUsed": "2026-07-28T03:24:07.566Z"
         }
       ]
     },
@@ -1397,10 +1397,10 @@
         {
           "type": "css",
           "value": "[id$=\"_glItem_DDD_gv_DXSelBtn0_D\" i]",
-          "successCount": 27,
+          "successCount": 33,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-07-28T02:42:36.383Z"
+          "lastUsed": "2026-07-28T03:24:08.048Z"
         }
       ]
     },
