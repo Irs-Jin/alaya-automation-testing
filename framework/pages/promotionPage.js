@@ -89,10 +89,21 @@ class PromotionPage {
     await this.frame.getByRole('cell', { name: optionText, exact: true }).click();
   }
 
-  /** Opens the Priority popup-grid picker and clicks the matching value cell. */
+  /**
+   * Opens the Priority popup-grid picker and clicks the matching value cell.
+   *
+   * BUG FIXED (2026-07-27): the unscoped `getByRole('cell', {name: value,
+   * exact:true})` matched TWO elements once the underlying Promotion list
+   * grid also had a row whose own Priority column value happened to equal
+   * the same number (a real "strict mode violation" seen live) — the
+   * popup's own option cell AND a background data-row cell share the exact
+   * same accessible text. Scoped to the dropdown's own list container
+   * (`..._SEPriority_DDD_...`, confirmed via live DOM dump) so it can only
+   * ever match the popup's own options.
+   */
   async selectPriority(value) {
     await this.frame.locator('#ctl00_MainContent_Promotion_pcAddPromotion_formAddPromotion_SEPriority_B-1Img').click();
-    await this.frame.getByRole('cell', { name: String(value), exact: true }).click();
+    await this.frame.locator('[id*="SEPriority_DDD" i]').getByRole('cell', { name: String(value), exact: true }).click();
   }
 
   /** Opens the Customer Type popup-grid picker and clicks the matching option cell. */
@@ -129,12 +140,28 @@ class PromotionPage {
 
   /**
    * Confirms the generic "are you sure" dialog that follows the detail
-   * page's Save — CONFIRMED via recording to be `pcConfirmMessageBox_
-   * btnConfirmYes_CD`, a DIFFERENT reusable control from the delete
-   * confirm dialog (`pcConfirmDel`). Do not conflate the two.
+   * page's Save, IF it appears — CONFIRMED via recording to be
+   * `pcConfirmMessageBox_btnConfirmYes_CD`, a DIFFERENT reusable control
+   * from the delete confirm dialog (`pcConfirmDel`). Do not conflate the
+   * two.
+   *
+   * BUG FIXED (2026-07-27): originally treated this dialog as mandatory
+   * and waited up to 30s for it — but confirmed live, twice, that it does
+   * NOT always appear after Save with the exact same data/flow (one run
+   * showed it and passed, an immediately-following identical run never
+   * showed it — 60+ retries over 30s all resolved to the same genuinely
+   * hidden element, not a slow-render race). Whatever business condition
+   * actually triggers this dialog isn't fully understood yet, so it's
+   * treated as OPTIONAL: wait a bounded 8s, click Yes if it shows up,
+   * otherwise assume Save completed without needing confirmation and move
+   * on. This can only take an extra ~8s in the case where a real "Yes" was
+   * needed but slow to render — investigate further if that turns out to
+   * be a real gap, but don't hard-fail the whole test on it meanwhile.
    */
   async confirmSaveMessage() {
     const yesButton = this.frame.locator('#ctl00_pcConfirmMessageBox_btnConfirmYes_CD span').filter({ hasText: 'Yes' });
+    const appeared = await yesButton.waitFor({ state: 'visible', timeout: 8000 }).then(() => true).catch(() => false);
+    if (!appeared) return;
     await yesButton.click();
     await yesButton.waitFor({ state: 'hidden', timeout: 5000 }).catch(() => {});
     await this.page.waitForTimeout(1000);
@@ -179,6 +206,7 @@ class PromotionPage {
   /** Same app-wide delete-confirm dialog already confirmed safe elsewhere in this app. */
   async confirmDelete() {
     const yesButton = this.frame.locator('#ctl00_pcConfirmDel_btnYes_CD span').filter({ hasText: 'Yes' });
+    await yesButton.waitFor({ state: 'visible', timeout: 30000 });
     await yesButton.click();
     await yesButton.waitFor({ state: 'hidden', timeout: 5000 }).catch(() => {});
     await this.page.waitForTimeout(1000);

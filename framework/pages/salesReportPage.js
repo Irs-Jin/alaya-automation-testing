@@ -138,7 +138,10 @@ class SalesReportPage {
     });
     await locator.click();
     await this._waitForLoadingPanelHidden(5000);
-    await this.page.waitForTimeout(1000);
+    // OPTIMIZED (2026-07-28): removed a flat waitForTimeout(1000) here —
+    // redundant dead time, since firstRowCheckbox's own
+    // waitFor({state:'visible'}) immediately below already polls for
+    // exactly this.
 
     const { locator: firstRowCheckbox } = await heal(f, {
       id: `salesReport.${glFieldName.toLowerCase()}SelectionFirstRow`,
@@ -168,6 +171,22 @@ class SalesReportPage {
 
   async selectFirstItemIfNeeded() {
     return this._selectFirstRowInFilterBySelection('Item');
+  }
+
+  /**
+   * Polls a filter combo's value every 200ms until it's no longer "ALL" or
+   * `maxWait` elapses, whichever comes first — same ceiling as the flat
+   * wait it replaces, but exits early once the postback actually lands
+   * instead of always paying the full wait.
+   */
+  async _pollUntilFilterValueChanges(filterCombo, maxWait) {
+    const deadline = Date.now() + maxWait;
+    let value = await filterCombo.first().inputValue().catch(() => '');
+    while (Date.now() < deadline && value.trim().toUpperCase() === 'ALL') {
+      await this.page.waitForTimeout(200);
+      value = await filterCombo.first().inputValue().catch(() => '');
+    }
+    return value;
   }
 
   /**
@@ -206,15 +225,20 @@ class SalesReportPage {
     // "ALL" even though the click had already succeeded, triggering a
     // wasteful full second attempt (measured cost: ~40s vs ~1s once this
     // settle wait was added).
-    await this.page.waitForTimeout(2000);
-
-    const valueAfterFirstAttempt = await filterCombo.first().inputValue().catch(() => '');
+    //
+    // OPTIMIZED (2026-07-28): the flat `waitForTimeout(2000)` always paid
+    // the full 2s even when the postback landed in a few hundred ms — a
+    // real, measured cost on reports with TWO such fields (Customer AND
+    // Item), e.g. Item Sales Listing (with Profit). Same 2s ceiling kept
+    // (never confirmed safe to shrink), but now polls and exits the
+    // instant the value actually changes instead of always waiting it out.
+    const valueAfterFirstAttempt = await this._pollUntilFilterValueChanges(filterCombo, 2000);
     if (valueAfterFirstAttempt.trim().toUpperCase() === 'ALL') {
       await filterCombo.first().click({ force: true });
       await findOption().waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
       await findOption().click({ timeout: 15000, force: true }).catch(() => {});
       await this._waitForLoadingPanelHidden(8000);
-      await this.page.waitForTimeout(2000);
+      await this._pollUntilFilterValueChanges(filterCombo, 2000);
     }
     await this.page.waitForTimeout(500);
   }
@@ -339,11 +363,40 @@ class SalesReportPage {
   async handleAsyncReportOutputIfPresent(clickHereTimeout = 20000) {
     const p = this.page;
 
+    // BUG FIXED (2026-07-28): the previous attempt at this optimization
+    // checked "is the print button ALREADY visible" with only a 1.5s
+    // window, then fell back to the full clickHereTimeout (20s) poll for
+    // the async "Click here" link if not. Confirmed live (Jin,
+    // screenshot) that's still slow: a synchronous report can genuinely
+    // take a few real seconds to render — longer than 1.5s, but nowhere
+    // near 20s — so the fast check missed it almost every time, and
+    // execution fell through to the SAME old 20s dead wait this was
+    // supposed to fix. Corrected to a real race: poll for BOTH signals
+    // (print button appearing vs. "Click here" appearing) concurrently
+    // with the SAME generous ceiling, and take whichever one actually
+    // shows up first — Promise.any() resolves on the first FULFILLMENT,
+    // not the first settlement, so a fast synchronous report still
+    // returns almost immediately without waiting for the async check to
+    // exhaust its full timeout.
+    const printButtonSelector = '[title="Print from Adobe Reader"], .print_button[title*="Adobe" i]';
+    const printReady = Promise.any(
+      p.frames().map((frame) => frame.locator(printButtonSelector).first().waitFor({ state: 'visible', timeout: clickHereTimeout }))
+    ).then(() => 'print');
+    const clickHereReady = findFrame(p, async (frame) => {
+      const link = frame.locator('span').filter({ hasText: 'Click here to view Report' });
+      return (await link.count().catch(() => 0)) > 0 && (await link.first().isVisible().catch(() => false));
+    }, { timeout: clickHereTimeout }).then((frame) => (frame ? 'clickHere' : Promise.reject()));
+
+    const winner = await Promise.any([printReady, clickHereReady]).catch(() => null);
+    if (winner !== 'clickHere') {
+      return false; // print button won (synchronous report), or neither ever appeared — nothing to do
+    }
+
     const clickHereFrame = await findFrame(p, async (frame) => {
       const link = frame.locator('span').filter({ hasText: 'Click here to view Report' });
       return (await link.count().catch(() => 0)) > 0 && (await link.first().isVisible().catch(() => false));
-    }, { timeout: clickHereTimeout });
-    if (!clickHereFrame) return false; // synchronous report — nothing to do
+    }, { timeout: 3000 }); // already confirmed present by the race above — this should resolve almost instantly
+    if (!clickHereFrame) return false;
 
     await clickHereFrame.locator('span').filter({ hasText: 'Click here to view Report' }).first().click();
     await p.waitForTimeout(1500);

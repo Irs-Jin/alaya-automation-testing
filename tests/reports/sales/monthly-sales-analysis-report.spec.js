@@ -21,17 +21,18 @@ test.beforeEach(async ({ page }) => {
 test.describe('Reports > Sales > Monthly Sales Analysis', () => {
 
   test('[Happy Path] views, previews, and prints the Monthly Sales Analysis report', async ({ page }) => {
-    // Confirmed live (same lesson as Item Sales Listing (with Profit)):
-    // Customer/Item field switching plus render time can exceed the
-    // default 90s budget — needs more room.
-    test.setTimeout(150000);
+    test.setTimeout(120000);
     const salesReportPage = new SalesReportPage(page);
     await salesReportPage.goto('Monthly Sales Analysis');
 
+    // OPTIMIZED (2026-07-28): confirmed live (screenshot) this report's
+    // parameter form has ONLY a Customer field (From/To Date, Analysed By,
+    // Customer, Customer Category/Label/Type, Document Type, Export To) —
+    // no Item field at all. The switchItem.../selectFirstItem... calls
+    // were unconditional no-ops adding real, visible delay between
+    // Customer being selected and View Grid being clicked. Removed.
     await salesReportPage.switchCustomerToFilterBySelectionIfAll();
     await salesReportPage.selectFirstCustomerIfNeeded();
-    await salesReportPage.switchItemToFilterBySelectionIfAll();
-    await salesReportPage.selectFirstItemIfNeeded();
     await salesReportPage.viewGrid();
     await salesReportPage.previewReport('Monthly Sales Analysis Summary by Customer');
     await salesReportPage.handleAsyncReportOutputIfPresent();

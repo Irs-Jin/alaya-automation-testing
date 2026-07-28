@@ -86,14 +86,21 @@ test.describe('Sales > Cash Sales > New', () => {
     // and confirm a real print-preview tab opens — this is Katalon CSP.tc's
     // own final verification step (it clicks the same button next), now
     // made an explicit assertion instead of an unchecked afterthought.
-    const reportPage = await cashSalesPage.printReport();
-    expect(cashSalesPage.isReportPageValid(reportPage)).toBe(true);
+    const reportResult = await cashSalesPage.printReport();
+    expect(cashSalesPage.isReportPageValid(reportResult)).toBe(true);
 
-    // Config only auto-captures screenshots on failure — take one here
-    // regardless of outcome, of the actual rendered report PDF (the
-    // strongest visual proof), not just the dimmed main form.
-    await reportPage.screenshot({ path: 'test-results/cash-sales-post-report.png', fullPage: true }).catch(() => {});
-    await reportPage.close().catch(() => {});
+    // BUG FIXED (2026-07-27): printReport() confirmed live to return a
+    // Playwright Download object in the common case (the print button
+    // triggers a genuine PDF download, not a page navigation) — a
+    // Download has no .screenshot()/.close(), only a Page does. Handle
+    // both: save the downloaded file as the "strongest visual proof"
+    // artifact when it's a download, screenshot when it's a real page.
+    if (typeof reportResult.suggestedFilename === 'function') {
+      await reportResult.saveAs('test-results/cash-sales-post-report.pdf').catch(() => {});
+    } else {
+      await reportResult.screenshot({ path: 'test-results/cash-sales-post-report.png', fullPage: true }).catch(() => {});
+      await reportResult.close().catch(() => {});
+    }
   });
 
   test('[Negative] item search is blocked until a customer is selected', async ({ page }) => {

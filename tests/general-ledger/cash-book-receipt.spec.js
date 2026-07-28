@@ -69,10 +69,16 @@ test.describe('General Ledger > Cash Book Receipt', () => {
 
     await cbrPage.clickPost();
 
-    const reportPage = await cbrPage.printReport();
-    expect(cbrPage.isReportPageValid(reportPage)).toBe(true);
-    await reportPage.screenshot({ path: 'test-results/cash-book-receipt-post-report.png', fullPage: true }).catch(() => {});
-    await reportPage.close().catch(() => {});
+    const reportResult = await cbrPage.printReport();
+    expect(cbrPage.isReportPageValid(reportResult)).toBe(true);
+    // printReport() returns a Playwright Download in the common case (a
+    // real page navigation is the exception) - handle both.
+    if (typeof reportResult.suggestedFilename === 'function') {
+      await reportResult.saveAs('test-results/cash-book-receipt-post-report.pdf').catch(() => {});
+    } else {
+      await reportResult.screenshot({ path: 'test-results/cash-book-receipt-post-report.png', fullPage: true }).catch(() => {});
+      await reportResult.close().catch(() => {});
+    }
   });
 
   test('[Post & New] posts a cash book receipt then resets for the next entry', async ({ page }) => {

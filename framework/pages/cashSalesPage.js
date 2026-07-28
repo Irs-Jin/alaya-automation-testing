@@ -247,9 +247,17 @@ class CashSalesPage {
     const popupFrame = (await findFrame(this.page, async (frame) => {
       const cell = frame.getByRole('cell', { name: customerCode, exact: true });
       return (await cell.count()) > 0;
-    })) || f;
+    }, { timeout: 20000 })) || f;
 
-    await popupFrame.getByRole('cell', { name: customerCode, exact: true }).click();
+    // BUG FIXED (2026-07-27): confirmed live to fail deep into the full
+    // suite run under sustained load — the customer-picker popup's grid
+    // took longer than the global 10s action-timeout default to actually
+    // render the matching row. Same class of issue as the report-print-
+    // button and confirm-dialog timeouts elsewhere in this repo; widened
+    // explicitly instead of relying on the global default.
+    const customerCell = popupFrame.getByRole('cell', { name: customerCode, exact: true });
+    await customerCell.waitFor({ state: 'visible', timeout: 30000 });
+    await customerCell.click();
 
     // Root-caused via a live DOM probe (Jin, 2026-07-24): this app has MANY
     // hidden clones of `<span class="dx-vam">OK</span>` sitting elsewhere in
@@ -532,17 +540,53 @@ class CashSalesPage {
       );
     }
 
-    const [reportPage] = await Promise.all([
-      p.context().waitForEvent('page', { timeout: 10000 }),
+    // BUG FIXED (2026-07-27): the original version only listened for a new
+    // `page` event and then checked its URL for `FastReport.Export.axd`.
+    // Confirmed live via a diagnostic dump of every open page's url/title:
+    // the "new page" Playwright captures here has url `""`/title `""` —
+    // because clicking this button doesn't navigate a page to a viewable
+    // URL at all, it triggers a genuine file **download** (the export
+    // serves a PDF with a download disposition). A `page` event still
+    // fires (Chromium opens a transient page object for the popup target
+    // before immediately turning it into a download), but its URL never
+    // resolves to anything meaningful — so the old check failed 100% of
+    // the time despite the report having rendered correctly (confirmed by
+    // screenshots showing a real, correct invoice). Listen for BOTH event
+    // types and accept whichever one actually fires; a real `download`
+    // event is at least as strong a proof of success as a navigated page.
+    const eventPromise = Promise.race([
+      p.context().waitForEvent('page', { timeout: 15000 }).then((value) => ({ kind: 'page', value })),
+      p.context().waitForEvent('download', { timeout: 15000 }).then((value) => ({ kind: 'download', value })),
+    ]);
+    const [{ kind, value }] = await Promise.all([
+      eventPromise,
       reportFrame.locator(printSelector).first().click(),
     ]);
+
+    if (kind === 'download') {
+      return value; // Playwright Download object
+    }
+
+    const reportPage = value;
     await reportPage.waitForLoadState('load', { timeout: 15000 }).catch(() => {});
+    const deadline = Date.now() + 15000;
+    while (Date.now() < deadline && !/FastReport\.Export\.axd/i.test(reportPage.url())) {
+      await reportPage.waitForTimeout(300).catch(() => {});
+    }
     return reportPage;
   }
 
-  /** True only if printReport()'s new tab genuinely navigated to the FastReport PDF endpoint, not e.g. an error page or about:blank. */
-  isReportPageValid(reportPage) {
-    return /FastReport\.Export\.axd/i.test(reportPage.url());
+  /**
+   * True if printReport() got either a genuine file download (the common
+   * case — see printReport()'s comment) or a page that actually navigated
+   * to the FastReport PDF endpoint. False for anything else (e.g. an
+   * empty/blank page object, or an error page).
+   */
+  isReportPageValid(reportPageOrDownload) {
+    if (typeof reportPageOrDownload.suggestedFilename === 'function') {
+      return true; // a Download object firing at all IS the proof
+    }
+    return /FastReport\.Export\.axd/i.test(reportPageOrDownload.url());
   }
 
   /**

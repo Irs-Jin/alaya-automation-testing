@@ -376,17 +376,39 @@ class JournalEntryPage {
       );
     }
 
-    const [reportPage] = await Promise.all([
-      p.context().waitForEvent('page', { timeout: 10000 }),
+    // BUG FIXED (2026-07-27): see cashSalesPage.js's printReport() for the
+    // full writeup — clicking this button triggers a genuine file
+    // download in the common case (empty url/title on the "page" event
+    // Playwright still fires for the transient popup target), not a page
+    // navigation. Listen for BOTH event types and accept whichever fires.
+    const eventPromise = Promise.race([
+      p.context().waitForEvent('page', { timeout: 15000 }).then((value) => ({ kind: 'page', value })),
+      p.context().waitForEvent('download', { timeout: 15000 }).then((value) => ({ kind: 'download', value })),
+    ]);
+    const [{ kind, value }] = await Promise.all([
+      eventPromise,
       reportFrame.locator(printSelector).first().click(),
     ]);
+
+    if (kind === 'download') {
+      return value; // Playwright Download object
+    }
+
+    const reportPage = value;
     await reportPage.waitForLoadState('load', { timeout: 15000 }).catch(() => {});
+    const deadline = Date.now() + 15000;
+    while (Date.now() < deadline && !/FastReport\.Export\.axd/i.test(reportPage.url())) {
+      await reportPage.waitForTimeout(300).catch(() => {});
+    }
     return reportPage;
   }
 
-  /** Same validity check as cashSalesPage.js's isReportPageValid(). */
-  isReportPageValid(reportPage) {
-    return /FastReport\.Export\.axd/i.test(reportPage.url());
+  /** Same validity check as cashSalesPage.js's isReportPageValid() — accepts either a Download or a page that reached the FastReport URL. */
+  isReportPageValid(reportPageOrDownload) {
+    if (typeof reportPageOrDownload.suggestedFilename === 'function') {
+      return true;
+    }
+    return /FastReport\.Export\.axd/i.test(reportPageOrDownload.url());
   }
 
   /** Same visible-only filtering rationale as the other page objects. */

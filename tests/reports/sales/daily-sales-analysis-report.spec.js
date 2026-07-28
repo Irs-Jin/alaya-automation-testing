@@ -25,8 +25,11 @@ test.describe('Reports > Sales > Daily Sales Analysis', () => {
     const salesReportPage = new SalesReportPage(page);
     await salesReportPage.goto('Daily Sales Analysis');
 
-    await salesReportPage.switchCustomerToFilterBySelectionIfAll();
-    await salesReportPage.selectFirstCustomerIfNeeded();
+    // OPTIMIZED (2026-07-28): this report's own header comment already
+    // confirmed no Customer field exists here (Sales Branch/Warehouse/
+    // Document Type only) — the switchCustomer.../selectFirstCustomer...
+    // calls were unconditional no-ops adding real, visible delay. Removed,
+    // same reasoning as item-sales-listing-report.spec.js.
     await salesReportPage.viewGrid();
     await salesReportPage.previewReport('Daily Sales Analysis By Day');
     await salesReportPage.handleAsyncReportOutputIfPresent();

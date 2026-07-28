@@ -26,8 +26,10 @@ test.describe('Reports > Sales > Payment Collection', () => {
     const salesReportPage = new SalesReportPage(page);
     await salesReportPage.goto('Payment Collection');
 
-    await salesReportPage.switchCustomerToFilterBySelectionIfAll();
-    await salesReportPage.selectFirstCustomerIfNeeded();
+    // OPTIMIZED (2026-07-28): this report's own header comment already
+    // confirmed no Customer field exists (Document Type/Date only) — the
+    // switchCustomer.../selectFirstCustomer... calls were unconditional
+    // no-ops adding real, visible delay. Removed.
     await salesReportPage.viewGrid();
     await salesReportPage.previewReport('Payment Collection Summary by Sales Agent');
     await salesReportPage.handleAsyncReportOutputIfPresent();

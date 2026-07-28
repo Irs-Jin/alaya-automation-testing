@@ -95,10 +95,16 @@ test.describe('General Ledger > Journal Entry > New', () => {
     const postErrors = await jePage.getValidationErrors();
     expect(postErrors.join(' ')).not.toMatch(/greater than 0|not saved/i);
 
-    const reportPage = await jePage.printReport();
-    expect(jePage.isReportPageValid(reportPage)).toBe(true);
-    await reportPage.screenshot({ path: 'test-results/journal-entry-post-report.png', fullPage: true }).catch(() => {});
-    await reportPage.close().catch(() => {});
+    const reportResult = await jePage.printReport();
+    expect(jePage.isReportPageValid(reportResult)).toBe(true);
+    // printReport() returns a Playwright Download in the common case (a
+    // real page navigation is the exception) - handle both.
+    if (typeof reportResult.suggestedFilename === 'function') {
+      await reportResult.saveAs('test-results/journal-entry-post-report.pdf').catch(() => {});
+    } else {
+      await reportResult.screenshot({ path: 'test-results/journal-entry-post-report.png', fullPage: true }).catch(() => {});
+      await reportResult.close().catch(() => {});
+    }
   });
 
   test('[Post & New] posts a journal entry with two lines then resets for the next entry', async ({ page }) => {
