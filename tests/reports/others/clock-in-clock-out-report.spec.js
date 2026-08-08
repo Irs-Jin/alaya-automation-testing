@@ -34,10 +34,14 @@ test.describe('Reports > Others > Clock In Clock Out', () => {
     await othersReportPage.previewReport('Clock In Clock Out Listing');
     await othersReportPage.handleAsyncReportOutputIfPresent();
 
-    const reportPage = await othersReportPage.printReport();
-    expect(othersReportPage.isReportPageValid(reportPage)).toBe(true);
+    const reportResult = await othersReportPage.printReport();
+    expect(othersReportPage.isReportPageValid(reportResult)).toBe(true);
 
-    await reportPage.screenshot({ path: 'test-results/clock-in-clock-out-report-print.png', fullPage: true }).catch(() => {});
-    await reportPage.close().catch(() => {});
+    if (typeof reportResult.suggestedFilename === 'function') {
+      await reportResult.saveAs('test-results/clock-in-clock-out-report-print.pdf').catch(() => {});
+    } else {
+      await reportResult.screenshot({ path: 'test-results/clock-in-clock-out-report-print.png', fullPage: true }).catch(() => {});
+      await reportResult.close().catch(() => {});
+    }
   });
 });

@@ -25,8 +25,10 @@ test.describe('Reports > Sales > Slow Movement Listing', () => {
     const salesReportPage = new SalesReportPage(page);
     await salesReportPage.goto('Slow Movement Listing');
 
-    await salesReportPage.switchItemToFilterBySelectionIfAll();
-    await salesReportPage.selectFirstItemIfNeeded();
+    // Confirmed live (2026-07-28): this report's parameter form has
+    // neither a Customer nor an Item field — only From/To Date, Quantity
+    // Sold, Export To. Removed the dead switchItemToFilterBySelectionIfAll()/
+    // selectFirstItemIfNeeded() calls.
     await salesReportPage.viewGrid();
     await salesReportPage.previewReport('Slow Movement Listing');
     await salesReportPage.handleAsyncReportOutputIfPresent();

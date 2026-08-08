@@ -46,13 +46,33 @@ npx playwright test -g "Cash Sales"   # just tests matching a name
 ```
 
 Every module also has its own double-click runner under `runners/<module>/run-*.bat`
-(sets the right env vars for you) plus one master script at the repo root:
+(sets the right env vars for you), one per-module batch runner at the repo root,
+and one master script that runs everything:
 
 ```
-run-all-tests.bat   ← runs the ENTIRE suite, one test at a time (--workers=1),
-                       then opens the HTML report. Takes 45-90+ minutes —
-                       let it run in the background.
+run-all-tests.bat                     ← runs the ENTIRE suite, one test at a time
+                                         (--workers=1), then opens the HTML report.
+                                         Takes ~2 hours against UAT — let it run in
+                                         the background. Failures late in a long run
+                                         may reflect UAT server load, not a real bug
+                                         — see CONTRIBUTING.md.
+
+run-account-receivable-tests.bat      ← Account Receivable (Customer + its Reports)
+run-account-payable-tests.bat         ← Account Payable (Reports only, so far)
+run-general-ledger-tests.bat          ← General Ledger (JE/CBP/CBR/SV/Bank Recon + its Reports)
+run-pos-tests.bat                     ← POS (Birthday Setting + Promotion)
+run-sales-tests.bat                   ← Sales (Cash Sales + its Reports)
+run-inventory-tests.bat               ← Inventory (Reports only, so far)
+run-purchase-tests.bat                ← Purchase (Reports only, so far)
+run-staff-tests.bat                   ← Staff (Reports only, so far)
+run-gst-tests.bat                     ← GST (Reports only, so far)
+run-membership-voucher-tests.bat      ← Membership Voucher (Reports only, so far)
+run-others-tests.bat                  ← Others (Reports only, so far)
 ```
+
+Each module script scopes to just that module's transactional tests (if any) plus
+its own Reports category, so you can re-check one area in a few minutes instead
+of running the whole ~2h suite.
 
 `--workers=1` is deliberate, everywhere in this repo: every test logs in as
 the same shared ALAYA account, and this app's session handling has not been

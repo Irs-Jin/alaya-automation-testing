@@ -274,15 +274,37 @@ class OthersReportPage {
    * so far — call unconditionally between previewReport() and
    * printReport() until a report in this category proves it's needed;
    * self-skips otherwise.
+   *
+   * OPTIMIZED (2026-07-28): ported the same fix already applied to
+   * salesReportPage.js — the old version always paid the full
+   * clickHereTimeout (20s) waiting for the async "Click here" link before
+   * giving up on a genuinely synchronous report. Races BOTH signals
+   * (print button appearing vs. "Click here" appearing) with the SAME
+   * generous ceiling via Promise.any() — a fast synchronous report now
+   * returns almost immediately instead of always eating the full 20s.
    */
   async handleAsyncReportOutputIfPresent(clickHereTimeout = 20000) {
     const p = this.page;
 
+    const printButtonSelector = '[title="Print from Adobe Reader"], .print_button[title*="Adobe" i]';
+    const printReady = Promise.any(
+      p.frames().map((frame) => frame.locator(printButtonSelector).first().waitFor({ state: 'visible', timeout: clickHereTimeout }))
+    ).then(() => 'print');
+    const clickHereReady = findFrame(p, async (frame) => {
+      const link = frame.locator('span').filter({ hasText: 'Click here to view Report' });
+      return (await link.count().catch(() => 0)) > 0 && (await link.first().isVisible().catch(() => false));
+    }, { timeout: clickHereTimeout }).then((frame) => (frame ? 'clickHere' : Promise.reject()));
+
+    const winner = await Promise.any([printReady, clickHereReady]).catch(() => null);
+    if (winner !== 'clickHere') {
+      return false; // print button won (synchronous report), or neither ever appeared — nothing to do
+    }
+
     const clickHereFrame = await findFrame(p, async (frame) => {
       const link = frame.locator('span').filter({ hasText: 'Click here to view Report' });
       return (await link.count().catch(() => 0)) > 0 && (await link.first().isVisible().catch(() => false));
-    }, { timeout: clickHereTimeout });
-    if (!clickHereFrame) return false; // synchronous report — nothing to do
+    }, { timeout: 3000 }); // already confirmed present by the race above — this should resolve almost instantly
+    if (!clickHereFrame) return false;
 
     await clickHereFrame.locator('span').filter({ hasText: 'Click here to view Report' }).first().click();
     await p.waitForTimeout(1500);
@@ -340,18 +362,43 @@ class OthersReportPage {
       );
     }
 
-    const [reportPage] = await Promise.all([
-      p.context().waitForEvent('page', { timeout: 30000 }),
+    // OPTIMIZED/FIXED (2026-07-28): ported the same fix already applied to
+    // cashSalesPage.js/journalEntryPage.js/etc. — clicking this button can
+    // trigger either a real page navigation OR a genuine file download
+    // (Playwright fires a transient `page` event with empty url/title for
+    // the download case). The old code only ever awaited `page`, so a
+    // download here would hang for the full 30s timeout despite the report
+    // having rendered correctly. Race both event types and accept whichever
+    // actually fires.
+    const eventPromise = Promise.race([
+      p.context().waitForEvent('page', { timeout: 30000 }).then((value) => ({ kind: 'page', value })),
+      p.context().waitForEvent('download', { timeout: 30000 }).then((value) => ({ kind: 'download', value })),
+    ]);
+    const [{ kind, value }] = await Promise.all([
+      eventPromise,
       printFrame.locator(printButtonSelector).first().click(),
     ]);
 
+    if (kind === 'download') {
+      return value; // Playwright Download object
+    }
+
+    const reportPage = value;
     await reportPage.waitForURL(/FastReport\.Export\.axd/i, { timeout: 15000 }).catch(() => {});
     return reportPage;
   }
 
-  /** Per Jin's established rule: the print-preview tab appearing at all IS success. */
-  isReportPageValid(reportPage) {
-    return !!reportPage && !reportPage.isClosed();
+  /**
+   * True if printReport() got either a genuine file download or a page
+   * that actually navigated to the FastReport PDF endpoint — same shape as
+   * cashSalesPage.js's isReportPageValid().
+   */
+  isReportPageValid(reportPageOrDownload) {
+    if (!reportPageOrDownload) return false;
+    if (typeof reportPageOrDownload.suggestedFilename === 'function') {
+      return true; // a Download object firing at all IS the proof
+    }
+    return !reportPageOrDownload.isClosed() && /FastReport\.Export\.axd/i.test(reportPageOrDownload.url());
   }
 }
 

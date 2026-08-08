@@ -25,8 +25,10 @@ test.describe('Reports > Sales > Item Sales Analysis By Month', () => {
     const salesReportPage = new SalesReportPage(page);
     await salesReportPage.goto('Item Sales Analysis By Month');
 
-    await salesReportPage.switchCustomerToFilterBySelectionIfAll();
-    await salesReportPage.selectFirstCustomerIfNeeded();
+    // Confirmed live (2026-07-28): this report's parameter form has no
+    // Customer field at all — only Item, From/To Date, Analysed By,
+    // Export To. Removed the dead switchCustomerToFilterBySelectionIfAll()/
+    // selectFirstCustomerIfNeeded() calls.
     await salesReportPage.switchItemToFilterBySelectionIfAll();
     await salesReportPage.selectFirstItemIfNeeded();
     await salesReportPage.viewGrid();
