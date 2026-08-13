@@ -601,6 +601,28 @@ class CashSalesPage {
     return f.getByRole('cell', { name: itemDescription, exact: true }).first().isVisible().catch(() => false);
   }
 
+  /**
+   * Triggers the item search popup without selecting a customer first.
+   * Used for negative testing validation behavior.
+   */
+  async triggerItemSearchWithoutCustomer() {
+    const f = await this.fields();
+    await f.itemTrigger.click();
+  }
+
+  /**
+   * Saves the report artifact from printReport() — handles both
+   * Playwright Page (screenshot) and Download (saveAs) objects.
+   */
+  async saveReportArtifact(reportResult, fileName) {
+    if (typeof reportResult.suggestedFilename === 'function') {
+      await reportResult.saveAs(`test-results/${fileName}.pdf`).catch(() => {});
+    } else {
+      await reportResult.screenshot({ path: `test-results/${fileName}.png`, fullPage: true }).catch(() => {});
+      await reportResult.close().catch(() => {});
+    }
+  }
+
   /** Visible-only filtering — DevExpress keeps a hidden validation-summary template in the DOM. */
   async getValidationErrors() {
     const scope = this.formFrame || this.page;

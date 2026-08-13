@@ -9,6 +9,9 @@ for your first day. Adding a new test case? Read **[CONTRIBUTING.md](CONTRIBUTIN
 first — it exists so the suite doesn't turn into a mess as more people add to
 it. Using Claude Code (or another AI agent) to generate a test case? It should
 pick up **[CLAUDE.md](CLAUDE.md)** automatically — don't skip it manually.
+Claude Code should also pick up the **`playwright-cli`** skill under
+`.claude/skills/` automatically when live-exploring a screen via the
+`@playwright/cli` tool rather than writing a full spec blind.
 
 ## Prerequisites
 
@@ -68,6 +71,13 @@ run-staff-tests.bat                   ← Staff (Reports only, so far)
 run-gst-tests.bat                     ← GST (Reports only, so far)
 run-membership-voucher-tests.bat      ← Membership Voucher (Reports only, so far)
 run-others-tests.bat                  ← Others (Reports only, so far)
+
+run-range.bat <start> <end>           ← resumes an interrupted run-all-tests.bat run
+                                         from wherever it stopped (or re-checks any
+                                         numbered slice of the suite), instead of
+                                         re-running the whole ~2h suite from #1. See
+                                         run-range.js's own header comment for how the
+                                         numbering works.
 ```
 
 Each module script scopes to just that module's transactional tests (if any) plus

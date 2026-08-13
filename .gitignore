@@ -6,3 +6,10 @@ recordings/*.spec.js
 *.log
 .DS_Store
 Thumbs.db
+
+# Local Claude Code settings - personal permission allow-list, not shared source.
+.claude/settings.local.json
+
+# playwright-cli session artifacts (console logs, ad-hoc DOM snapshots from
+# interactive exploration) - runtime output, not test source.
+.playwright-cli/

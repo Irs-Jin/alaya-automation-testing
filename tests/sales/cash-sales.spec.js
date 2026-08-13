@@ -46,6 +46,12 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('Sales > Cash Sales > New', () => {
 
+  const testData = {
+    customerCode: CUSTOMER_CODE,
+    itemDescription: ITEM_DESCRIPTION,
+    paymentMode: 'CASH',
+  };
+
   test('[Happy Path] adds a customer and one item line to a new cash sales entry', async ({ page }) => {
     // BUG FIXED (2026-07-27): this test never had an explicit timeout,
     // silently relying on the global 30s default. Confirmed live: fails
@@ -59,12 +65,9 @@ test.describe('Sales > Cash Sales > New', () => {
     const cashSalesPage = new CashSalesPage(page);
     await cashSalesPage.goto();
 
-    await cashSalesPage.createCashSales({
-      customerCode: CUSTOMER_CODE,
-      itemDescription: ITEM_DESCRIPTION,
-    });
+    await cashSalesPage.createCashSales(testData);
 
-    expect(await cashSalesPage.hasItemRow(ITEM_DESCRIPTION)).toBe(true);
+    expect(await cashSalesPage.hasItemRow(testData.itemDescription)).toBe(true);
   });
 
   test('[Happy Path] posts a new cash sales entry with CASH payment', async ({ page }) => {
@@ -72,11 +75,7 @@ test.describe('Sales > Cash Sales > New', () => {
     const cashSalesPage = new CashSalesPage(page);
     await cashSalesPage.goto();
 
-    await cashSalesPage.postCashSales({
-      customerCode: CUSTOMER_CODE,
-      itemDescription: ITEM_DESCRIPTION,
-      paymentMode: 'CASH',
-    });
+    await cashSalesPage.postCashSales(testData);
 
     const posted = await cashSalesPage.expectPostSuccess();
     expect(posted).toBe(true);
@@ -92,15 +91,9 @@ test.describe('Sales > Cash Sales > New', () => {
     // BUG FIXED (2026-07-27): printReport() confirmed live to return a
     // Playwright Download object in the common case (the print button
     // triggers a genuine PDF download, not a page navigation) — a
-    // Download has no .screenshot()/.close(), only a Page does. Handle
-    // both: save the downloaded file as the "strongest visual proof"
-    // artifact when it's a download, screenshot when it's a real page.
-    if (typeof reportResult.suggestedFilename === 'function') {
-      await reportResult.saveAs('test-results/cash-sales-post-report.pdf').catch(() => {});
-    } else {
-      await reportResult.screenshot({ path: 'test-results/cash-sales-post-report.png', fullPage: true }).catch(() => {});
-      await reportResult.close().catch(() => {});
-    }
+    // Download has no .screenshot()/.close(), only a Page does.
+    // OPTIMIZED (2026-08-11): moved artifact handling logic into POM.
+    await cashSalesPage.saveReportArtifact(reportResult, 'cash-sales-post-report');
   });
 
   test('[Negative] item search is blocked until a customer is selected', async ({ page }) => {
@@ -110,13 +103,11 @@ test.describe('Sales > Cash Sales > New', () => {
 
     // Confirmed live: clicking the item search trigger before a customer is
     // chosen doesn't open the item popup at all — it just re-surfaces the
-    // "Customer is required" validation banner. Don't call selectItem()
-    // here — it would hang waiting for a popup that never opens.
-    const f = await cashSalesPage.fields();
-    await f.itemTrigger.click();
+    // "Customer is required" validation banner.
+    // OPTIMIZED (2026-08-11): moved direct field access into POM method.
+    await cashSalesPage.triggerItemSearchWithoutCustomer();
 
     const errors = await cashSalesPage.getValidationErrors();
     expect(errors.join(' ')).toMatch(/customer/i);
   });
-
 });
