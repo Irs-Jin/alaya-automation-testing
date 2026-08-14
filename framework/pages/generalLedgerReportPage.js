@@ -101,11 +101,22 @@ class GeneralLedgerReportPage {
   async goto(reportName = 'General Ledger') {
     const p = this.page;
 
-    await p.getByRole('link', { name: 'Reports', exact: true }).click();
-    // Confirmed via codegen (both reports): scoped to #sub13 to
-    // disambiguate from any other "General Ledger" link elsewhere in the
-    // nav — this is the CATEGORY link, same for every report within it.
-    await p.locator('#sub13').getByRole('link', { name: 'General Ledger', exact: true }).click();
+    const reportsLink = p.getByRole('link', { name: 'Reports', exact: true });
+    await reportsLink.click();
+    // Scoped to the Reports fold's own submenu container to disambiguate
+    // from any other "General Ledger" link elsewhere in the nav — this is
+    // the CATEGORY link, same for every report within it.
+    //
+    // BUG FIXED (2026-08-14): a hardcoded "#sub13" worked for the account
+    // this suite was originally built against, but confirmed live to NOT
+    // exist for a different account (yew/qa3) — this app assigns the
+    // submenu's container id dynamically per session/company (it was
+    // "#sub174" here). The id always matches whatever the "Reports" link's
+    // own href points to, so read that at runtime instead of assuming a
+    // fixed constant — same "resolve by relationship, not a guessed value"
+    // philosophy already used for iframes in this repo.
+    const reportsSubmenuId = (await reportsLink.getAttribute('href')).replace('#', '');
+    await p.locator(`#${reportsSubmenuId}`).getByRole('link', { name: 'General Ledger', exact: true }).click();
 
     this.catalogFrame = await findFrame(p, async (frame) => {
       const item = frame.locator('span').filter({ hasText: reportName });

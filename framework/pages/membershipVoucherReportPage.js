@@ -39,12 +39,23 @@ class MembershipVoucherReportPage {
   async goto(reportName) {
     const p = this.page;
 
-    await p.getByRole('link', { name: 'Reports', exact: true }).click();
-    // Scoped to #sub13 to disambiguate from any other "Membership
-    // Voucher" link elsewhere in the nav (e.g. the top-level Membership
-    // Voucher MODULE, distinct from the Reports > Membership Voucher
-    // CATEGORY).
-    await p.locator('#sub13').getByRole('link', { name: 'Membership Voucher', exact: true }).click();
+    const reportsLink = p.getByRole('link', { name: 'Reports', exact: true });
+    await reportsLink.click();
+    // Scoped to the Reports fold's own submenu container to disambiguate
+    // from any other "Membership Voucher" link elsewhere in the nav (e.g.
+    // the top-level Membership Voucher MODULE, distinct from the Reports >
+    // Membership Voucher CATEGORY).
+    //
+    // BUG FIXED (2026-08-14): a hardcoded "#sub13" worked for the account
+    // this suite was originally built against, but confirmed live to NOT
+    // exist for a different account (yew/qa3) — this app assigns the
+    // submenu's container id dynamically per session/company (it was
+    // "#sub174" here). The id always matches whatever the "Reports" link's
+    // own href points to, so read that at runtime instead of assuming a
+    // fixed constant — same "resolve by relationship, not a guessed value"
+    // philosophy already used for iframes in this repo.
+    const reportsSubmenuId = (await reportsLink.getAttribute('href')).replace('#', '');
+    await p.locator(`#${reportsSubmenuId}`).getByRole('link', { name: 'Membership Voucher', exact: true }).click();
 
     // Exact-match-first: a plain substring match (hasText) can land on
     // the wrong catalog entry when one name is a substring of another.
