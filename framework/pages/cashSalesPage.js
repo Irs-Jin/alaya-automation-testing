@@ -292,6 +292,50 @@ class CashSalesPage {
   }
 
   /**
+   * Selects a value from a labeled DevExpress combo lookup (dropdown arrow
+   * -> listbox popup with Code/Name columns) by matching the CODE cell
+   * exactly. Same "click a cell in a popup grid" pattern as
+   * selectCustomer()/selectItem(). `fieldId` is the control's own id
+   * fragment, e.g. "cbSalesBranch" (the app doubles it: the outer wrapper
+   * and the inner ASPxComboBox share the same name, so the real id is
+   * `cbSalesBranch_cbSalesBranch...`).
+   */
+  async selectComboByCode(fieldId, code) {
+    const f = this.formFrame;
+    const arrow = f.locator(`[id*="${fieldId}_${fieldId}_B-1Img" i]`);
+    await arrow.first().click();
+    const cell = f.getByRole('cell', { name: code, exact: true });
+    await cell.first().waitFor({ state: 'visible', timeout: 10000 });
+    await cell.first().click();
+    await this.page.waitForTimeout(500);
+  }
+
+  /**
+   * Selects Sales Branch / Warehouse by code, but ONLY if the field is
+   * still genuinely unselected after selectCustomer().
+   *
+   * BUG FIXED (2026-08-14): this class's header comment claims selecting a
+   * customer auto-fills Sales Branch / Sales Agent / Warehouse / Price
+   * Level from that customer's defaults — confirmed true for whichever
+   * company this suite was first built against, but confirmed live to be
+   * FALSE for the SHANTHI QA BIZ 69 company (qa3/yew): both fields stay
+   * empty after selectCustomer(), and Post/Save Draft fail outright
+   * ("Sales Branch is required" / "Warehouse is required"). Checked via
+   * the field's own hidden `_VI` value-holder input (empty = genuinely
+   * unselected) rather than guessing at each field's differently-worded
+   * placeholder text ("Select Sales Branch" vs. plain "Warehouse") — so
+   * this is a no-op wherever auto-fill already works, and only fills the
+   * gap where it doesn't.
+   */
+  async ensureComboSelected(fieldId, code) {
+    const f = this.formFrame;
+    const hiddenValue = f.locator(`[id$="${fieldId}_${fieldId}_VI" i]`);
+    const current = await hiddenValue.first().inputValue().catch(() => '');
+    if (current.trim() !== '') return;
+    await this.selectComboByCode(fieldId, code);
+  }
+
+  /**
    * Item selection — same popup-grid pick pattern as selectCustomer(), but
    * against the item search control. The Katalon OK button here is a
    * <span> (not a <div> like the customer popup's), rendered inside a
@@ -363,8 +407,10 @@ class CashSalesPage {
    * MultiPayment dialog (out of scope for this pass; see class comment).
    * Use getItemRowDescriptions() to verify the item line landed correctly.
    */
-  async createCashSales({ customerCode, itemDescription }) {
+  async createCashSales({ customerCode, itemDescription, salesBranchCode, warehouseCode }) {
     if (customerCode) await this.selectCustomer(customerCode);
+    if (salesBranchCode) await this.ensureComboSelected('cbSalesBranch', salesBranchCode);
+    if (warehouseCode) await this.ensureComboSelected('cbWarehouse', warehouseCode);
     if (itemDescription) await this.selectItem(itemDescription);
   }
 
@@ -475,8 +521,8 @@ class CashSalesPage {
    * MultiPayment. Ground-truth IDs from Katalon's CSP.tc — see
    * clickPost()/completeMultiPayment() for the specifics.
    */
-  async postCashSales({ customerCode, itemDescription, paymentMode = 'CASH' }) {
-    await this.createCashSales({ customerCode, itemDescription });
+  async postCashSales({ customerCode, itemDescription, salesBranchCode, warehouseCode, paymentMode = 'CASH' }) {
+    await this.createCashSales({ customerCode, itemDescription, salesBranchCode, warehouseCode });
     await this.clickPost();
     await this.completeMultiPayment(paymentMode);
   }

@@ -33,7 +33,24 @@ const { CashSalesPage } = require('../../framework/pages/cashSalesPage');
  *   ALAYA_TEST_CUSTOMER_CODE=<code> ALAYA_TEST_ITEM_DESCRIPTION=<name> npm test
  */
 const CUSTOMER_CODE = process.env.ALAYA_TEST_CUSTOMER_CODE || '000000002';
-const ITEM_DESCRIPTION = process.env.ALAYA_TEST_ITEM_DESCRIPTION || 'www0www';
+// BUG FIXED (2026-08-14): "www0www" no longer exists in qa3's item catalog
+// for the SHANTHI QA BIZ 69 company (confirmed live via the item picker's
+// own browsable grid — 300 items, "www0www" not among them). Replaced
+// with "stock item 01" (item code 000014, qty available 81), confirmed
+// present and unambiguous (unlike "RRR", which this catalog has three of).
+const ITEM_DESCRIPTION = process.env.ALAYA_TEST_ITEM_DESCRIPTION || 'stock item 01';
+
+// BUG FIXED (2026-08-14): selecting a customer does NOT auto-fill Sales
+// Branch / Warehouse for the SHANTHI QA BIZ 69 company (qa3/yew) — Post/
+// Save Draft fail outright without them ("Sales Branch is required" /
+// "Warehouse is required"). CashSalesPage.ensureComboSelected() only fills
+// these in when they're genuinely still empty, so this is a no-op on
+// accounts where auto-fill already works. Values confirmed live via each
+// combo's own dropdown listbox (Code column) for qa3 specifically —
+// override via env vars the same way as CUSTOMER_CODE/ITEM_DESCRIPTION
+// when pointing at yet another client.
+const SALES_BRANCH_CODE = process.env.ALAYA_TEST_SALES_BRANCH_CODE || 'SHAQABIZ69';
+const WAREHOUSE_CODE = process.env.ALAYA_TEST_WAREHOUSE_CODE || 'PRIMARY';
 
 test.beforeEach(async ({ page }) => {
   await login(page, {
@@ -49,6 +66,8 @@ test.describe('Sales > Cash Sales > New', () => {
   const testData = {
     customerCode: CUSTOMER_CODE,
     itemDescription: ITEM_DESCRIPTION,
+    salesBranchCode: SALES_BRANCH_CODE,
+    warehouseCode: WAREHOUSE_CODE,
     paymentMode: 'CASH',
   };
 
