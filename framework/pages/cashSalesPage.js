@@ -517,6 +517,46 @@ class CashSalesPage {
   }
 
   /**
+   * Dismisses the "Confirm to validate e-Invoice?" dialog if it appears
+   * after posting, by clicking its own "No" (skip validation) — the user's
+   * explicit choice, per this repo's safety rule of always asking rather
+   * than guessing on anything that might have a real external effect
+   * (e-Invoice validation can mean submitting to LHDN's real e-Invoice
+   * framework — see the app's own "e-Invoice is now READY in ALAYA!"
+   * banner — so this was NOT assumed safe to click through blindly).
+   *
+   * Confirmed live (2026-08-14) only via a real test-run's accessibility
+   * snapshot at the moment of failure — the dialog is INTERMITTENT (didn't
+   * reproduce across 2 separate standalone attempts to grab its live DOM
+   * ids directly), so exact ids are unconfirmed. Scoped by the dialog's own
+   * unique body text (not a page-wide "No" search) to stay safe per this
+   * repo's dialog-scoping rule even without a confirmed id — same
+   * "resolve by content, not a guessed constant" approach used elsewhere,
+   * applied here because content is all that's confirmed to exist.
+   */
+  async dismissEInvoiceValidationPromptIfPresent() {
+    // BUG FIXED (2026-08-14): the dialog renders inside the Cash Sales
+    // form's OWN iframe (this.formFrame) — same as the MultiPayment dialog
+    // above — not on the top-level page. Searching `this.page` directly
+    // found nothing and let the dialog sit there blocking every subsequent
+    // step, confirmed live via a failure screenshot showing it still open.
+    // BUG FIXED (2026-08-14): a 3s wait was confirmed live to be too tight
+    // — a failure screenshot showed the dialog still sitting open well
+    // after this check had already given up and moved on. Same class of
+    // issue as this repo's other async-render timeouts (report print
+    // buttons, etc.): this dialog is itself a further server round-trip
+    // after MultiPayment completes, not instant. Widened to match.
+    const f = this.formFrame;
+    const dialog = f.locator('div, table', { hasText: 'Confirm to validate e-Invoice?' }).last();
+    const present = await dialog.waitFor({ state: 'visible', timeout: 15000 }).then(() => true).catch(() => false);
+    if (!present) return;
+
+    const noButton = dialog.locator('span.dx-vam:visible:text-is("No")');
+    await noButton.first().click();
+    await dialog.waitFor({ state: 'hidden', timeout: 5000 }).catch(() => {});
+  }
+
+  /**
    * Full Post flow: select customer + item, click Post, complete
    * MultiPayment. Ground-truth IDs from Katalon's CSP.tc — see
    * clickPost()/completeMultiPayment() for the specifics.
@@ -525,6 +565,7 @@ class CashSalesPage {
     await this.createCashSales({ customerCode, itemDescription, salesBranchCode, warehouseCode });
     await this.clickPost();
     await this.completeMultiPayment(paymentMode);
+    await this.dismissEInvoiceValidationPromptIfPresent();
   }
 
   /**

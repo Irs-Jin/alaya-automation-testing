@@ -1,7 +1,7 @@
 {
   "_meta": {
     "description": "Persistent locator knowledge base. Each key is a logical element ID. 'strategies' is ordered by confidence (successCount - failureCount). The self-healing locator promotes a fallback to primary once it consistently outperforms it.",
-    "lastUpdated": "2026-08-14T08:24:02.398Z"
+    "lastUpdated": "2026-08-14T09:13:57.123Z"
   },
   "elements": {
     "login.clientId": {
@@ -10,10 +10,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtClientId_I",
-          "successCount": 1197,
+          "successCount": 1215,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-14T08:23:49.548Z"
+          "lastUsed": "2026-08-14T09:13:41.944Z"
         }
       ]
     },
@@ -23,10 +23,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtUserName_I",
-          "successCount": 1196,
+          "successCount": 1214,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-14T08:23:49.789Z"
+          "lastUsed": "2026-08-14T09:13:42.170Z"
         }
       ]
     },
@@ -36,10 +36,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtPassword_I_CLND",
-          "successCount": 1197,
+          "successCount": 1215,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-14T08:23:50.008Z"
+          "lastUsed": "2026-08-14T09:13:42.390Z"
         }
       ]
     },
@@ -49,10 +49,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_btnLogin",
-          "successCount": 1196,
+          "successCount": 1214,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-14T08:23:50.221Z"
+          "lastUsed": "2026-08-14T09:13:42.609Z"
         }
       ]
     },
@@ -101,10 +101,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashSalesDetail_cbpCashSales_cbpSalesHeader_ASPxRoundPanel1_formCashSalesHeader_cbCustomer_cbSelectCust_B1Img",
-          "successCount": 69,
+          "successCount": 85,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-14T08:24:01.283Z"
+          "lastUsed": "2026-08-14T09:13:55.577Z"
         }
       ]
     },
@@ -114,10 +114,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashSalesDetail_cbpCashSales_cbpSalesHeader_ASPxRoundPanel1_formCashSalesHeader_cbCustomer_gsc_cbSelectCust_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD",
-          "successCount": 40,
+          "successCount": 52,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-14T08:22:41.633Z"
+          "lastUsed": "2026-08-14T09:13:01.654Z"
         }
       ]
     },
@@ -135,10 +135,10 @@
         {
           "type": "css",
           "value": "img[id*=\"txtItemSearchUpdate\" i]",
-          "successCount": 47,
+          "successCount": 63,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-14T08:24:01.559Z"
+          "lastUsed": "2026-08-14T09:13:55.860Z"
         }
       ]
     },
@@ -148,10 +148,10 @@
         {
           "type": "css",
           "value": "span.dx-vam:visible:text-is(\"OK\")",
-          "successCount": 28,
+          "successCount": 40,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-14T08:22:48.931Z"
+          "lastUsed": "2026-08-14T09:13:10.072Z"
         }
       ]
     },
@@ -161,10 +161,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashSalesDetail_cbpCashSales_mCashSalesDetailsToolBar_mToolBars_DXI2_T",
-          "successCount": 23,
+          "successCount": 31,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-14T08:22:51.550Z"
+          "lastUsed": "2026-08-14T09:13:12.594Z"
         }
       ]
     },
@@ -174,10 +174,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashSalesDetail_cbpCashSales_pcCSMultipayment_formCSMultipayment_gvCSMultiPayment_header0_Add",
-          "successCount": 23,
+          "successCount": 31,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-14T08:22:54.601Z"
+          "lastUsed": "2026-08-14T09:13:15.625Z"
         }
       ]
     },
@@ -187,10 +187,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashSalesDetail_cbpCashSales_pcCSMultipayment_formCSMultipayment_gvCSMultiPayment_DXEditor3_B-1Img",
-          "successCount": 23,
+          "successCount": 31,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-14T08:22:56.279Z"
+          "lastUsed": "2026-08-14T09:13:17.349Z"
         }
       ]
     },
@@ -200,10 +200,10 @@
         {
           "type": "css",
           "value": "td[id*=\"CSMultipayment\" i][id*=\"DDD_L_LBI\" i]:visible:text-is(\"CASH\")",
-          "successCount": 23,
+          "successCount": 31,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-14T08:22:57.689Z"
+          "lastUsed": "2026-08-14T09:13:18.714Z"
         }
       ]
     },
@@ -213,10 +213,10 @@
         {
           "type": "css",
           "value": "span.dx-vam:visible:text-is(\"OK\")",
-          "successCount": 23,
+          "successCount": 31,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-14T08:22:59.818Z"
+          "lastUsed": "2026-08-14T09:13:20.738Z"
         }
       ]
     },
@@ -1929,10 +1929,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashSalesDetail_cbpCashSales_mCashSalesDetailsToolBar_mToolBars_DXI10_T",
-          "successCount": 11,
+          "successCount": 15,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-14T08:24:01.827Z"
+          "lastUsed": "2026-08-14T09:13:56.156Z"
         }
       ]
     },
@@ -1942,10 +1942,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashSalesDetail_cbpCashSales_mCashSalesDetailsToolBar_mToolBars_DXI4_T",
-          "successCount": 11,
+          "successCount": 15,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-14T08:24:02.044Z"
+          "lastUsed": "2026-08-14T09:13:56.987Z"
         }
       ]
     },
@@ -1955,10 +1955,10 @@
         {
           "type": "css",
           "value": "#ctl00_MainContent_CashSalesDetail_cbpCashSales_mCashSalesDetailsToolBar_mToolBars_DXI0_T",
-          "successCount": 11,
+          "successCount": 15,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-14T08:24:02.398Z"
+          "lastUsed": "2026-08-14T09:13:57.123Z"
         }
       ]
     }
