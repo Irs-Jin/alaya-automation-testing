@@ -83,6 +83,31 @@ async function login(page, { baseURL, clientId, username, password } = {}) {
   });
   await loginButton.click();
 
+  // Some accounts see a "Select Default Company" popup right after login (others —
+  // e.g. the original jin1 test account this suite was built against — apparently
+  // never do, presumably because they belong to only one company that's auto-applied).
+  // Confirmed live (2026-08-14) via the `yew` account: popup id contains
+  // "pcPopupSelectDefaultCompany", pre-selects a company in its dropdown, and just
+  // needs its own "OK" accepted.
+  //
+  // Same `_CD` vs `_I` gotcha already documented in customerPage.js's delete-confirm
+  // dialog: a live DOM dump confirmed `#btnPopupSelectDefaultCompanyOk_CD` is the
+  // real, properly-sized clickable div; `#btnPopupSelectDefaultCompanyOk_I` (what
+  // `getByRole('button', {name:'OK'})` resolves to) is a hidden underlying <input>
+  // that Playwright correctly refuses to click as "not visible". Scoped to this
+  // popup's own container (not a page-wide button search) per this repo's
+  // dialog-scoping safety rule, and waits for it to actually close as proof the
+  // click registered exactly once.
+  const companyPopup = page.locator('[id*="pcPopupSelectDefaultCompany" i]');
+  const popupAppeared = await companyPopup.first()
+    .waitFor({ state: 'visible', timeout: 5000 })
+    .then(() => true)
+    .catch(() => false);
+  if (popupAppeared) {
+    await companyPopup.locator('[id$="Ok_CD" i]').first().click();
+    await companyPopup.first().waitFor({ state: 'hidden', timeout: 5000 }).catch(() => {});
+  }
+
   // TODO(Jin): Replace with an actual post-login landing element (e.g. dashboard header).
   await page.waitForLoadState('networkidle');
 }

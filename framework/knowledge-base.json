@@ -1,7 +1,7 @@
 {
   "_meta": {
     "description": "Persistent locator knowledge base. Each key is a logical element ID. 'strategies' is ordered by confidence (successCount - failureCount). The self-healing locator promotes a fallback to primary once it consistently outperforms it.",
-    "lastUpdated": "2026-08-12T23:36:46.652Z"
+    "lastUpdated": "2026-08-14T06:28:02.271Z"
   },
   "elements": {
     "login.clientId": {
@@ -10,10 +10,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtClientId_I",
-          "successCount": 1109,
+          "successCount": 1118,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-12T23:36:33.364Z"
+          "lastUsed": "2026-08-14T06:27:48.484Z"
         }
       ]
     },
@@ -23,10 +23,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtUserName_I",
-          "successCount": 1109,
+          "successCount": 1118,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-12T23:36:33.578Z"
+          "lastUsed": "2026-08-14T06:27:48.775Z"
         }
       ]
     },
@@ -36,10 +36,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtPassword_I_CLND",
-          "successCount": 1109,
+          "successCount": 1118,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-12T23:36:33.873Z"
+          "lastUsed": "2026-08-14T06:27:49.022Z"
         }
       ]
     },
@@ -49,10 +49,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_btnLogin",
-          "successCount": 1108,
+          "successCount": 1117,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-12T23:36:34.079Z"
+          "lastUsed": "2026-08-14T06:27:49.237Z"
         }
       ]
     },
@@ -1759,10 +1759,10 @@
         {
           "type": "css",
           "value": "[id$=\"_SEBeforeBday_B-2Img\" i]",
-          "successCount": 7,
+          "successCount": 11,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-12T07:21:01.640Z"
+          "lastUsed": "2026-08-14T06:27:56.786Z"
         }
       ]
     },
@@ -1772,10 +1772,10 @@
         {
           "type": "css",
           "value": "[id$=\"_SEPointBenefit_B-2Img\" i]",
-          "successCount": 7,
+          "successCount": 11,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-12T07:21:02.242Z"
+          "lastUsed": "2026-08-14T06:27:57.435Z"
         }
       ]
     },
@@ -1785,10 +1785,10 @@
         {
           "type": "css",
           "value": "[id$=\"_SEAfterBday_B-2Img\" i]",
-          "successCount": 7,
+          "successCount": 11,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-12T07:21:02.783Z"
+          "lastUsed": "2026-08-14T06:27:58.126Z"
         }
       ]
     },
@@ -1801,10 +1801,10 @@
           "options": {
             "exact": true
           },
-          "successCount": 14,
+          "successCount": 21,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-12T07:21:06.302Z"
+          "lastUsed": "2026-08-14T06:28:02.271Z"
         }
       ]
     },
@@ -1814,10 +1814,10 @@
         {
           "type": "css",
           "value": "[id$=\"_SEBeforeBday_B-3Img\" i]",
-          "successCount": 7,
+          "successCount": 10,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-12T07:21:04.721Z"
+          "lastUsed": "2026-08-14T06:28:00.285Z"
         }
       ]
     },
@@ -1827,10 +1827,10 @@
         {
           "type": "css",
           "value": "[id$=\"_SEPointBenefit_B-3Img\" i]",
-          "successCount": 7,
+          "successCount": 10,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-12T07:21:05.202Z"
+          "lastUsed": "2026-08-14T06:28:00.860Z"
         }
       ]
     },
@@ -1840,10 +1840,10 @@
         {
           "type": "css",
           "value": "[id$=\"_SEAfterBday_B-3Img\" i]",
-          "successCount": 7,
+          "successCount": 10,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-12T07:21:05.705Z"
+          "lastUsed": "2026-08-14T06:28:01.500Z"
         }
       ]
     },

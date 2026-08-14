@@ -54,11 +54,31 @@ class BirthdaySettingPage {
   /**
    * Reads a spin-edit field's current numeric value.
    * @param {'BeforeBday'|'PointBenefit'|'AfterBday'} fieldName
+   *
+   * BUG FIXED (2026-08-14): the field being attached/visible (which
+   * _resolveFormFrame() already confirms) is not proof the postback that
+   * populates its actual value has finished — confirmed live via the `yew`
+   * account: the very first read right after goto(), before any
+   * interaction, intermittently returned "" (parseFloat -> NaN) on
+   * PointBenefit specifically, while every later read of the same field,
+   * after any spin click, read a real number. Poll for a genuinely
+   * non-empty value instead of trusting the first read, same pattern as
+   * customerPage.js's _waitForGridRowMatching.
    */
   async getFieldValue(fieldName) {
-    const input = this.formFrame.locator(`[id$="_SE${fieldName}_I" i]`);
-    const value = await input.first().inputValue();
+    const input = this.formFrame.locator(`[id$="_SE${fieldName}_I" i]`).first();
+    const value = await this._waitForNonEmptyValue(input, 5000);
     return parseFloat(value);
+  }
+
+  async _waitForNonEmptyValue(locator, timeout) {
+    const deadline = Date.now() + timeout;
+    let value = await locator.inputValue().catch(() => '');
+    while (value.trim() === '' && Date.now() < deadline) {
+      await this.page.waitForTimeout(200);
+      value = await locator.inputValue().catch(() => '');
+    }
+    return value;
   }
 
   /**
