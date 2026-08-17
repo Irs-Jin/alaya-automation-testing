@@ -45,8 +45,18 @@ class PurchaseOrderPage {
 
   async goto() {
     const p = this.page;
-    await p.getByRole('link', { name: 'Purchase', exact: true }).click();
-    await p.getByRole('link', { name: 'Purchase Order', exact: true }).click();
+    // Clicking "Purchase" TOGGLES its submenu open/closed rather than
+    // idempotently opening it — confirmed live (via ClosePurchaseOrderPage,
+    // which reuses this same nav pattern) that a second click collapses an
+    // already-expanded submenu instead of leaving it open. Only click it
+    // if the target link isn't already visible, so this stays correct
+    // even if goto() runs more than once in the same test/session.
+    const purchaseOrderLink = p.getByRole('link', { name: 'Purchase Order', exact: true });
+    const alreadyExpanded = await purchaseOrderLink.isVisible().catch(() => false);
+    if (!alreadyExpanded) {
+      await p.getByRole('link', { name: 'Purchase', exact: true }).click();
+    }
+    await purchaseOrderLink.click();
     await p.waitForLoadState('networkidle');
     await this._resolveListFrame();
   }
@@ -60,12 +70,15 @@ class PurchaseOrderPage {
       // frame match during the diagnostic probe. Pairing it with "POSTED"
       // (the status filter checkbox, unique to this listing screen)
       // disambiguates reliably.
+      // Also requires visibility - a Close Purchase Order (or any other
+      // module's) listing tab left open in the background has the exact
+      // same "Company:" + "POSTED" markers, confirmed live to otherwise
+      // cause a false match on the wrong, inactive tab's frame.
       const company = frame.getByText('Company:', { exact: false });
       const posted = frame.getByText('POSTED', { exact: false });
-      return (
-        (await company.count().catch(() => 0)) > 0 &&
-        (await posted.count().catch(() => 0)) > 0
-      );
+      if ((await company.count().catch(() => 0)) === 0) return false;
+      if ((await posted.count().catch(() => 0)) === 0) return false;
+      return await company.first().isVisible().catch(() => false);
     });
     if (!this.listFrame) {
       await p.screenshot({ path: 'test-results/debug-purchase-order-list-page.png', fullPage: true }).catch(() => {});
@@ -79,8 +92,15 @@ class PurchaseOrderPage {
   async _resolveFormFrame() {
     const p = this.page;
     this.formFrame = await findFrame(p, async (frame) => {
+      // BUG FIXED (2026-08-17): checking count() alone let this match a
+      // Purchase Order tab left open in the background from an earlier
+      // navigation (its header keeps showing "Next Possible No..." text
+      // even once posted) — confirmed live once a second in-app tab
+      // existed simultaneously. Requiring visibility ensures this only
+      // matches the actual FRONT tab's frame.
       const marker = frame.getByText('Next Possible No', { exact: false });
-      return (await marker.count().catch(() => 0)) > 0;
+      if ((await marker.count().catch(() => 0)) === 0) return false;
+      return await marker.first().isVisible().catch(() => false);
     });
     if (!this.formFrame) {
       await p.screenshot({ path: 'test-results/debug-purchase-order-form-not-found.png', fullPage: true }).catch(() => {});
@@ -319,6 +339,27 @@ class PurchaseOrderPage {
   async expectPostSuccess() {
     const reportTab = this.page.getByText('PurchaseOrderSummaryGST Report', { exact: false });
     return (await reportTab.count().catch(() => 0)) > 0;
+  }
+
+  /**
+   * Reads the posted document's assigned number (e.g. "PO-00000032") from
+   * the auto-opened GST report's own content — the report always shows
+   * "Purchase Ord. No : PO-XXXXX". Added (2026-08-17) for
+   * ClosePurchaseOrderPage's own test, which needs a guaranteed-fresh,
+   * still-open PO to transfer from rather than depending on whatever
+   * happens to already exist in the shared environment. Only call this
+   * after expectPostSuccess() is true.
+   */
+  async getPostedDocumentNumber() {
+    const reportFrame = await findFrame(this.page, async (frame) => {
+      const marker = frame.getByText('Purchase Ord. No', { exact: false });
+      if ((await marker.count().catch(() => 0)) === 0) return false;
+      return await marker.first().isVisible().catch(() => false);
+    }, { timeout: 10000 });
+    if (!reportFrame) return null;
+    const text = await reportFrame.locator('body').innerText().catch(() => '');
+    const match = text.match(/PO-\d+/);
+    return match ? match[0] : null;
   }
 }
 
