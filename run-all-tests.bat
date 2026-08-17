@@ -23,6 +23,11 @@ REM issue, a wrong-environment-data issue. See tests/sales/cash-sales.spec.js
 REM header comment for the full explanation.
 set ALAYA_TEST_CUSTOMER_CODE=000001
 set ALAYA_TEST_ITEM_DESCRIPTION=BISKUT PLANTA
+REM Same class of issue for purchase-order.spec.js: defaults to qa3-only
+REM vendor/warehouse/item codes ("000002"/"PRIMARY"/"000001") if these
+REM aren't set. UAT's real equivalents aren't confirmed yet - set them here
+REM (ALAYA_TEST_VENDOR_CODE / ALAYA_TEST_WAREHOUSE_CODE / ALAYA_TEST_ITEM_CODE)
+REM once known, otherwise this test will fail against UAT with qa3 data.
 
 npx playwright test --workers=1
 

@@ -1,7 +1,7 @@
 {
   "_meta": {
     "description": "Persistent locator knowledge base. Each key is a logical element ID. 'strategies' is ordered by confidence (successCount - failureCount). The self-healing locator promotes a fallback to primary once it consistently outperforms it.",
-    "lastUpdated": "2026-08-14T09:13:57.123Z"
+    "lastUpdated": "2026-08-17T06:46:30.213Z"
   },
   "elements": {
     "login.clientId": {
@@ -10,10 +10,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtClientId_I",
-          "successCount": 1215,
+          "successCount": 1232,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-14T09:13:41.944Z"
+          "lastUsed": "2026-08-17T06:46:04.098Z"
         }
       ]
     },
@@ -23,10 +23,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtUserName_I",
-          "successCount": 1214,
+          "successCount": 1231,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-14T09:13:42.170Z"
+          "lastUsed": "2026-08-17T06:46:04.337Z"
         }
       ]
     },
@@ -36,10 +36,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtPassword_I_CLND",
-          "successCount": 1215,
+          "successCount": 1232,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-14T09:13:42.390Z"
+          "lastUsed": "2026-08-17T06:46:04.577Z"
         }
       ]
     },
@@ -49,10 +49,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_btnLogin",
-          "successCount": 1214,
+          "successCount": 1231,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-14T09:13:42.609Z"
+          "lastUsed": "2026-08-17T06:46:04.828Z"
         }
       ]
     },
@@ -1959,6 +1959,110 @@
           "failureCount": 0,
           "discovered": false,
           "lastUsed": "2026-08-14T09:13:57.123Z"
+        }
+      ]
+    },
+    "purchaseOrder.newIcon": {
+      "label": "purchaseOrder.newIcon",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id*=\"header19_btnCheckAll\" i]",
+          "successCount": 7,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-17T06:46:11.726Z"
+        }
+      ]
+    },
+    "purchaseOrder.vendorTrigger": {
+      "label": "purchaseOrder.vendorTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbVendor_cbVendor_B1Img\" i]",
+          "successCount": 7,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-17T06:46:18.661Z"
+        }
+      ]
+    },
+    "purchaseOrder.vendorPopupOkButton": {
+      "label": "purchaseOrder.vendorPopupOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbVendor_gsc_cbVendor_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
+          "successCount": 7,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-17T06:46:23.292Z"
+        }
+      ]
+    },
+    "purchaseOrder.warehouseTrigger": {
+      "label": "purchaseOrder.warehouseTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbSelectWareHouse_cbWarehouse_B-1Img\" i]",
+          "successCount": 7,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-17T06:46:23.996Z"
+        }
+      ]
+    },
+    "purchaseOrder.itemTrigger": {
+      "label": "purchaseOrder.itemTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"ItemAdvanceSearchControlPODetail_txtItemSearchUpdate_B0Img\" i]",
+          "successCount": 7,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-17T06:46:25.488Z"
+        }
+      ]
+    },
+    "purchaseOrder.itemPopupOkButton": {
+      "label": "purchaseOrder.itemPopupOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"formItemSearchControl_btnItemSearchOk_CD\" i]",
+          "successCount": 7,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-17T06:46:27.934Z"
+        }
+      ]
+    },
+    "purchaseOrder.duplicateItemYesButton": {
+      "label": "purchaseOrder.duplicateItemYesButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"pcInfoMessageBox_btnInfoYes_CD\" i]",
+          "successCount": 7,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-17T06:46:28.729Z"
+        }
+      ]
+    },
+    "purchaseOrder.postButton": {
+      "label": "purchaseOrder.postButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Post [Alt + P]\"]",
+          "successCount": 4,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-17T06:46:30.213Z"
         }
       ]
     }
