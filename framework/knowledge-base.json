@@ -1,7 +1,7 @@
 {
   "_meta": {
     "description": "Persistent locator knowledge base. Each key is a logical element ID. 'strategies' is ordered by confidence (successCount - failureCount). The self-healing locator promotes a fallback to primary once it consistently outperforms it.",
-    "lastUpdated": "2026-08-18T01:10:29.706Z"
+    "lastUpdated": "2026-08-18T02:14:52.745Z"
   },
   "elements": {
     "login.clientId": {
@@ -10,10 +10,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtClientId_I",
-          "successCount": 1292,
+          "successCount": 1293,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-18T01:08:33.230Z"
+          "lastUsed": "2026-08-18T02:14:23.398Z"
         }
       ]
     },
@@ -23,10 +23,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtUserName_I",
-          "successCount": 1291,
+          "successCount": 1292,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-18T01:08:33.463Z"
+          "lastUsed": "2026-08-18T02:14:23.597Z"
         }
       ]
     },
@@ -36,10 +36,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtPassword_I_CLND",
-          "successCount": 1292,
+          "successCount": 1293,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-18T01:08:33.661Z"
+          "lastUsed": "2026-08-18T02:14:23.910Z"
         }
       ]
     },
@@ -49,10 +49,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_btnLogin",
-          "successCount": 1291,
+          "successCount": 1292,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-18T01:08:33.876Z"
+          "lastUsed": "2026-08-18T02:14:24.112Z"
         }
       ]
     },
@@ -2388,6 +2388,127 @@
           "failureCount": 0,
           "discovered": false,
           "lastUsed": "2026-08-18T01:10:29.706Z"
+        }
+      ]
+    },
+    "item.newIcon": {
+      "label": "item.newIcon",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_MainContent_ItemMaster_cpnlItemMaster_formItemMaster_gvItemMaster_header38_Add",
+          "successCount": 1,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-18T02:14:31.588Z"
+        }
+      ]
+    },
+    "item.itemTypeTrigger": {
+      "label": "item.itemTypeTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_MainContent_ItemCreationDetails_cbpItemCreationDetails_formItemCreationHeader_ddlItemType_B-1Img",
+          "successCount": 1,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-18T02:14:34.883Z"
+        }
+      ]
+    },
+    "item.descriptionField": {
+      "label": "item.descriptionField",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_MainContent_ItemCreationDetails_cbpItemCreationDetails_formItemCreationHeader_txtDescription_I",
+          "successCount": 1,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-18T02:14:37.800Z"
+        }
+      ]
+    },
+    "item.itemGroupTrigger": {
+      "label": "item.itemGroupTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_MainContent_ItemCreationDetails_cbpItemCreationDetails_cbpDtl_formItemCreationDetails_tabs_formLayoutGeneral_ddlItemGroup_B-1Img",
+          "successCount": 1,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-18T02:14:39.190Z"
+        }
+      ]
+    },
+    "item.saveButton": {
+      "label": "item.saveButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_MainContent_ItemCreationDetails_mItemCreationDetailsToolBar_mToolBars_DXI4_T",
+          "successCount": 1,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-18T02:14:41.102Z"
+        }
+      ]
+    },
+    "item.backButton": {
+      "label": "item.backButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_MainContent_ItemCreationDetails_mItemCreationDetailsToolBar_mToolBars_DXI0_T",
+          "successCount": 1,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-18T02:14:45.990Z"
+        }
+      ]
+    },
+    "item.searchFilterBox": {
+      "label": "item.searchFilterBox",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_MainContent_ItemMaster_cpnlItemMaster_formItemMaster_FilterTextBoxGridView_txtFilterGridView_I",
+          "successCount": 2,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-18T02:14:51.158Z"
+        }
+      ]
+    },
+    "item.deleteLink": {
+      "label": "item.deleteLink",
+      "strategies": [
+        {
+          "type": "role",
+          "role": "link",
+          "options": {
+            "name": "Delete",
+            "exact": true
+          },
+          "successCount": 1,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-18T02:14:52.515Z"
+        }
+      ]
+    },
+    "item.deleteConfirmYesButton": {
+      "label": "item.deleteConfirmYesButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_pcConfirmDel_btnYes_CD span:has-text(\"Yes\")",
+          "successCount": 1,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-18T02:14:52.745Z"
         }
       ]
     }
