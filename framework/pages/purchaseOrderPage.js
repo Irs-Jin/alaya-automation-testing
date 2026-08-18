@@ -45,16 +45,29 @@ class PurchaseOrderPage {
 
   async goto() {
     const p = this.page;
+    // BUG FIXED (2026-08-18): scoped to #navBar (the actual left-nav
+    // sidebar) — confirmed live via the same failure CashPurchasePage's
+    // goto() already fixed: the unscoped page-wide locator becomes
+    // ambiguous the SECOND time goto() runs for this same screen in one
+    // test/script (needed here too, since cancelDocument() navigates back
+    // to this listing after creating a document). The already-open
+    // browser tab's own label ALSO matches
+    // getByRole('link', {name: 'Purchase Order', exact:true}), causing a
+    // strict-mode violation — confirmed live via the exact error:
+    // "resolved to 2 elements: ... aka locator('#sub171')..." (the real
+    // nav link) "... aka locator('#tt')..." (the open tab's own label).
+    //
     // Clicking "Purchase" TOGGLES its submenu open/closed rather than
     // idempotently opening it — confirmed live (via ClosePurchaseOrderPage,
     // which reuses this same nav pattern) that a second click collapses an
     // already-expanded submenu instead of leaving it open. Only click it
     // if the target link isn't already visible, so this stays correct
     // even if goto() runs more than once in the same test/session.
-    const purchaseOrderLink = p.getByRole('link', { name: 'Purchase Order', exact: true });
+    const navBar = p.locator('#navBar');
+    const purchaseOrderLink = navBar.getByRole('link', { name: 'Purchase Order', exact: true });
     const alreadyExpanded = await purchaseOrderLink.isVisible().catch(() => false);
     if (!alreadyExpanded) {
-      await p.getByRole('link', { name: 'Purchase', exact: true }).click();
+      await navBar.getByRole('link', { name: 'Purchase', exact: true }).click();
     }
     await purchaseOrderLink.click();
     await p.waitForLoadState('networkidle');
@@ -360,6 +373,205 @@ class PurchaseOrderPage {
     const text = await reportFrame.locator('body').innerText().catch(() => '');
     const match = text.match(/PO-\d+/);
     return match ? match[0] : null;
+  }
+
+  /**
+   * Fills the listing grid's own live-filter textbox and waits for a
+   * genuine matching row before returning — same id suffix
+   * (FilterTextBoxGridView_txtFilterGridView_I) and same
+   * triple-click-then-pressSequentially convention already confirmed
+   * across this whole module (customerPage.js / CashPurchasePage /
+   * PurchaseInvoicePage / GoodsReceivePage / PurchaseReturnPage). Required
+   * before clickCancelIcon() so the row we act on is provably the one we
+   * searched for, not whatever the default (unfiltered/paginated) grid
+   * view happens to show.
+   */
+  async searchListing(searchText) {
+    await this._resolveListFrame();
+    const { locator: filterBox } = await heal(this.listFrame, {
+      id: 'purchaseOrder.listingSearchFilterBox',
+      label: 'Search',
+      strategies: [
+        { type: 'css', value: '[id*="FilterTextBoxGridView_txtFilterGridView_I" i]' },
+      ],
+      timeout: 5000,
+    });
+    await filterBox.click({ clickCount: 3 });
+    await filterBox.pressSequentially(searchText, { delay: 60 });
+    await filterBox.press('Space');
+    await filterBox.press('Backspace');
+
+    const matched = await this._waitForListingRowMatching(searchText, 15000);
+    if (!matched) {
+      await this.page.screenshot({
+        path: `test-results/debug-purchase-order-search-not-found-${Date.now()}.png`,
+        fullPage: true,
+      }).catch(() => {});
+      throw new Error(
+        `Purchase Order listing never showed a row matching "${searchText}" after searching — ` +
+        'refusing to proceed with Cancel against a possibly-stale/unfiltered row.'
+      );
+    }
+    await this.page.waitForTimeout(300);
+  }
+
+  /**
+   * Polls until a genuine grid DATA ROW matching the search text is
+   * visible AND carries its own "Cancel" row-action icon — proof this is
+   * a real filtered data row, not the filter textbox's own wrapping cell
+   * (same false-positive class already root-caused in customerPage.js's
+   * _waitForGridRowMatching(), reused as-is from CashPurchasePage).
+   */
+  async _waitForListingRowMatching(searchText, timeout = 15000) {
+    const row = this.listFrame.locator('tr.dxgvDataRow_iOS').filter({ hasText: searchText });
+    const deadline = Date.now() + timeout;
+    while (Date.now() < deadline) {
+      if ((await row.count().catch(() => 0)) > 0
+        && (await row.first().isVisible().catch(() => false))
+        && (await row.first().getByRole('img', { name: 'Cancel', exact: true }).count().catch(() => 0)) > 0) {
+        return true;
+      }
+      await this.page.waitForTimeout(300);
+    }
+    return false;
+  }
+
+  /**
+   * Clicks the matching row's own "Cancel" icon. CONFIRMED accessible name
+   * "Cancel" everywhere else in this module (icon file Delete.svg) —
+   * expected to hold here too. Scoped to the ONE row matching searchText,
+   * never a grid-wide selector, per this repo's safety rule for
+   * delete/cancel actions.
+   *
+   * Same app-wide loading-overlay risk documented in CashPurchasePage's
+   * clickCancelIcon() applies here too (Post's own trailing async work can
+   * still be finishing server-side right after Post returns) — handled at
+   * the call site (cancelDocument()) with a settle wait before returning
+   * to the listing.
+   */
+  async clickCancelIcon(searchText) {
+    const row = this.listFrame.locator('tr.dxgvDataRow_iOS').filter({ hasText: searchText });
+    const cancelIcon = row.first().getByRole('img', { name: 'Cancel', exact: true });
+    await cancelIcon.waitFor({ state: 'visible', timeout: 15000 });
+    await cancelIcon.click({ timeout: 30000 });
+  }
+
+  /**
+   * Confirms the row-level Cancel action via its own "Cancel Confirmation"
+   * dialog (`pcConfirmCancel` — same id root confirmed live across Cash
+   * Purchase/Purchase Invoice/Goods Receive/Purchase Return). `_CD` (+
+   * `_I` zero-size sibling) is the real clickable element. Scoped to
+   * this.listFrame, never page-wide — per this repo's safety rule for
+   * delete/cancel confirmations.
+   */
+  async confirmCancelYes() {
+    const popup = this.listFrame.locator('#ctl00_pcConfirmCancel_PW-1');
+    await popup.waitFor({ state: 'visible', timeout: 45000 });
+
+    const { locator: yesButton } = await heal(this.listFrame, {
+      id: 'purchaseOrder.cancelConfirmYesButton',
+      label: 'Yes',
+      strategies: [
+        { type: 'css', value: '#ctl00_pcConfirmCancel_btnYesCancel_CD' },
+        { type: 'css', value: '[id*="pcConfirmCancel" i][id*="btnYesCancel_CD" i]' },
+      ],
+      timeout: 5000,
+    });
+    await yesButton.click();
+    await popup.waitFor({ state: 'hidden', timeout: 15000 }).catch(() => {});
+    await this.page.waitForTimeout(1000);
+  }
+
+  /**
+   * Handles a "Cancel Reason" popup if one appears — CONFIRMED on Purchase
+   * Return to be a required second step after confirmCancelYes() (see
+   * PurchaseReturnPage's own handleCancelReasonIfPresent()). Presence
+   * check, not an assumption it always appears — Cash Purchase/Purchase
+   * Invoice/Goods Receive never showed it. Picks the first available
+   * reason (any valid one is fine for test purposes) via the same
+   * `cbReason` combo shape, scoped generically (module id prefix not yet
+   * confirmed for this screen specifically) rather than hardcoded to
+   * Purchase Return's own "PurchaseReturns1" prefix.
+   */
+  async handleCancelReasonIfPresent() {
+    const popup = this.listFrame.locator('[id*="pcCancelReason" i][id$="_PW-1" i]');
+    const present = await popup.first().waitFor({ state: 'visible', timeout: 10000 }).then(() => true).catch(() => false);
+    if (!present) return;
+
+    const { locator: reasonTrigger } = await heal(this.listFrame, {
+      id: 'purchaseOrder.cancelReasonTrigger',
+      label: 'Reason',
+      strategies: [
+        { type: 'css', value: '[id*="pcCancelReason" i][id*="cbReason_B-1Img" i]' },
+      ],
+      timeout: 5000,
+    });
+    await reasonTrigger.click();
+    await this.page.waitForTimeout(800);
+
+    const firstOption = this.listFrame.locator('[id*="pcCancelReason" i][id*="cbReason_DDD_L_LBI" i]:visible').first();
+    await firstOption.waitFor({ state: 'visible', timeout: 10000 });
+    await firstOption.click();
+    await this.page.waitForTimeout(500);
+
+    const { locator: okButton } = await heal(this.listFrame, {
+      id: 'purchaseOrder.cancelReasonOkButton',
+      label: 'OK',
+      strategies: [
+        { type: 'css', value: '[id*="pcCancelReason" i][id*="btnCancelDocument_CD" i]' },
+      ],
+      timeout: 5000,
+    });
+    await okButton.click();
+    await popup.first().waitFor({ state: 'hidden', timeout: 15000 }).catch(() => {});
+    await this.page.waitForTimeout(1000);
+  }
+
+  /**
+   * Full flow: search -> click row's Cancel icon -> confirm Yes -> handle
+   * the Cancel Reason popup if it appears.
+   *
+   * Gives Post's trailing async work (GST report generation) time to
+   * settle before returning to the listing, since this method is meant to
+   * run right after a fresh Post in the same session — same reasoning as
+   * CashPurchasePage.cancelDocument().
+   */
+  async cancelDocument(searchText) {
+    await this.page.waitForTimeout(8000);
+    await this.goto();
+    await this.searchListing(searchText);
+    await this.clickCancelIcon(searchText);
+    await this.confirmCancelYes();
+    await this.handleCancelReasonIfPresent();
+  }
+
+  /**
+   * Read-only check: is a row matching searchText still present in the
+   * default (DRAFT + POSTED, no Cancel status) listing view? Used to
+   * verify a cancelled document is genuinely gone from the active list —
+   * per this repo's "confirm it deletes it again" convention — not just
+   * that confirmCancelYes() completed without error. Deliberately does
+   * NOT reuse searchListing(), which throws when nothing matches — here
+   * "nothing matches" is the expected, successful outcome.
+   */
+  async isDocumentPresent(searchText) {
+    await this._resolveListFrame();
+    const { locator: filterBox } = await heal(this.listFrame, {
+      id: 'purchaseOrder.listingSearchFilterBox',
+      label: 'Search',
+      strategies: [
+        { type: 'css', value: '[id*="FilterTextBoxGridView_txtFilterGridView_I" i]' },
+      ],
+      timeout: 5000,
+    });
+    await filterBox.click({ clickCount: 3 });
+    await filterBox.pressSequentially(searchText, { delay: 60 });
+    await filterBox.press('Space');
+    await filterBox.press('Backspace');
+    await this.page.waitForTimeout(2000);
+
+    const row = this.listFrame.locator('tr.dxgvDataRow_iOS').filter({ hasText: searchText });
+    return (await row.count().catch(() => 0)) > 0;
   }
 }
 

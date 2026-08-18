@@ -60,4 +60,23 @@ test.describe('Purchase > Purchase Order', () => {
 
     expect(await purchaseOrderPage.expectPostSuccess()).toBe(true);
   });
+
+  test('[Cancel] posts a Purchase Order then cancels it from the listing page', async ({ page }) => {
+    test.setTimeout(180000);
+    const purchaseOrderPage = new PurchaseOrderPage(page);
+    await purchaseOrderPage.goto();
+
+    await purchaseOrderPage.clickNew();
+    await purchaseOrderPage.postPurchaseOrder(testData);
+    expect(await purchaseOrderPage.expectPostSuccess()).toBe(true);
+    const poDocNo = await purchaseOrderPage.getPostedDocumentNumber();
+    expect(poDocNo).toMatch(/PO-\d+/);
+
+    await purchaseOrderPage.cancelDocument(poDocNo);
+
+    // Per this repo's convention: a success dialog isn't proof by itself —
+    // verify with a fresh search that the row is genuinely gone from the
+    // active (DRAFT + POSTED) listing view.
+    expect(await purchaseOrderPage.isDocumentPresent(poDocNo)).toBe(false);
+  });
 });
