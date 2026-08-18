@@ -4,7 +4,7 @@ REM Runs ALL Journal Entry test cases (New, Save Draft, Post, Post & New) agains
 
 cd /d "%~dp0..\.."
 
-set ALAYA_CLIENT_ID=UAT
+set ALAYA_CLIENT_ID=uat
 set ALAYA_USERNAME=admin
 set ALAYA_PASSWORD=123
 

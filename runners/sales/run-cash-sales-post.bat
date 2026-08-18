@@ -4,7 +4,7 @@ REM Runs the Cash Sales "Post" pilot test against UAT with a visible browser.
 
 cd /d "%~dp0..\.."
 
-set ALAYA_CLIENT_ID=UAT
+set ALAYA_CLIENT_ID=uat
 set ALAYA_USERNAME=admin
 set ALAYA_PASSWORD=123
 set ALAYA_TEST_CUSTOMER_CODE=000001

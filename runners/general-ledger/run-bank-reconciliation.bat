@@ -10,7 +10,7 @@ REM step on real data again.
 
 cd /d "%~dp0..\.."
 
-set ALAYA_CLIENT_ID=UAT
+set ALAYA_CLIENT_ID=uat
 set ALAYA_USERNAME=admin
 set ALAYA_PASSWORD=123
 

@@ -4,7 +4,7 @@ REM Runs the Stock Value test case against UAT with a visible browser.
 
 cd /d "%~dp0..\.."
 
-set ALAYA_CLIENT_ID=UAT
+set ALAYA_CLIENT_ID=uat
 set ALAYA_USERNAME=admin
 set ALAYA_PASSWORD=123
 
