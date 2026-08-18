@@ -60,4 +60,50 @@ test.describe('Purchase > Goods Receive', () => {
 
     expect(await goodsReceivePage.expectPostSuccess()).toBe(true);
   });
+
+  /**
+   * Row-level Cancel, following the same pattern already built and merged
+   * for Cash Purchase (see cash-purchase.spec.js's own '[Cancel]' test and
+   * CashPurchasePage's cancelDocument()/isDocumentPresent()). This screen
+   * has no Save Draft (Post-only), so unlike Cash Purchase this cancels a
+   * POSTED document, not a Draft — confirmed fine per this screen's own
+   * "Cancel Confirmation" dialog, which doesn't distinguish document status.
+   *
+   * Same chained setup as the Happy Path test above (fresh PO -> Transfer
+   * from PO into a new Goods Receive), just with a TESTING-CANCEL-prefixed
+   * Supplier D/O No. so the cancelled document is unambiguous to search for
+   * and obviously throwaway test data.
+   */
+  test('[Cancel] posts a Goods Receive then cancels it from the listing page', async ({ page }) => {
+    test.setTimeout(180000);
+
+    // Setup: a fresh, guaranteed-open PO to receive against.
+    const purchaseOrderPage = new PurchaseOrderPage(page);
+    await purchaseOrderPage.goto();
+    await purchaseOrderPage.clickNew();
+    await purchaseOrderPage.postPurchaseOrder({
+      vendorCode: VENDOR_CODE,
+      warehouseCode: WAREHOUSE_CODE,
+      itemDescription: ITEM_CODE,
+    });
+    expect(await purchaseOrderPage.expectPostSuccess()).toBe(true);
+    const poDocNo = await purchaseOrderPage.getPostedDocumentNumber();
+    expect(poDocNo).toMatch(/PO-\d+/);
+
+    // Under test: receive goods against that exact PO, then cancel the
+    // resulting Goods Receive document (not the underlying PO).
+    const goodsReceivePage = new GoodsReceivePage(page);
+    await goodsReceivePage.goto();
+    await goodsReceivePage.clickNew();
+    const uniqueRef = `TESTING-CANCEL-${Date.now()}`;
+    await goodsReceivePage.receiveGoods({ vendorCode: VENDOR_CODE, poDocNo, supplierDoNo: uniqueRef });
+    expect(await goodsReceivePage.expectPostSuccess()).toBe(true);
+
+    await goodsReceivePage.cancelDocument(uniqueRef);
+
+    // Per this repo's convention: a success dialog isn't proof by itself —
+    // verify with a fresh search that the row is genuinely gone from the
+    // active (DRAFT + POSTED) listing view.
+    expect(await goodsReceivePage.isDocumentPresent(uniqueRef)).toBe(false);
+  });
 });
