@@ -1,7 +1,7 @@
 {
   "_meta": {
     "description": "Persistent locator knowledge base. Each key is a logical element ID. 'strategies' is ordered by confidence (successCount - failureCount). The self-healing locator promotes a fallback to primary once it consistently outperforms it.",
-    "lastUpdated": "2026-08-18T04:35:38.413Z"
+    "lastUpdated": "2026-08-18T04:39:53.901Z"
   },
   "elements": {
     "login.clientId": {
@@ -10,10 +10,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtClientId_I",
-          "successCount": 1451,
+          "successCount": 1453,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-18T04:35:24.769Z"
+          "lastUsed": "2026-08-18T04:39:47.037Z"
         }
       ]
     },
@@ -23,10 +23,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtUserName_I",
-          "successCount": 1452,
+          "successCount": 1454,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-18T04:35:25.007Z"
+          "lastUsed": "2026-08-18T04:39:47.248Z"
         }
       ]
     },
@@ -36,10 +36,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtPassword_I_CLND",
-          "successCount": 1454,
+          "successCount": 1456,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-18T04:35:25.304Z"
+          "lastUsed": "2026-08-18T04:39:47.542Z"
         }
       ]
     },
@@ -49,10 +49,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_btnLogin",
-          "successCount": 1452,
+          "successCount": 1454,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-18T04:35:25.506Z"
+          "lastUsed": "2026-08-18T04:39:47.730Z"
         }
       ]
     },
@@ -1968,10 +1968,10 @@
         {
           "type": "css",
           "value": "[id*=\"header19_btnCheckAll\" i]",
-          "successCount": 79,
+          "successCount": 81,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-18T02:27:53.157Z"
+          "lastUsed": "2026-08-18T04:39:53.901Z"
         }
       ]
     },
@@ -1981,10 +1981,10 @@
         {
           "type": "css",
           "value": "[id$=\"cbVendor_cbVendor_B1Img\" i]",
-          "successCount": 77,
+          "successCount": 78,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-18T02:27:56.723Z"
+          "lastUsed": "2026-08-18T04:39:22.871Z"
         }
       ]
     },
