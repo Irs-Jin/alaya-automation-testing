@@ -211,6 +211,15 @@ class PurchaseInvoicePage {
     await this.page.waitForTimeout(2000);
   }
 
+  /**
+   * BUG FIXED (2026-08-17): a fixed 5s wait was confirmed live to
+   * intermittently be too tight — expectPostSuccess() came back false on
+   * roughly half of several back-to-back live runs even though the
+   * document had genuinely posted (confirmed by separately reading the
+   * assigned document number, which needed up to 20s to reliably appear).
+   * Waits for the actual report-tab signal instead of guessing a fixed
+   * delay, same fix already applied to clickPostAndNew().
+   */
   async clickPost() {
     const { locator } = await heal(this.formFrame, {
       id: 'purchaseInvoice.postButton',
@@ -222,7 +231,9 @@ class PurchaseInvoicePage {
       timeout: 5000,
     });
     await locator.click();
-    await this.page.waitForTimeout(5000);
+    await this.page.getByText('Purchase Invoice Detail (eInvoice)', { exact: false })
+      .first().waitFor({ state: 'visible', timeout: 20000 }).catch(() => {});
+    await this.page.waitForTimeout(1000);
   }
 
   /**

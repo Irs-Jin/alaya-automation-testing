@@ -1,7 +1,7 @@
 {
   "_meta": {
     "description": "Persistent locator knowledge base. Each key is a logical element ID. 'strategies' is ordered by confidence (successCount - failureCount). The self-healing locator promotes a fallback to primary once it consistently outperforms it.",
-    "lastUpdated": "2026-08-17T09:26:36.824Z"
+    "lastUpdated": "2026-08-18T01:10:29.706Z"
   },
   "elements": {
     "login.clientId": {
@@ -10,10 +10,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtClientId_I",
-          "successCount": 1264,
+          "successCount": 1292,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:26:09.621Z"
+          "lastUsed": "2026-08-18T01:08:33.230Z"
         }
       ]
     },
@@ -23,10 +23,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtUserName_I",
-          "successCount": 1263,
+          "successCount": 1291,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:26:09.834Z"
+          "lastUsed": "2026-08-18T01:08:33.463Z"
         }
       ]
     },
@@ -36,10 +36,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtPassword_I_CLND",
-          "successCount": 1264,
+          "successCount": 1292,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:26:10.036Z"
+          "lastUsed": "2026-08-18T01:08:33.661Z"
         }
       ]
     },
@@ -49,10 +49,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_btnLogin",
-          "successCount": 1263,
+          "successCount": 1291,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:26:10.297Z"
+          "lastUsed": "2026-08-18T01:08:33.876Z"
         }
       ]
     },
@@ -1968,10 +1968,10 @@
         {
           "type": "css",
           "value": "[id*=\"header19_btnCheckAll\" i]",
-          "successCount": 38,
+          "successCount": 64,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:26:17.695Z"
+          "lastUsed": "2026-08-18T01:08:39.672Z"
         }
       ]
     },
@@ -1981,10 +1981,10 @@
         {
           "type": "css",
           "value": "[id$=\"cbVendor_cbVendor_B1Img\" i]",
-          "successCount": 37,
+          "successCount": 63,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:26:23.939Z"
+          "lastUsed": "2026-08-18T01:08:49.075Z"
         }
       ]
     },
@@ -1994,10 +1994,10 @@
         {
           "type": "css",
           "value": "[id$=\"cbVendor_gsc_cbVendor_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
-          "successCount": 37,
+          "successCount": 63,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:26:27.925Z"
+          "lastUsed": "2026-08-18T01:08:51.519Z"
         }
       ]
     },
@@ -2007,10 +2007,10 @@
         {
           "type": "css",
           "value": "[id$=\"cbSelectWareHouse_cbWarehouse_B-1Img\" i]",
-          "successCount": 37,
+          "successCount": 63,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:26:28.774Z"
+          "lastUsed": "2026-08-18T01:08:51.946Z"
         }
       ]
     },
@@ -2020,10 +2020,10 @@
         {
           "type": "css",
           "value": "[id$=\"ItemAdvanceSearchControlPODetail_txtItemSearchUpdate_B0Img\" i]",
-          "successCount": 37,
+          "successCount": 63,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:26:31.111Z"
+          "lastUsed": "2026-08-18T01:08:53.400Z"
         }
       ]
     },
@@ -2033,10 +2033,10 @@
         {
           "type": "css",
           "value": "[id$=\"formItemSearchControl_btnItemSearchOk_CD\" i]",
-          "successCount": 37,
+          "successCount": 63,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:26:33.851Z"
+          "lastUsed": "2026-08-18T01:08:55.182Z"
         }
       ]
     },
@@ -2046,10 +2046,10 @@
         {
           "type": "css",
           "value": "[id$=\"pcInfoMessageBox_btnInfoYes_CD\" i]",
-          "successCount": 37,
+          "successCount": 63,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:26:34.962Z"
+          "lastUsed": "2026-08-18T01:08:55.999Z"
         }
       ]
     },
@@ -2059,10 +2059,10 @@
         {
           "type": "css",
           "value": "[title=\"Post [Alt + P]\"]",
-          "successCount": 31,
+          "successCount": 56,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:26:36.824Z"
+          "lastUsed": "2026-08-18T01:08:56.835Z"
         }
       ]
     },
@@ -2072,10 +2072,10 @@
         {
           "type": "css",
           "value": "[id$=\"cbVendor_cbVendor_B1Img\" i]",
-          "successCount": 3,
+          "successCount": 5,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:19:28.981Z"
+          "lastUsed": "2026-08-18T01:00:42.438Z"
         }
       ]
     },
@@ -2085,10 +2085,10 @@
         {
           "type": "css",
           "value": "[id$=\"cbVendor_gsc_cbVendor_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
-          "successCount": 3,
+          "successCount": 5,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:19:34.105Z"
+          "lastUsed": "2026-08-18T01:00:45.155Z"
         }
       ]
     },
@@ -2098,10 +2098,10 @@
         {
           "type": "css",
           "value": "[title=\"Copy From [Alt + M]\"]",
-          "successCount": 3,
+          "successCount": 5,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:19:35.107Z"
+          "lastUsed": "2026-08-18T01:00:46.191Z"
         }
       ]
     },
@@ -2111,10 +2111,10 @@
         {
           "type": "css",
           "value": "[id$=\"btnPurchaseTransferOk_CD\" i]",
-          "successCount": 3,
+          "successCount": 5,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:19:40.369Z"
+          "lastUsed": "2026-08-18T01:00:49.373Z"
         }
       ]
     },
@@ -2124,10 +2124,10 @@
         {
           "type": "css",
           "value": "[title=\"Post [Alt + P]\"]",
-          "successCount": 3,
+          "successCount": 5,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:19:43.664Z"
+          "lastUsed": "2026-08-18T01:00:51.685Z"
         }
       ]
     },
@@ -2137,10 +2137,10 @@
         {
           "type": "css",
           "value": "[id$=\"cbVendor_cbVendor_B1Img\" i]",
-          "successCount": 5,
+          "successCount": 7,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:20:39.784Z"
+          "lastUsed": "2026-08-18T01:01:36.770Z"
         }
       ]
     },
@@ -2150,10 +2150,10 @@
         {
           "type": "css",
           "value": "[id$=\"cbVendor_gsc_cbVendor_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
-          "successCount": 5,
+          "successCount": 7,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:20:46.310Z"
+          "lastUsed": "2026-08-18T01:01:40.052Z"
         }
       ]
     },
@@ -2163,10 +2163,10 @@
         {
           "type": "css",
           "value": "[title=\"Copy From [Alt + M]\"]",
-          "successCount": 5,
+          "successCount": 7,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:20:48.214Z"
+          "lastUsed": "2026-08-18T01:01:40.929Z"
         }
       ]
     },
@@ -2176,10 +2176,10 @@
         {
           "type": "css",
           "value": "[id$=\"btnPurchaseTransferOk_CD\" i]",
-          "successCount": 5,
+          "successCount": 7,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:20:54.032Z"
+          "lastUsed": "2026-08-18T01:01:45.603Z"
         }
       ]
     },
@@ -2189,10 +2189,10 @@
         {
           "type": "css",
           "value": "[title=\"Post [Alt + P]\"]",
-          "successCount": 5,
+          "successCount": 7,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:21:00.647Z"
+          "lastUsed": "2026-08-18T01:01:51.076Z"
         }
       ]
     },
@@ -2202,10 +2202,10 @@
         {
           "type": "css",
           "value": "[id$=\"cbVendor_cbVendor_B1Img\" i]",
-          "successCount": 10,
+          "successCount": 30,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:24:45.148Z"
+          "lastUsed": "2026-08-18T01:09:15.929Z"
         }
       ]
     },
@@ -2215,10 +2215,10 @@
         {
           "type": "css",
           "value": "[id$=\"cbVendor_gsc_cbVendor_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
-          "successCount": 10,
+          "successCount": 30,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:24:52.565Z"
+          "lastUsed": "2026-08-18T01:09:19.605Z"
         }
       ]
     },
@@ -2228,10 +2228,10 @@
         {
           "type": "css",
           "value": "[title=\"Copy From [Alt + M]\"]",
-          "successCount": 10,
+          "successCount": 30,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:24:54.010Z"
+          "lastUsed": "2026-08-18T01:09:20.539Z"
         }
       ]
     },
@@ -2241,10 +2241,10 @@
         {
           "type": "css",
           "value": "[id$=\"btnPurchaseTransferOk_CD\" i]",
-          "successCount": 10,
-          "failureCount": 0,
+          "successCount": 30,
+          "failureCount": 1,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:25:03.303Z"
+          "lastUsed": "2026-08-18T01:09:26.055Z"
         }
       ]
     },
@@ -2254,10 +2254,10 @@
         {
           "type": "css",
           "value": "[title=\"Save Draft [Alt + S]\"]",
-          "successCount": 2,
+          "successCount": 3,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:22:23.658Z"
+          "lastUsed": "2026-08-18T01:03:01.311Z"
         }
       ]
     },
@@ -2267,10 +2267,10 @@
         {
           "type": "css",
           "value": "[title=\"Post [Alt + P]\"]",
-          "successCount": 2,
+          "successCount": 19,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:23:46.945Z"
+          "lastUsed": "2026-08-18T01:09:30.634Z"
         }
       ]
     },
@@ -2280,10 +2280,114 @@
         {
           "type": "css",
           "value": "[title=\"Post & New [Alt + Ctrl + P]\"]",
-          "successCount": 6,
+          "successCount": 7,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-17T09:25:10.934Z"
+          "lastUsed": "2026-08-18T01:05:18.032Z"
+        }
+      ]
+    },
+    "purchaseReturn.vendorTrigger": {
+      "label": "purchaseReturn.vendorTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbVendor_cbVendor_B1Img\" i]",
+          "successCount": 7,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-18T01:10:04.001Z"
+        }
+      ]
+    },
+    "purchaseReturn.vendorPopupOkButton": {
+      "label": "purchaseReturn.vendorPopupOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbVendor_gsc_cbVendor_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
+          "successCount": 7,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-18T01:10:09.565Z"
+        }
+      ]
+    },
+    "purchaseReturn.copyFromButton": {
+      "label": "purchaseReturn.copyFromButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Copy From [Alt + M]\"]",
+          "successCount": 7,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-18T01:10:10.729Z"
+        }
+      ]
+    },
+    "purchaseReturn.transferOkButton": {
+      "label": "purchaseReturn.transferOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"btnPurchaseTransferOk_CD\" i]",
+          "successCount": 7,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-18T01:10:16.885Z"
+        }
+      ]
+    },
+    "purchaseReturn.cityTrigger": {
+      "label": "purchaseReturn.cityTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbCity_B0Img\" i]",
+          "successCount": 7,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-18T01:10:24.478Z"
+        }
+      ]
+    },
+    "purchaseReturn.cityPopupOkButton": {
+      "label": "purchaseReturn.cityPopupOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"gsc_cbCity_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
+          "successCount": 7,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-18T01:10:28.039Z"
+        }
+      ]
+    },
+    "purchaseReturn.postButton": {
+      "label": "purchaseReturn.postButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Post [Alt + P]\"]",
+          "successCount": 4,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-18T01:08:21.346Z"
+        }
+      ]
+    },
+    "purchaseReturn.postAndNewButton": {
+      "label": "purchaseReturn.postAndNewButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Post & New [Alt + Ctrl + P]\"]",
+          "successCount": 3,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-18T01:10:29.706Z"
         }
       ]
     }
