@@ -122,4 +122,40 @@ test.describe('Purchase > Purchase Return', () => {
     const afterNo = await purchaseReturnPage.getNextPossibleNo();
     expect(afterNo).not.toBe(beforeNo);
   });
+
+  test('[Cancel] posts a Purchase Return then cancels it from the listing page', async ({ page }) => {
+    // BUG FIXED (2026-08-17) / re-confirmed live for this test (2026-08-18):
+    // the base 3-hop chain (Purchase Order -> Purchase Invoice -> Purchase
+    // Return) alone already needed 240000ms under load. This test adds a
+    // fourth real server round-trip on top of that (navigating back to the
+    // listing and cancelling the posted document), so it gets an even wider
+    // budget.
+    test.setTimeout(300000);
+    const piDocNo = await createFreshPurchaseInvoice(page);
+
+    const purchaseReturnPage = new PurchaseReturnPage(page);
+    await purchaseReturnPage.goto();
+    await purchaseReturnPage.clickNew();
+
+    // This screen has no working Save Draft (see PurchaseReturnPage's own
+    // class comment) — Post is the only way to create a document to
+    // cancel. getNextPossibleNo() is read right after clickNew(), same
+    // established technique this screen's own [Post & New] test already
+    // uses as before/after proof, reused here as the search key for the
+    // listing after posting (no free-text reference field exists on this
+    // screen to use instead).
+    const prNo = await purchaseReturnPage.getNextPossibleNo();
+    expect(prNo).toMatch(/PR-\d+/);
+
+    await purchaseReturnPage.prepareReturn({ vendorCode: VENDOR_CODE, piDocNo });
+    await purchaseReturnPage.clickPost();
+    expect(await purchaseReturnPage.expectPostSuccess()).toBe(true);
+
+    await purchaseReturnPage.cancelDocument(prNo);
+
+    // Per this repo's convention: a success dialog isn't proof by itself —
+    // verify with a fresh search that the row is genuinely gone from the
+    // active listing view.
+    expect(await purchaseReturnPage.isDocumentPresent(prNo)).toBe(false);
+  });
 });

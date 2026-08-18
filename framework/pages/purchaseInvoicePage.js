@@ -199,12 +199,31 @@ class PurchaseInvoicePage {
    * Fills the required "Supplier Inv. No." field. CONFIRMED live: same
    * id suffix as Goods Receive's "Supplier D/O No." (`txtRefNo_I`).
    * Defaults to a timestamped value so it's always unique.
+   *
+   * BUG FIXED (2026-08-18): confirmed live (under heavier server load) that
+   * pressSequentially() can lose most of its keystrokes mid-type — a
+   * failure screenshot showed the field holding just "T" from an intended
+   * "TESTING-INV-...", with the rest of the string ending up typed into
+   * the Items grid's own quick-search box instead (triggering an "Item ...
+   * not found" error dialog on Post). Same failure class already fixed in
+   * cashPurchasePage.js's fillSupplierInvNo() — applying the same
+   * retry-and-verify fix here: click+retype up to 3x, checking the field's
+   * actual value each time instead of trusting the keystrokes silently
+   * succeeded.
    */
   async fillSupplierInvNo(value = `TESTING-INV-${Date.now()}`) {
     const f = this.formFrame;
     const field = f.locator('[id$="txtRefNo_I" i]');
-    await field.first().click();
-    await field.first().pressSequentially(value, { delay: 20 });
+
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      await field.first().click({ clickCount: 3 });
+      await field.first().pressSequentially(value, { delay: 30 });
+      const actual = await field.first().inputValue().catch(() => '');
+      if (actual === value) return;
+      if (attempt === 3) {
+        throw new Error(`Supplier Inv. No. field shows "${actual}" after 3 attempts, expected "${value}".`);
+      }
+    }
   }
 
   async clickSaveDraft() {

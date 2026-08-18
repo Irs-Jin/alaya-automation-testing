@@ -208,11 +208,27 @@ class GoodsReceivePage {
    * ids weren't captured during the live probe (a unique value every run
    * avoids ever needing them, rather than guessing).
    */
+  /**
+   * BUG FIXED (2026-08-18): same keystroke-drop failure class already
+   * fixed in cashPurchasePage.js's/purchaseInvoicePage.js's own
+   * fillSupplierInvNo() — under load, pressSequentially() can lose most of
+   * its keystrokes, leaving stray characters to land wherever focus ends
+   * up next. Retries with verification instead of trusting the type
+   * silently landed correctly.
+   */
   async fillSupplierDoNo(value = `TESTING-DO-${Date.now()}`) {
     const f = this.formFrame;
     const field = f.locator('[id$="txtRefNo_I" i]');
-    await field.first().click();
-    await field.first().pressSequentially(value, { delay: 20 });
+
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      await field.first().click({ clickCount: 3 });
+      await field.first().pressSequentially(value, { delay: 30 });
+      const actual = await field.first().inputValue().catch(() => '');
+      if (actual === value) return;
+      if (attempt === 3) {
+        throw new Error(`Supplier D/O No. field shows "${actual}" after 3 attempts, expected "${value}".`);
+      }
+    }
   }
 
   async clickPost() {
