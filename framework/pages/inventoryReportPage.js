@@ -322,32 +322,67 @@ class InventoryReportPage {
 
     const dialogAppeared = await f.getByText('Reports Format', { exact: true }).first()
       .waitFor({ state: 'visible', timeout: 3000 }).then(() => true).catch(() => false);
-    if (!dialogAppeared) {
-      return; // no template dialog here — Preview Report already opened the result directly
-    }
-
-    const unambiguousOption = f.locator(`td:visible:text-is("${templateName}"):not([id*="_Filter" i])`);
-    if (await unambiguousOption.count().catch(() => 0)) {
-      await unambiguousOption.first().click();
-    } else {
-      const templateCell = f.getByRole('cell', { name: templateName, exact: true });
-      if (await templateCell.count().catch(() => 0)) {
-        await templateCell.first().click();
+    if (dialogAppeared) {
+      const unambiguousOption = f.locator(`td:visible:text-is("${templateName}"):not([id*="_Filter" i])`);
+      if (await unambiguousOption.count().catch(() => 0)) {
+        await unambiguousOption.first().click();
       } else {
-        await f.getByText(templateName, { exact: true }).click();
+        const templateCell = f.getByRole('cell', { name: templateName, exact: true });
+        if (await templateCell.count().catch(() => 0)) {
+          await templateCell.first().click();
+        } else {
+          await f.getByText(templateName, { exact: true }).click();
+        }
       }
-    }
 
-    const { locator: previewButton } = await heal(f, {
-      id: 'inventoryReport.previewConfirmButton',
-      label: 'Preview',
-      strategies: [
-        { type: 'css', value: 'span:text-is("Preview")' },
-        { type: 'text', value: 'Preview', options: { exact: true } },
-      ],
-      timeout: 3000,
-    });
-    await previewButton.click();
+      const { locator: previewButton } = await heal(f, {
+        id: 'inventoryReport.previewConfirmButton',
+        label: 'Preview',
+        strategies: [
+          { type: 'css', value: 'span:text-is("Preview")' },
+          { type: 'text', value: 'Preview', options: { exact: true } },
+        ],
+        timeout: 3000,
+      });
+      await previewButton.click();
+    }
+    // (no `else`/early-return: some reports skip the dialog and open the
+    // result directly, but the verification below must run for BOTH paths)
+
+    await this._verifyReportTitleRendered(templateName);
+  }
+
+  /**
+   * FIXED (2026-08-18): confirmed live under --workers=2 that two report
+   * requests running concurrently under the SAME shared admin session can
+   * cross-contaminate — one test's preview breadcrumb said one report
+   * name, but the rendered body was a DIFFERENT report entirely (visible
+   * in a live failure screenshot: identical data/timestamp appeared under
+   * two different report titles in two different tests running at once).
+   * `isReportPageValid()` only ever checked "a report tab opened and isn't
+   * closed" — it never checked WHICH report rendered, so a collision like
+   * this would silently PASS with wrong data instead of failing. This
+   * can't be checked from the final print tab (a rendered PDF, not
+   * regular inspectable DOM) — the preview iframe is regular HTML and
+   * still open at this point, so verify here, right after the preview
+   * renders and before printReport() wastes time on a report that's
+   * already known to be wrong.
+   */
+  async _verifyReportTitleRendered(expectedTitle, timeout = 30000) {
+    const p = this.page;
+    const frame = await findFrame(p, async (frame) => {
+      const text = frame.getByText(expectedTitle, { exact: false });
+      return (await text.count().catch(() => 0)) > 0 && (await text.first().isVisible().catch(() => false));
+    }, { timeout });
+    if (!frame) {
+      await p.screenshot({ path: 'test-results/debug-inventory-report-title-mismatch.png', fullPage: true }).catch(() => {});
+      throw new Error(
+        `Report preview never showed the expected title "${expectedTitle}" — either it failed to render, ` +
+        'or (confirmed possible under --workers=2 against the shared admin session) a concurrent report ' +
+        'request cross-contaminated this session with a DIFFERENT report\'s content. ' +
+        'Saved test-results/debug-inventory-report-title-mismatch.png for inspection.'
+      );
+    }
   }
 
   /**

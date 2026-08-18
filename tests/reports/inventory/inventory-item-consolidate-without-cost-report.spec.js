@@ -22,7 +22,15 @@ test.beforeEach(async ({ page }) => {
 test.describe('Reports > Inventory > Inventory Item Consolidate (without Cost)', () => {
 
   test('[Happy Path] views, previews, and prints the Inventory Item Consolidate (without Cost) report', async ({ page }) => {
-    test.setTimeout(90000);
+    // Bumped 90s->150s (2026-08-18): this report renders at roughly the
+    // same size/speed as its sibling (plain) Inventory Item Consolidate
+    // report, which already carries 150s for the same reason — this one
+    // was just never updated to match. The old 90s budget raced against
+    // printReport()'s own internal 90s print-button wait with zero
+    // margin, so it reliably timed out on a report that was actually
+    // rendering fine underneath (confirmed via a clean, correctly-titled
+    // preview screenshot from a standalone workers=1 run).
+    test.setTimeout(150000);
     const inventoryReportPage = new InventoryReportPage(page);
     await inventoryReportPage.goto('Inventory Item Consolidate (without Cost)');
 
