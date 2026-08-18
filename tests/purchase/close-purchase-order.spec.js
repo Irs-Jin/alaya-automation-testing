@@ -60,4 +60,38 @@ test.describe('Purchase > Close Purchase Order', () => {
 
     expect(await closePurchaseOrderPage.expectPostSuccess()).toBe(true);
   });
+
+  test('[Cancel] closes a Purchase Order then cancels the Close Purchase Order from the listing page', async ({ page }) => {
+    test.setTimeout(180000);
+
+    // Setup: a fresh, guaranteed-open PO to close.
+    const purchaseOrderPage = new PurchaseOrderPage(page);
+    await purchaseOrderPage.goto();
+    await purchaseOrderPage.clickNew();
+    await purchaseOrderPage.postPurchaseOrder({
+      vendorCode: VENDOR_CODE,
+      warehouseCode: WAREHOUSE_CODE,
+      itemDescription: ITEM_CODE,
+    });
+    expect(await purchaseOrderPage.expectPostSuccess()).toBe(true);
+    const poDocNo = await purchaseOrderPage.getPostedDocumentNumber();
+    expect(poDocNo).toMatch(/PO-\d+/);
+
+    // Close that PO, then cancel the resulting Close Purchase Order
+    // document itself (not the underlying PO).
+    const closePurchaseOrderPage = new ClosePurchaseOrderPage(page);
+    await closePurchaseOrderPage.goto();
+    await closePurchaseOrderPage.clickNew();
+    await closePurchaseOrderPage.closePurchaseOrder({ vendorCode: VENDOR_CODE, poDocNo });
+    expect(await closePurchaseOrderPage.expectPostSuccess()).toBe(true);
+    const xpDocNo = await closePurchaseOrderPage.getClosedDocumentNumber();
+    expect(xpDocNo).toMatch(/XP-\d+/);
+
+    await closePurchaseOrderPage.cancelDocument(xpDocNo);
+
+    // Per this repo's convention: a success dialog isn't proof by itself —
+    // verify with a fresh search that the row is genuinely gone from the
+    // active (DRAFT + POSTED) listing view.
+    expect(await closePurchaseOrderPage.isDocumentPresent(xpDocNo)).toBe(false);
+  });
 });
