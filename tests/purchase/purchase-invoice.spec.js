@@ -95,4 +95,24 @@ test.describe('Purchase > Purchase Invoice', () => {
     const afterNo = await purchaseInvoicePage.getNextPossibleNo();
     expect(afterNo).not.toBe(beforeNo);
   });
+
+  test('[Cancel] creates a Draft then cancels it from the listing page', async ({ page }) => {
+    test.setTimeout(180000);
+    const poDocNo = await createFreshPurchaseOrder(page);
+
+    const purchaseInvoicePage = new PurchaseInvoicePage(page);
+    await purchaseInvoicePage.goto();
+    await purchaseInvoicePage.clickNew();
+    const uniqueRef = `TESTING-CANCEL-${Date.now()}`;
+    await purchaseInvoicePage.prepareInvoice({ vendorCode: VENDOR_CODE, poDocNo, supplierInvNo: uniqueRef });
+    await purchaseInvoicePage.clickSaveDraft();
+    expect(await purchaseInvoicePage.expectSaveDraftSuccess()).toBe(true);
+
+    await purchaseInvoicePage.cancelDocument(uniqueRef);
+
+    // Per this repo's convention: a success dialog isn't proof by itself —
+    // verify with a fresh search that the row is genuinely gone from the
+    // active (DRAFT + POSTED) listing view.
+    expect(await purchaseInvoicePage.isDocumentPresent(uniqueRef)).toBe(false);
+  });
 });
