@@ -344,10 +344,25 @@ class GeneralLedgerReportPage {
    * date. The recording also needed `.nth(1)` to disambiguate — the
    * calendar grid shows overlapping day numbers from adjacent months, and
    * the second match was the correct (in-focus-month) one.
-   * UNCONFIRMED edge case: if the target month has fewer days than
-   * today's day-of-month (e.g. today is the 31st and the previous month
-   * only has 30 days), this exact day cell may not exist — not yet
-   * handled, no live evidence yet of what the calendar does then.
+   * ROOT-CAUSED (2026-08-18) via a live failure snapshot (today=18): the
+   * `.nth(1)` above was never a generic "pick the in-focus month" rule —
+   * it only worked on the day Jin recorded (26) because 26 happened to
+   * ALSO appear as a leading/trailing overflow day from an adjacent month
+   * in that specific grid, giving two matches to disambiguate between.
+   * The saved accessibility snapshot from the failure confirmed day 18
+   * appears in the calendar EXACTLY ONCE (safely mid-month, nowhere near
+   * either grid edge) — so `.nth(1)` asked for a second match that could
+   * never exist and hung until the action timeout, every run, regardless
+   * of retries or worker count. Fixed by always targeting a fixed,
+   * always-mid-month day (15) instead of today's day-of-month: 15 can
+   * never coincide with a leading/trailing overflow cell from an adjacent
+   * month (those only ever occupy the first/last row of the grid), so it
+   * always resolves to exactly one match. The exact date picked doesn't
+   * matter to this report — only "some date within the previous month"
+   * does. Residual (very unlikely) edge case: the calendar's leading
+   * week-number column could theoretically also read "15" if the
+   * displayed month happens to fall around ISO week 15 (early April) —
+   * not yet hit live, flagging honestly rather than claiming certainty.
    */
   async goToPreviousMonth() {
     const f = this.reportFrame;
@@ -376,8 +391,7 @@ class GeneralLedgerReportPage {
     });
     await prevMonthButton.click();
 
-    const dayOfMonth = String(new Date().getDate());
-    await f.getByRole('cell', { name: dayOfMonth, exact: true }).nth(1).click();
+    await f.getByRole('cell', { name: '15', exact: true }).click();
   }
 
   /**

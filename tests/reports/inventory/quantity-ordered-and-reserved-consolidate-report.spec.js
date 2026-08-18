@@ -22,7 +22,13 @@ test.beforeEach(async ({ page }) => {
 test.describe('Reports > Inventory > Quantity Ordered and Reserved Consolidate', () => {
 
   test('[Happy Path] views, previews, and prints the Quantity Ordered and Reserved Consolidate report', async ({ page }) => {
-    test.setTimeout(90000);
+    // Bumped 90s->150s (2026-08-18): confirmed live this report genuinely
+    // takes ~90-100s end to end (right at the old budget's edge, failing
+    // whenever it ran even slightly over) — same root cause and same fix
+    // as its sibling inventory-item-consolidate-without-cost-report.js,
+    // which was left on the old 90s default while its own sibling
+    // (plain Inventory Item Consolidate) already carries 150s.
+    test.setTimeout(150000);
     const inventoryReportPage = new InventoryReportPage(page);
     await inventoryReportPage.goto('Quantity Ordered and Reserved Consolidate');
 
