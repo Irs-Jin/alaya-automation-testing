@@ -17,47 +17,29 @@ const { CashSalesPage } = require('../../framework/pages/cashSalesPage');
  * using the original Katalon test data ("000001" / "BISKUT PLANTA") — that
  * data turns out to be real in UAT specifically (customer "000001" =
  * "YEONG", matching the Katalon Object Repository's recorded neighbor text).
- * Run it there with:
  *
- *   ALAYA_CLIENT_ID=UAT ALAYA_USERNAME=admin ALAYA_PASSWORD=<pw> \
- *   ALAYA_TEST_CUSTOMER_CODE=000001 ALAYA_TEST_ITEM_DESCRIPTION="BISKUT PLANTA" \
- *   npx playwright test tests/sales/cash-sales.spec.js
- *
- * customerCode / itemDescription default below to values confirmed to exist
- * in qa3 instead (qa3 is .env's default client) — qa3's customer codes are
- * 9-digit (e.g. "000000002") and its 300 seeded items are test junk like
- * "RRR", "www0www"; it does NOT have "000001"/"BISKUT PLANTA". Different
- * clients have entirely different master data — override via env vars
- * rather than editing this file when pointing at yet another client:
+ * UPDATED (2026-08-19): the shared `uat` login's default company changed
+ * server-side from qa3/SHANTHI QA BIZ 69 to UAT/TANJAK MEGA GROUP SDN BHD
+ * (confirmed live via the footer's "Client ID:" label after a machine
+ * restart) — every other Sales-module spec had qa3-specific defaults that
+ * no longer resolve to anything for this login, so they're now flipped
+ * back to this file's own original, still-valid Katalon-era UAT data
+ * ("000001" / "BISKUT PLANTA") as the shared default across the whole
+ * module. Different clients/companies will have different master data —
+ * override via env vars rather than editing this file when pointing at
+ * another one:
  *
  *   ALAYA_TEST_CUSTOMER_CODE=<code> ALAYA_TEST_ITEM_DESCRIPTION=<name> npm test
  */
-const CUSTOMER_CODE = process.env.ALAYA_TEST_CUSTOMER_CODE || '000000002';
-// BUG FIXED (2026-08-14): "www0www" no longer exists in qa3's item catalog
-// for the SHANTHI QA BIZ 69 company (confirmed live via the item picker's
-// own browsable grid — 300 items, "www0www" not among them). Replaced
-// with "stock item 01" (item code 000014, qty available 81), confirmed
-// present and unambiguous (unlike "RRR", which this catalog has three of).
-//
-// BUG FIXED (2026-08-19): "stock item 01" no longer matches this item's
-// exact Description either — confirmed live (via a Quotation test failure
-// screenshot) that item code 000014's Description is now "stock item 01
-// MMM". CashSalesPage.selectItem() matches by exact Description text, so
-// the bare "stock item 01" never resolves. Same item, same code — just
-// renamed since this was last verified. Updated to the current real value
-// (matching the fix already applied in tests/sales/quotation.spec.js).
-const ITEM_DESCRIPTION = process.env.ALAYA_TEST_ITEM_DESCRIPTION || 'stock item 01 MMM';
+const CUSTOMER_CODE = process.env.ALAYA_TEST_CUSTOMER_CODE || '000001';
+const ITEM_DESCRIPTION = process.env.ALAYA_TEST_ITEM_DESCRIPTION || 'BISKUT PLANTA';
 
-// BUG FIXED (2026-08-14): selecting a customer does NOT auto-fill Sales
-// Branch / Warehouse for the SHANTHI QA BIZ 69 company (qa3/yew) — Post/
-// Save Draft fail outright without them ("Sales Branch is required" /
-// "Warehouse is required"). CashSalesPage.ensureComboSelected() only fills
-// these in when they're genuinely still empty, so this is a no-op on
-// accounts where auto-fill already works. Values confirmed live via each
-// combo's own dropdown listbox (Code column) for qa3 specifically —
-// override via env vars the same way as CUSTOMER_CODE/ITEM_DESCRIPTION
-// when pointing at yet another client.
-const SALES_BRANCH_CODE = process.env.ALAYA_TEST_SALES_BRANCH_CODE || 'SHAQABIZ69';
+// Sales Branch "T01" (AMIRUL HALAL MART (TAMBUN)) re-confirmed live
+// (2026-08-19) against TANJAK MEGA GROUP SDN BHD — see the header comment's
+// note on the company switch. CashSalesPage.ensureComboSelected() only
+// fills Sales Branch / Warehouse in when they're genuinely still empty, so
+// this is a no-op on accounts where auto-fill already works.
+const SALES_BRANCH_CODE = process.env.ALAYA_TEST_SALES_BRANCH_CODE || 'T01';
 const WAREHOUSE_CODE = process.env.ALAYA_TEST_WAREHOUSE_CODE || 'PRIMARY';
 
 test.beforeEach(async ({ page }) => {

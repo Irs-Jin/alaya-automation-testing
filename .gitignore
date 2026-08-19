@@ -13,3 +13,13 @@ Thumbs.db
 # playwright-cli session artifacts (console logs, ad-hoc DOM snapshots from
 # interactive exploration) - runtime output, not test source.
 .playwright-cli/
+
+# Machine-local Playwright browser cache. Only exists here because this
+# machine's Windows install had a corrupted side-by-side component store
+# that blocked launching Chromium from the default %LOCALAPPDATA% path
+# (confirmed via sxstrace — Windows' own loader couldn't resolve a private
+# assembly reference even though the file was physically present); a
+# project-local browser install sidesteps it. Set PLAYWRIGHT_BROWSERS_PATH
+# to this folder if another machine hits the same issue — otherwise this
+# doesn't need to exist at all.
+.pw-browsers/

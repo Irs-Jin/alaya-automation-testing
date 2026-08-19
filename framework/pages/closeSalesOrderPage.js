@@ -289,12 +289,30 @@ class CloseSalesOrderPage {
     await this.page.waitForTimeout(300);
   }
 
-  /** Polls until a genuine grid DATA ROW matching the search text is visible AND carries its own "Cancel" row-action icon. */
+  /**
+   * Polls until a genuine grid DATA ROW matching the search text is
+   * visible, carries its own "Cancel" row-action icon, AND is the ONLY row
+   * in the grid.
+   *
+   * CONFIRMED live (2026-08-19): checking only "a matching row exists" isn't
+   * enough on a listing with real clutter (leftover documents from other,
+   * non-cleaning-up tests run earlier the same day) — the live-filter
+   * textbox's own async callback can still be narrowing the grid down from
+   * many rows to one when clickCancelIcon() fires. Clicking a row's Cancel
+   * icon while that callback is mid-flight can silently lose the click (the
+   * callback's response replaces the grid's HTML, including the
+   * just-clicked row, before the server round-trip for that click
+   * completes) — the confirm dialog still opens and "Yes" still closes it,
+   * but nothing actually gets cancelled. Requiring the grid to have
+   * narrowed to exactly this one row proves the callback has settled.
+   */
   async _waitForListingRowMatching(searchText, timeout = 15000) {
-    const row = this.listFrame.locator('tr.dxgvDataRow_iOS').filter({ hasText: searchText });
+    const allRows = this.listFrame.locator('tr.dxgvDataRow_iOS');
+    const row = allRows.filter({ hasText: searchText });
     const deadline = Date.now() + timeout;
     while (Date.now() < deadline) {
-      if ((await row.count().catch(() => 0)) > 0
+      if ((await allRows.count().catch(() => 0)) === 1
+        && (await row.count().catch(() => 0)) === 1
         && (await row.first().isVisible().catch(() => false))
         && (await row.first().getByRole('img', { name: 'Cancel', exact: true }).count().catch(() => 0)) > 0) {
         return true;
@@ -316,6 +334,13 @@ class CloseSalesOrderPage {
   async confirmCancelYes() {
     const popup = this.listFrame.locator('#ctl00_pcConfirmCancel_PW-1');
     await popup.waitFor({ state: 'visible', timeout: 45000 });
+    // CONFIRMED live (2026-08-19) on QuotationPage's own copy of this method:
+    // clicking Yes immediately once the popup is merely "visible" (non-zero
+    // size, not display:none) can silently no-op — the popup's own
+    // DevExpress click handler isn't wired up until slightly after the
+    // fade-in animation completes. Applied here defensively too since this
+    // is the identical dialog/markup.
+    await this.page.waitForTimeout(500);
 
     const { locator: yesButton } = await heal(this.listFrame, {
       id: 'closeSalesOrder.cancelConfirmYesButton',

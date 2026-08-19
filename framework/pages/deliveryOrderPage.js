@@ -2,39 +2,41 @@ const { heal } = require('../selfHealingLocator');
 const { findFrame } = require('../frameHelper');
 
 /**
- * Page object for Sales > Sales Order.
+ * Page object for Sales > Delivery Order.
  *
  * SOURCE: no recording available — built by live-probing the real app
- * directly (2026-08-19) using the playwright-cli interactive tool. Same
- * shape as QuotationPage (Customer -> Sales Branch -> Item -> Save Draft/
- * Post/Post & New), with a "Copy From" toolbar button also present (can
- * transfer from a Quotation) — not exercised here, this test uses the same
- * direct-entry path already confirmed for Quotation.
+ * directly (2026-08-19) via a throwaway Node script. Same overall shape as
+ * GoodsReturnPage: New -> select Customer -> Copy From -> "Transfer from
+ * SQ" dialog (Full Transfer tab, checkbox-select one row, OK) -> Sales
+ * Branch + Warehouse + Reference No + Items all auto-fill -> fill Delivery
+ * Address (Logistics tab) -> Post. Internal control root
+ * "DeliveryOrderDetail"/"cbpDeliveryOrder", document prefix "DO-".
  *
- * CONFIRMED live differences from QuotationPage:
- * - Internal control root "SalesOrderDetail"/"cbpSalesOrder"/
- *   "formSalesOrderHeader" (Quotation's is "SalesQuotationDetail"/
- *   "cbpSalesQuotation"/"formSQHeader").
- * - Item search control root is "ItemAdvanceSearchControlSalesOrder"
- *   (spelled out in full — NOT abbreviated "SODetail" the way Quotation's
- *   is "SQDetail").
- * - Header title "Sales Header" (not "Sales Order"), document prefix
- *   "SO-".
- * - Has an extra required "Due Date" field — confirmed live it already
- *   defaults to a valid value (today's date), so no explicit action is
- *   needed for it.
- * - BUG FIXED (2026-08-19): a session timeout cut the live probe short
- *   before reaching Post, so the report tab title was first guessed by
- *   analogy to Quotation's own ("Sales Quotation Summary GST Report") —
- *   the real title, confirmed via a live failure screenshot, is "Sales
- *   Order Detail GST Report" (Detail, not Summary). Report shows "Sales
- *   Order No" as its doc-number label.
+ * CONFIRMED live, two things worth flagging:
+ * 1. Transfers from a POSTED QUOTATION ("Transfer from SQ"), NOT a Sales
+ *    Order — confirmed live the dialog opens directly (single source, no
+ *    menu step) once Customer is selected. This is a real gap in the
+ *    otherwise linear Quotation -> Sales Order -> Delivery Order cycle:
+ *    Delivery Order transfers straight from Quotation, skipping Sales
+ *    Order entirely.
+ * 2. Delivery Address (Logistics tab) requires BOTH Address1 and
+ *    Address3 plus City — same `ucDeliveryAddress` control shape, same id
+ *    root, as GoodsReturnPage's own confirmed requirement. City defaults
+ *    to "PUCHONG", same reasoning as every other screen with this
+ *    control (this company's own registered city).
+ * 3. "Save Draft" is not available once a Transfer From has completed
+ *    (same pattern already confirmed for Goods Return/Close Sales Order)
+ *    — Post is the only way to persist a real document here.
+ * 4. Report titled "Delivery Order Detail GST Report" (corrected
+ *    2026-08-19 — the original probe misread the tab title; a live failure
+ *    screenshot showed the real one), doc-number
+ *    label "Delivery Ord. No".
  *
  * As with every other DevExpress screen in this app, iframe names are
  * unstable across navigations — always re-resolved via findFrame() by
  * content, never hardcoded.
  */
-class SalesOrderPage {
+class DeliveryOrderPage {
   constructor(page) {
     this.page = page;
     this.listFrame = null;
@@ -44,12 +46,12 @@ class SalesOrderPage {
   async goto() {
     const p = this.page;
     const navBar = p.locator('#navBar');
-    const salesOrderLink = navBar.getByRole('link', { name: 'Sales Order', exact: true });
-    const alreadyExpanded = await salesOrderLink.isVisible().catch(() => false);
+    const link = navBar.getByRole('link', { name: 'Delivery Order', exact: true });
+    const alreadyExpanded = await link.isVisible().catch(() => false);
     if (!alreadyExpanded) {
       await navBar.getByRole('link', { name: 'Sales', exact: true }).click();
     }
-    await salesOrderLink.click();
+    await link.click();
     await p.waitForLoadState('domcontentloaded');
     await p.waitForTimeout(2000);
     await this._resolveListFrame();
@@ -65,10 +67,10 @@ class SalesOrderPage {
       return await company.first().isVisible().catch(() => false);
     });
     if (!this.listFrame) {
-      await p.screenshot({ path: 'test-results/debug-sales-order-list-page.png', fullPage: true }).catch(() => {});
+      await p.screenshot({ path: 'test-results/debug-delivery-order-list-page.png', fullPage: true }).catch(() => {});
       throw new Error(
-        'Could not find the Sales Order listing frame. ' +
-        'Saved test-results/debug-sales-order-list-page.png for inspection.'
+        'Could not find the Delivery Order listing frame. ' +
+        'Saved test-results/debug-delivery-order-list-page.png for inspection.'
       );
     }
   }
@@ -81,10 +83,10 @@ class SalesOrderPage {
       return await marker.first().isVisible().catch(() => false);
     });
     if (!this.formFrame) {
-      await p.screenshot({ path: 'test-results/debug-sales-order-form-not-found.png', fullPage: true }).catch(() => {});
+      await p.screenshot({ path: 'test-results/debug-delivery-order-form-not-found.png', fullPage: true }).catch(() => {});
       throw new Error(
-        'Could not find the Sales Order create/edit form frame. ' +
-        'Saved test-results/debug-sales-order-form-not-found.png for inspection.'
+        'Could not find the Delivery Order create/edit form frame. ' +
+        'Saved test-results/debug-delivery-order-form-not-found.png for inspection.'
       );
     }
   }
@@ -100,7 +102,7 @@ class SalesOrderPage {
   async selectCustomer(customerCode) {
     const f = this.formFrame;
     const { locator: trigger } = await heal(f, {
-      id: 'salesOrder.customerTrigger',
+      id: 'deliveryOrder.customerTrigger',
       label: 'Customer',
       strategies: [
         { type: 'css', value: '[id$="cbCustomer_cbSelectCust_B1Img" i]' },
@@ -120,7 +122,7 @@ class SalesOrderPage {
     await customerCell.first().click();
 
     const { locator: okButton } = await heal(popupFrame, {
-      id: 'salesOrder.customerPopupOkButton',
+      id: 'deliveryOrder.customerPopupOkButton',
       label: 'OK',
       strategies: [
         { type: 'css', value: '[id*="cbSelectCust" i][id*="GeneralSearchControl" i][id$="btnOk_CD" i]' },
@@ -130,79 +132,55 @@ class SalesOrderPage {
     await okButton.click();
   }
 
-  /** Same "id doubles the field name" combo convention confirmed across the Sales module. */
-  async selectComboByCode(fieldId, code) {
-    const f = this.formFrame;
-    const arrow = f.locator(`[id*="${fieldId}_${fieldId}_B-1Img" i]`);
-    await arrow.first().click();
-    const cell = f.getByRole('cell', { name: code, exact: true });
-    await cell.first().waitFor({ state: 'visible', timeout: 10000 });
-    await cell.first().click();
-    await this.page.waitForTimeout(500);
-  }
-
-  /** Selects Sales Branch by code, but ONLY if the field is still genuinely unselected. */
-  async ensureComboSelected(fieldId, code) {
-    const f = this.formFrame;
-    const hiddenValue = f.locator(`[id$="${fieldId}_${fieldId}_VI" i]`);
-    const current = await hiddenValue.first().inputValue().catch(() => '');
-    if (current.trim() !== '') return;
-    await this.selectComboByCode(fieldId, code);
-  }
-
   /**
-   * Fills the (not required, but always given a unique value here)
-   * "Reference No." field — same `txtRefNo_I` id suffix confirmed across
-   * this whole module. Retry-and-verify from the start, matching the
-   * established fix for this field class.
+   * Clicks "Copy From" — CONFIRMED live: with only one source available
+   * (Quotation), the "Transfer from SQ" dialog opens directly, no separate
+   * menu item to click (same "dialog may open directly" shape already
+   * confirmed elsewhere in this repo).
    */
-  async fillReferenceNo(value = `TESTING-SO-${Date.now()}`) {
+  async clickCopyFromQuotation() {
     const f = this.formFrame;
-    const field = f.locator('[id$="txtRefNo_I" i]');
-
-    for (let attempt = 1; attempt <= 3; attempt++) {
-      await field.first().click({ clickCount: 3 });
-      await field.first().pressSequentially(value, { delay: 30 });
-      const actual = await field.first().inputValue().catch(() => '');
-      if (actual === value) return;
-      if (attempt === 3) {
-        throw new Error(`Reference No. field shows "${actual}" after 3 attempts, expected "${value}".`);
-      }
-    }
-  }
-
-  /**
-   * Item selection — same "ItemAdvanceSearchControl" popup-grid pick
-   * pattern confirmed across the whole Purchase/Sales module, just under
-   * this screen's own "ItemAdvanceSearchControlSalesOrder" id root
-   * (spelled out in full, unlike Quotation's abbreviated "SQDetail").
-   */
-  async selectItem(itemDescription) {
-    const f = this.formFrame;
-    const { locator: trigger } = await heal(f, {
-      id: 'salesOrder.itemTrigger',
-      label: 'Item',
+    const { locator: copyFromButton } = await heal(f, {
+      id: 'deliveryOrder.copyFromButton',
+      label: 'Copy From',
       strategies: [
-        { type: 'css', value: '[id$="ItemAdvanceSearchControlSalesOrder_txtItemSearchUpdate_B0Img" i]' },
+        { type: 'css', value: '[title="Copy From [Alt + M]"]' },
       ],
       timeout: 5000,
     });
-    await trigger.click();
+    await copyFromButton.first().click();
+    await this.page.waitForTimeout(800);
 
-    const popupFrame = (await findFrame(this.page, async (frame) => {
-      const cell = frame.getByRole('cell', { name: itemDescription, exact: true });
-      return (await cell.count()) > 0;
-    }, { timeout: 10000 })) || f;
+    const dialogAlreadyOpen = await f.getByText('Transfer from SQ', { exact: false })
+      .first().isVisible().catch(() => false);
+    if (dialogAlreadyOpen) return;
 
-    const itemCell = popupFrame.getByRole('cell', { name: itemDescription, exact: true });
-    await itemCell.first().waitFor({ state: 'visible', timeout: 10000 });
-    await itemCell.first().click();
+    const menuItem = f.locator('span.dx-vam:visible:text-is("Sales Quotation")');
+    await menuItem.first().click();
+    await this.page.waitForTimeout(1000);
+  }
 
-    const { locator: okButton } = await heal(popupFrame, {
-      id: 'salesOrder.itemPopupOkButton',
+  /**
+   * Checks the given SQ's row in the "Transfer from SQ" dialog (Full
+   * Transfer tab, selected by default) and confirms with the dialog's own
+   * OK. Same row-scoping fix already applied throughout this module.
+   */
+  async selectQuotationToTransfer(sqDocNo) {
+    const f = this.formFrame;
+    await f.getByText('Transfer from SQ', { exact: false }).first().waitFor({ state: 'visible', timeout: 10000 });
+
+    const targetRow = f.locator('tr.dxgvDataRow_iOS').filter({ hasText: sqDocNo });
+    await targetRow.first().waitFor({ state: 'visible', timeout: 10000 });
+    await targetRow.first().locator('td.dxgvCommandColumn_iOS').first().click();
+    await this.page.waitForTimeout(500);
+
+    const { locator: okButton } = await heal(f, {
+      id: 'deliveryOrder.transferOkButton',
       label: 'OK',
       strategies: [
-        { type: 'css', value: '[id$="formItemSearchControl_btnItemSearchOk_CD" i]' },
+        { type: 'css', value: '[id$="btnPurchaseTransferOk_CD" i]' },
+        { type: 'css', value: '[id$="btnSalesTransferOk_CD" i]' },
+        { type: 'css', value: '[id$="btnTransferOk_CD" i]' },
       ],
       timeout: 5000,
     });
@@ -210,32 +188,67 @@ class SalesOrderPage {
     await this.page.waitForTimeout(1500);
   }
 
-  /** Full flow: select customer + sales branch, add one item. Due Date is left at its own valid default. */
-  async prepareSalesOrder({ customerCode, salesBranchCode, itemDescription, referenceNo }) {
-    if (customerCode) await this.selectCustomer(customerCode);
-    if (salesBranchCode) await this.ensureComboSelected('cbSalesBranch', salesBranchCode);
-    await this.fillReferenceNo(referenceNo);
-    if (itemDescription) await this.selectItem(itemDescription);
-  }
+  /**
+   * Fills the required Delivery Address (Logistics tab > Address1 +
+   * Address3 + City). CONFIRMED live: Post fails with "Changes not saved
+   * because of incomplete required field(s)" without this — same
+   * `ucDeliveryAddress` control shape as GoodsReturnPage's own confirmed
+   * requirement (BOTH Address1 and Address3 needed, unlike Purchase
+   * Return's single-Address1 version of this control). City defaults to
+   * "PUCHONG", same reasoning as every other screen with this control.
+   */
+  async fillDeliveryAddress(address1 = 'TESTING ADDRESS 1', address3 = 'TESTING ADDRESS 3', cityName = 'PUCHONG') {
+    const f = this.formFrame;
+    await f.getByText('Logistics', { exact: true }).first().click();
+    await this.page.waitForTimeout(500);
 
-  async clickSaveDraft() {
-    const { locator } = await heal(this.formFrame, {
-      id: 'salesOrder.saveDraftButton',
-      label: 'Save Draft',
+    const address1Field = f.locator('[id$="txtAddress1_I" i]');
+    await address1Field.first().click();
+    await address1Field.first().pressSequentially(address1, { delay: 20 });
+
+    const address3Field = f.locator('[id$="txtAddress3_I" i]');
+    await address3Field.first().click();
+    await address3Field.first().pressSequentially(address3, { delay: 20 });
+
+    const { locator: cityTrigger } = await heal(f, {
+      id: 'deliveryOrder.cityTrigger',
+      label: 'City',
       strategies: [
-        { type: 'css', value: '[title="Save Draft [Alt + S]"]' },
-        { type: 'text', value: 'Save Draft', options: { exact: true } },
+        { type: 'css', value: '[id$="cbCity_B0Img" i]' },
       ],
       timeout: 5000,
     });
-    await locator.click();
-    await this.page.waitForTimeout(2000);
+    await cityTrigger.click();
+    await this.page.waitForTimeout(1000);
+
+    const cityCell = f.getByRole('cell', { name: cityName, exact: true });
+    await cityCell.first().waitFor({ state: 'visible', timeout: 10000 });
+    await cityCell.first().click();
+
+    const { locator: cityOkButton } = await heal(f, {
+      id: 'deliveryOrder.cityPopupOkButton',
+      label: 'OK',
+      strategies: [
+        { type: 'css', value: '[id$="gsc_cbCity_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD" i]' },
+      ],
+      timeout: 5000,
+    });
+    await cityOkButton.click();
+    await this.page.waitForTimeout(500);
   }
 
-  /** Waits for the actual report-tab signal rather than a fixed delay. CONFIRMED live: report titled "Sales Order Detail GST Report". */
+  /** Full flow through transfer + delivery address — Post is the caller's own next step. */
+  async prepareDeliveryOrder({ customerCode, sqDocNo, address1, address3, cityName }) {
+    await this.selectCustomer(customerCode);
+    await this.clickCopyFromQuotation();
+    await this.selectQuotationToTransfer(sqDocNo);
+    await this.fillDeliveryAddress(address1, address3, cityName);
+  }
+
+  /** Waits for the actual report-tab signal rather than a fixed delay. CONFIRMED live: report titled "Delivery Order Detail GST Report". */
   async clickPost() {
     const { locator } = await heal(this.formFrame, {
-      id: 'salesOrder.postButton',
+      id: 'deliveryOrder.postButton',
       label: 'Post',
       strategies: [
         { type: 'css', value: '[title="Post [Alt + P]"]' },
@@ -244,7 +257,7 @@ class SalesOrderPage {
       timeout: 5000,
     });
     await locator.click();
-    await this.page.getByText('Sales Order Detail GST Report', { exact: false })
+    await this.page.getByText('Delivery Order Detail GST Report', { exact: false })
       .first().waitFor({ state: 'visible', timeout: 20000 }).catch(() => {});
     await this.page.waitForTimeout(1000);
   }
@@ -252,7 +265,7 @@ class SalesOrderPage {
   /** "Post & New" doesn't open a report tab (same shape confirmed throughout this module) — waits for the form to genuinely reset instead. */
   async clickPostAndNew() {
     const { locator } = await heal(this.formFrame, {
-      id: 'salesOrder.postAndNewButton',
+      id: 'deliveryOrder.postAndNewButton',
       label: 'Post & New',
       strategies: [
         { type: 'css', value: '[title="Post & New [Alt + Ctrl + P]"]' },
@@ -273,42 +286,26 @@ class SalesOrderPage {
     ).catch(() => {});
   }
 
-  /** CONFIRMED live (Quotation's own shared banner pattern): a "Saved Successfully" banner appears. */
-  async expectSaveDraftSuccess() {
-    const banner = this.formFrame.getByText(/saved success/i);
-    return (await banner.count().catch(() => 0)) > 0;
-  }
-
-  /** CONFIRMED live: Post auto-opens a "Sales Order Detail GST Report" tab. */
+  /** CONFIRMED live: Post auto-opens a "Delivery Order Detail GST Report" tab. */
   async expectPostSuccess() {
-    const reportTab = this.page.getByText('Sales Order Detail GST Report', { exact: false });
+    const reportTab = this.page.getByText('Delivery Order Detail GST Report', { exact: false });
     return (await reportTab.count().catch(() => 0)) > 0;
-  }
-
-  /** Reads the "[Next Possible No.SO-XXXXX]" number from the form header. */
-  async getNextPossibleNo() {
-    const header = this.formFrame.getByText('Next Possible No', { exact: false });
-    const text = await header.first().innerText().catch(() => '');
-    const match = text.match(/SO-\d+/);
-    return match ? match[0] : null;
   }
 
   /**
    * Reads the posted document's assigned number from the auto-opened GST
-   * report — CONFIRMED live: label "Sales Order No". Added for
-   * ClosePurchaseOrderPage-equivalent screens (CloseSalesOrderPage) that
-   * need a guaranteed-fresh, still-open SO to transfer from. Only call
-   * this after expectPostSuccess() is true.
+   * report — CONFIRMED live: label "Delivery Ord. No". Only call this
+   * after expectPostSuccess() is true.
    */
   async getPostedDocumentNumber() {
     const reportFrame = await findFrame(this.page, async (frame) => {
-      const marker = frame.getByText('Sales Order No', { exact: false });
+      const marker = frame.getByText('Delivery Ord. No', { exact: false });
       if ((await marker.count().catch(() => 0)) === 0) return false;
       return await marker.first().isVisible().catch(() => false);
     }, { timeout: 10000 });
     if (!reportFrame) return null;
     const text = await reportFrame.locator('body').innerText().catch(() => '');
-    const match = text.match(/SO-\d+/);
+    const match = text.match(/DO-\d+/);
     return match ? match[0] : null;
   }
 
@@ -319,23 +316,11 @@ class SalesOrderPage {
     return value.trim() === '';
   }
 
-  /** Dismisses the "Confirm to validate e-Invoice?" dialog if it appears after posting — same defensive check as QuotationPage/CashSalesPage. */
-  async dismissEInvoiceValidationPromptIfPresent() {
-    const f = this.formFrame;
-    const dialog = f.locator('div, table', { hasText: 'Confirm to validate e-Invoice?' }).last();
-    const present = await dialog.waitFor({ state: 'visible', timeout: 10000 }).then(() => true).catch(() => false);
-    if (!present) return;
-
-    const noButton = dialog.locator('span.dx-vam:visible:text-is("No")');
-    await noButton.first().click();
-    await dialog.waitFor({ state: 'hidden', timeout: 5000 }).catch(() => {});
-  }
-
   /** Fills the listing grid's own live-filter textbox and waits for a genuine matching row before returning. */
   async searchListing(searchText) {
     await this._resolveListFrame();
     const { locator: filterBox } = await heal(this.listFrame, {
-      id: 'salesOrder.listingSearchFilterBox',
+      id: 'deliveryOrder.listingSearchFilterBox',
       label: 'Search',
       strategies: [
         { type: 'css', value: '[id*="FilterTextBoxGridView_txtFilterGridView_I" i]' },
@@ -350,35 +335,31 @@ class SalesOrderPage {
     const matched = await this._waitForListingRowMatching(searchText, 15000);
     if (!matched) {
       await this.page.screenshot({
-        path: `test-results/debug-sales-order-search-not-found-${Date.now()}.png`,
+        path: `test-results/debug-delivery-order-search-not-found-${Date.now()}.png`,
         fullPage: true,
       }).catch(() => {});
       throw new Error(
-        `Sales Order listing never showed a row matching "${searchText}" after searching — ` +
+        `Delivery Order listing never showed a row matching "${searchText}" after searching — ` +
         'refusing to proceed with Cancel against a possibly-stale/unfiltered row.'
       );
     }
     await this.page.waitForTimeout(300);
   }
 
-  /**
-   * Polls until a genuine grid DATA ROW matching the search text is
-   * visible, carries its own "Cancel" row-action icon, AND is the ONLY row
-   * in the grid.
-   *
-   * CONFIRMED live (2026-08-19): checking only "a matching row exists" isn't
-   * enough on a listing with real clutter (leftover documents from other,
-   * non-cleaning-up tests run earlier the same day) — the live-filter
-   * textbox's own async callback can still be narrowing the grid down from
-   * many rows to one when clickCancelIcon() fires. Clicking a row's Cancel
-   * icon while that callback is mid-flight can silently lose the click (the
-   * callback's response replaces the grid's HTML, including the
-   * just-clicked row, before the server round-trip for that click
-   * completes) — the confirm dialog still opens and "Yes" still closes it,
-   * but nothing actually gets cancelled. Requiring the grid to have
-   * narrowed to exactly this one row proves the callback has settled.
-   */
+  /** Polls until a genuine grid DATA ROW matching the search text is visible AND carries its own "Cancel" row-action icon. */
   async _waitForListingRowMatching(searchText, timeout = 15000) {
+    // CONFIRMED live (2026-08-19, Sales Order): checking only "a matching
+    // row exists" isn't enough on a listing with real clutter (leftover
+    // documents from other, non-cleaning-up tests run earlier the same
+    // day) — the live-filter textbox's own async callback can still be
+    // narrowing the grid down from many rows to one when clickCancelIcon()
+    // fires. Clicking a row's Cancel icon while that callback is mid-flight
+    // can silently lose the click (the callback's response replaces the
+    // grid's HTML, including the just-clicked row, before the server
+    // round-trip for that click completes) — the confirm dialog still
+    // opens and "Yes" still closes it, but nothing actually gets
+    // cancelled. Requiring the grid to have narrowed to exactly this one
+    // row proves the callback has settled.
     const allRows = this.listFrame.locator('tr.dxgvDataRow_iOS');
     const row = allRows.filter({ hasText: searchText });
     const deadline = Date.now() + timeout;
@@ -415,7 +396,7 @@ class SalesOrderPage {
     await this.page.waitForTimeout(500);
 
     const { locator: yesButton } = await heal(this.listFrame, {
-      id: 'salesOrder.cancelConfirmYesButton',
+      id: 'deliveryOrder.cancelConfirmYesButton',
       label: 'Yes',
       strategies: [
         { type: 'css', value: '#ctl00_pcConfirmCancel_btnYesCancel_CD' },
@@ -435,7 +416,7 @@ class SalesOrderPage {
     if (!present) return;
 
     const { locator: reasonTrigger } = await heal(this.listFrame, {
-      id: 'salesOrder.cancelReasonTrigger',
+      id: 'deliveryOrder.cancelReasonTrigger',
       label: 'Reason',
       strategies: [
         { type: 'css', value: '[id*="pcCancelReason" i][id*="cbReason_B-1Img" i]' },
@@ -451,7 +432,7 @@ class SalesOrderPage {
     await this.page.waitForTimeout(500);
 
     const { locator: okButton } = await heal(this.listFrame, {
-      id: 'salesOrder.cancelReasonOkButton',
+      id: 'deliveryOrder.cancelReasonOkButton',
       label: 'OK',
       strategies: [
         { type: 'css', value: '[id*="pcCancelReason" i][id*="btnCancelDocument_CD" i]' },
@@ -477,7 +458,7 @@ class SalesOrderPage {
   async isDocumentPresent(searchText) {
     await this._resolveListFrame();
     const { locator: filterBox } = await heal(this.listFrame, {
-      id: 'salesOrder.listingSearchFilterBox',
+      id: 'deliveryOrder.listingSearchFilterBox',
       label: 'Search',
       strategies: [
         { type: 'css', value: '[id*="FilterTextBoxGridView_txtFilterGridView_I" i]' },
@@ -495,4 +476,4 @@ class SalesOrderPage {
   }
 }
 
-module.exports = { SalesOrderPage };
+module.exports = { DeliveryOrderPage };

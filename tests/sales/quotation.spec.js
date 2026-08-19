@@ -9,24 +9,20 @@ const { QuotationPage } = require('../../framework/pages/quotationPage');
  * discovered). First screen of the Sales cycle — no "Copy From" transfer
  * source, just New -> Customer -> Sales Branch -> Item -> Save Draft/Post.
  *
- * Test data confirmed live (2026-08-19) against qa3/SHANTHI QA BIZ 69,
- * reusing the same Customer/Sales Branch values already confirmed working
- * in tests/sales/cash-sales.spec.js (Customer "000000002", Sales Branch
- * "SHAQABIZ69"). Different clients/companies will have different master
- * data — override via env vars rather than editing this file when
- * pointing at another one.
- *
- * BUG FIXED (2026-08-19): cash-sales.spec.js's own item default
- * ("stock item 01") no longer matches any item's exact Description live —
- * the item search popup's own live data now shows this item's full
- * Description as "stock item 01 MMM" (item code 000014), confirmed via a
- * failure screenshot. Likely the master data was renamed since that file
- * was last verified; using the current real value here rather than the
- * stale one.
+ * UPDATED (2026-08-19): the shared `uat` login's default company changed
+ * server-side from qa3/SHANTHI QA BIZ 69 to UAT/TANJAK MEGA GROUP SDN BHD
+ * (confirmed live via the footer's "Client ID:" label after a machine
+ * restart) — the old SHANTHI-specific test data (Customer "000000002",
+ * Sales Branch "SHAQABIZ69", item "stock item 01 MMM") no longer exists in
+ * this company. Re-probed live against TANJAK MEGA GROUP SDN BHD and
+ * confirmed real: Customer "000001", Sales Branch "T01" (AMIRUL HALAL MART
+ * (TAMBUN)), item "BISKUT PLANTA" (plenty of stock). Different
+ * clients/companies will have different master data — override via env
+ * vars rather than editing this file when pointing at another one.
  */
-const CUSTOMER_CODE = process.env.ALAYA_TEST_CUSTOMER_CODE || '000000002';
-const SALES_BRANCH_CODE = process.env.ALAYA_TEST_SALES_BRANCH_CODE || 'SHAQABIZ69';
-const ITEM_DESCRIPTION = process.env.ALAYA_TEST_ITEM_DESCRIPTION || 'stock item 01 MMM';
+const CUSTOMER_CODE = process.env.ALAYA_TEST_CUSTOMER_CODE || '000001';
+const SALES_BRANCH_CODE = process.env.ALAYA_TEST_SALES_BRANCH_CODE || 'T01';
+const ITEM_DESCRIPTION = process.env.ALAYA_TEST_ITEM_DESCRIPTION || 'BISKUT PLANTA';
 
 test.beforeEach(async ({ page }) => {
   await login(page, {

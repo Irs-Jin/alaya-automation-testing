@@ -10,15 +10,19 @@ const { SalesOrderPage } = require('../../framework/pages/salesOrderPage');
  * Branch -> Item -> Save Draft/Post/Post & New) — this screen also offers
  * a "Copy From" transfer from a Quotation, not exercised here.
  *
- * Test data confirmed live (2026-08-19) against qa3/SHANTHI QA BIZ 69,
- * same values already confirmed working in quotation.spec.js (Customer
- * "000000002", Sales Branch "SHAQABIZ69", Item "stock item 01 MMM").
+ * UPDATED (2026-08-19): the shared `uat` login's default company changed
+ * server-side from qa3/SHANTHI QA BIZ 69 to UAT/TANJAK MEGA GROUP SDN BHD
+ * (confirmed live via the footer's "Client ID:" label after a machine
+ * restart) — the old SHANTHI-specific test data no longer exists in this
+ * company. Re-probed live and confirmed real: Customer "000001", Sales
+ * Branch "T01" (AMIRUL HALAL MART (TAMBUN)), item "BISKUT PLANTA" (plenty
+ * of stock) — same values now used across every Sales-module spec.
  * Different clients/companies will have different master data — override
  * via env vars rather than editing this file when pointing at another one.
  */
-const CUSTOMER_CODE = process.env.ALAYA_TEST_CUSTOMER_CODE || '000000002';
-const SALES_BRANCH_CODE = process.env.ALAYA_TEST_SALES_BRANCH_CODE || 'SHAQABIZ69';
-const ITEM_DESCRIPTION = process.env.ALAYA_TEST_ITEM_DESCRIPTION || 'stock item 01 MMM';
+const CUSTOMER_CODE = process.env.ALAYA_TEST_CUSTOMER_CODE || '000001';
+const SALES_BRANCH_CODE = process.env.ALAYA_TEST_SALES_BRANCH_CODE || 'T01';
+const ITEM_DESCRIPTION = process.env.ALAYA_TEST_ITEM_DESCRIPTION || 'BISKUT PLANTA';
 
 test.beforeEach(async ({ page }) => {
   await login(page, {
