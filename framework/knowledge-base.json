@@ -1,7 +1,7 @@
 {
   "_meta": {
     "description": "Persistent locator knowledge base. Each key is a logical element ID. 'strategies' is ordered by confidence (successCount - failureCount). The self-healing locator promotes a fallback to primary once it consistently outperforms it.",
-    "lastUpdated": "2026-08-19T02:01:58.681Z"
+    "lastUpdated": "2026-08-19T03:36:35.589Z"
   },
   "elements": {
     "login.clientId": {
@@ -10,10 +10,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtClientId_I",
-          "successCount": 1594,
+          "successCount": 1601,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-19T02:00:57.821Z"
+          "lastUsed": "2026-08-19T03:35:33.404Z"
         }
       ]
     },
@@ -23,10 +23,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtUserName_I",
-          "successCount": 1595,
+          "successCount": 1602,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-19T02:00:58.281Z"
+          "lastUsed": "2026-08-19T03:35:33.650Z"
         }
       ]
     },
@@ -36,10 +36,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtPassword_I_CLND",
-          "successCount": 1596,
+          "successCount": 1603,
           "failureCount": 1,
           "discovered": false,
-          "lastUsed": "2026-08-19T02:00:58.706Z"
+          "lastUsed": "2026-08-19T03:35:33.874Z"
         },
         {
           "type": "css",
@@ -57,10 +57,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_btnLogin",
-          "successCount": 1593,
+          "successCount": 1600,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-19T02:00:58.991Z"
+          "lastUsed": "2026-08-19T03:35:34.097Z"
         }
       ]
     },
@@ -3571,6 +3571,123 @@
           "failureCount": 0,
           "discovered": false,
           "lastUsed": "2026-08-19T02:01:46.425Z"
+        }
+      ]
+    },
+    "salesOrder.customerTrigger": {
+      "label": "salesOrder.customerTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbCustomer_cbSelectCust_B1Img\" i]",
+          "successCount": 6,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-19T03:35:48.275Z"
+        }
+      ]
+    },
+    "salesOrder.customerPopupOkButton": {
+      "label": "salesOrder.customerPopupOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id*=\"cbSelectCust\" i][id*=\"GeneralSearchControl\" i][id$=\"btnOk_CD\" i]",
+          "successCount": 6,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-19T03:35:51.965Z"
+        }
+      ]
+    },
+    "salesOrder.itemTrigger": {
+      "label": "salesOrder.itemTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"ItemAdvanceSearchControlSalesOrder_txtItemSearchUpdate_B0Img\" i]",
+          "successCount": 6,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-19T03:35:58.313Z"
+        }
+      ]
+    },
+    "salesOrder.itemPopupOkButton": {
+      "label": "salesOrder.itemPopupOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"formItemSearchControl_btnItemSearchOk_CD\" i]",
+          "successCount": 6,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-19T03:36:01.281Z"
+        }
+      ]
+    },
+    "salesOrder.saveDraftButton": {
+      "label": "salesOrder.saveDraftButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Save Draft [Alt + S]\"]",
+          "successCount": 3,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-19T03:36:04.245Z"
+        }
+      ]
+    },
+    "salesOrder.postButton": {
+      "label": "salesOrder.postButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Post [Alt + P]\"]",
+          "successCount": 2,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-19T03:32:03.563Z"
+        }
+      ]
+    },
+    "salesOrder.postAndNewButton": {
+      "label": "salesOrder.postAndNewButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Post & New [Alt + Ctrl + P]\"]",
+          "successCount": 1,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-19T03:33:14.674Z"
+        }
+      ]
+    },
+    "salesOrder.listingSearchFilterBox": {
+      "label": "salesOrder.listingSearchFilterBox",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id*=\"FilterTextBoxGridView_txtFilterGridView_I\" i]",
+          "successCount": 4,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-19T03:36:35.589Z"
+        }
+      ]
+    },
+    "salesOrder.cancelConfirmYesButton": {
+      "label": "salesOrder.cancelConfirmYesButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
+          "successCount": 2,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-19T03:36:23.364Z"
         }
       ]
     }
