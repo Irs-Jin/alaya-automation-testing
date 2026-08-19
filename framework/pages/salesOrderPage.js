@@ -293,6 +293,25 @@ class SalesOrderPage {
     return match ? match[0] : null;
   }
 
+  /**
+   * Reads the posted document's assigned number from the auto-opened GST
+   * report — CONFIRMED live: label "Sales Order No". Added for
+   * ClosePurchaseOrderPage-equivalent screens (CloseSalesOrderPage) that
+   * need a guaranteed-fresh, still-open SO to transfer from. Only call
+   * this after expectPostSuccess() is true.
+   */
+  async getPostedDocumentNumber() {
+    const reportFrame = await findFrame(this.page, async (frame) => {
+      const marker = frame.getByText('Sales Order No', { exact: false });
+      if ((await marker.count().catch(() => 0)) === 0) return false;
+      return await marker.first().isVisible().catch(() => false);
+    }, { timeout: 10000 });
+    if (!reportFrame) return null;
+    const text = await reportFrame.locator('body').innerText().catch(() => '');
+    const match = text.match(/SO-\d+/);
+    return match ? match[0] : null;
+  }
+
   /** Checks the form reset to a blank state after "Post & New". */
   async expectFormReset() {
     const customerField = this.formFrame.locator('[id$="cbCustomer_cbSelectCust_I" i]');
