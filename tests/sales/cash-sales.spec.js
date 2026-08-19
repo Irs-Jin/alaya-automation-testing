@@ -38,7 +38,15 @@ const CUSTOMER_CODE = process.env.ALAYA_TEST_CUSTOMER_CODE || '000000002';
 // own browsable grid — 300 items, "www0www" not among them). Replaced
 // with "stock item 01" (item code 000014, qty available 81), confirmed
 // present and unambiguous (unlike "RRR", which this catalog has three of).
-const ITEM_DESCRIPTION = process.env.ALAYA_TEST_ITEM_DESCRIPTION || 'stock item 01';
+//
+// BUG FIXED (2026-08-19): "stock item 01" no longer matches this item's
+// exact Description either — confirmed live (via a Quotation test failure
+// screenshot) that item code 000014's Description is now "stock item 01
+// MMM". CashSalesPage.selectItem() matches by exact Description text, so
+// the bare "stock item 01" never resolves. Same item, same code — just
+// renamed since this was last verified. Updated to the current real value
+// (matching the fix already applied in tests/sales/quotation.spec.js).
+const ITEM_DESCRIPTION = process.env.ALAYA_TEST_ITEM_DESCRIPTION || 'stock item 01 MMM';
 
 // BUG FIXED (2026-08-14): selecting a customer does NOT auto-fill Sales
 // Branch / Warehouse for the SHANTHI QA BIZ 69 company (qa3/yew) — Post/
