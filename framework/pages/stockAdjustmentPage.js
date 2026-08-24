@@ -220,6 +220,59 @@ class StockAdjustmentPage {
     await this.page.waitForTimeout(500);
   }
 
+  /**
+   * Adds one stock adjustment line by ITEM CODE, filtering the item search
+   * popup's own filter box first — same rationale/shape as
+   * stockReceivePage.js's addItemLineByCode().
+   */
+  async addItemLineByCode(itemCode) {
+    const f = this.formFrame;
+    const searchTrigger = f.locator('#ctl00_MainContent_InventoryAdjustmentDetail1_cbpInventoryAdjustmentDetails_cpnlIADetail_formIADetail_PC_0_ItemAdvanceSearchControlIADetail_txtItemSearchUpdate_B0Img');
+    await searchTrigger.click();
+    await this.page.waitForTimeout(500);
+
+    const filterBox = f.locator('#ctl00_MainContent_InventoryAdjustmentDetail1_cbpInventoryAdjustmentDetails_cpnlIADetail_formIADetail_PC_0_ItemAdvanceSearchControlIADetail_pcItemSearchControl_cpnlItemSearchControl_formItemSearchControl_txtFilterItemSearchGridView_I');
+    await filterBox.click();
+    await filterBox.pressSequentially(itemCode, { delay: 30 });
+    await this.page.waitForTimeout(800);
+
+    const itemOption = f.getByRole('cell', { name: itemCode, exact: true }).first();
+    await itemOption.waitFor({ state: 'visible', timeout: 5000 });
+    await itemOption.click();
+    await this.page.waitForTimeout(500);
+
+    const okButton = f.locator('#ctl00_MainContent_InventoryAdjustmentDetail1_cbpInventoryAdjustmentDetails_cpnlIADetail_formIADetail_PC_0_ItemAdvanceSearchControlIADetail_pcItemSearchControl_cpnlItemSearchControl_formItemSearchControl_btnItemSearchOk_CD');
+    await okButton.click();
+    await this.page.waitForTimeout(500);
+  }
+
+  /**
+   * Reads the net Qty delta the auto-populated line will apply, computed
+   * as NewBalance - QtyOnHand rather than trusting AdjQty's own sign
+   * convention directly — robust regardless of "Adjustment IN/OUT" vs
+   * "Actual Qty" mode. CONFIRMED live (2026-08-22) this screen's line row
+   * column order is No/Item Code/Description/Bin Location/UOM/QtyOnHand/
+   * AdjQty/NewBalance/Unit Cost/Total (no "2nd Description" column, unlike
+   * Stock Receive/Issue) — QtyOnHand and NewBalance are the 5th/3rd
+   * numbers counting from the end (AdjQty, Unit Cost, Total follow/precede
+   * them in between). Anchored to `^Delete\s+Edit\b` — same outer-wrapper-
+   * row bug already fixed in stockReceivePage.js's getLineQty().
+   */
+  async getLineQtyDelta(itemCode) {
+    const escaped = itemCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const row = this.formFrame.getByRole('row', {
+      name: new RegExp(`^Delete\\s+Edit\\b[\\s\\S]*\\b${escaped}\\b`, 'i'),
+    }).first();
+    const text = await row.innerText();
+    const numbers = (text.match(/\d+(?:\.\d+)?/g) || []).map(Number);
+    if (numbers.length < 5) {
+      throw new Error(`Could not read QtyOnHand/NewBalance for item "${itemCode}" from stock adjustment line: "${text}"`);
+    }
+    const qtyOnHand = numbers[numbers.length - 5];
+    const newBalance = numbers[numbers.length - 3];
+    return newBalance - qtyOnHand;
+  }
+
   /** CONFIRMED live (2026-08-17): no confirmation dialog appears for Save Draft on this screen. */
   async clickSaveDraft() {
     const saveButton = this.formFrame.getByRole('listitem', { name: 'Save Draft [Alt + S]' });
@@ -318,6 +371,11 @@ class StockAdjustmentPage {
    * Scoped to this.listFrame, never page-wide.
    */
   async deleteDocument(referenceNo) {
+    // Same fix as stockReceivePage.js's cancelDocument(): if another tab
+    // (e.g. Item) was switched to in between, this screen's own tab is
+    // hidden — its grid rows resolve but report isVisible()=false, so the
+    // row-match wait fails even though the document genuinely exists.
+    await this._switchBackToStockAdjustmentTab();
     await this._resolveListFrame();
     const matched = await this._waitForRowMatchingReference(referenceNo);
     if (!matched) {

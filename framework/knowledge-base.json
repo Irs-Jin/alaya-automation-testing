@@ -1,7 +1,7 @@
 {
   "_meta": {
     "description": "Persistent locator knowledge base. Each key is a logical element ID. 'strategies' is ordered by confidence (successCount - failureCount). The self-healing locator promotes a fallback to primary once it consistently outperforms it.",
-    "lastUpdated": "2026-08-20T01:18:26.706Z"
+    "lastUpdated": "2026-08-24T05:22:46.914Z"
   },
   "elements": {
     "login.clientId": {
@@ -4286,6 +4286,19 @@
           "failureCount": 0,
           "discovered": false,
           "lastUsed": "2026-08-20T01:18:14.023Z"
+        }
+      ]
+    },
+    "stockTake.discrepancyConfirmYesButton": {
+      "label": "stockTake.discrepancyConfirmYesButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id*=\"pcConfirmMessageBox\" i][id*=\"btnConfirmYes_CD\" i]",
+          "successCount": 1,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-22T06:17:53.608Z"
         }
       ]
     }

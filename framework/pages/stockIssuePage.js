@@ -185,6 +185,59 @@ class StockIssuePage {
     await this.page.waitForTimeout(500);
   }
 
+  /**
+   * Adds one stock issue line by ITEM CODE, filtering the item search
+   * popup's own filter box first — CONFIRMED live (2026-08-22) necessary
+   * when the target item isn't on the popup's default unfiltered first
+   * page (unlike addItemLine(), which assumes the item is already visible
+   * without filtering). Real keystrokes into the filter box per this
+   * repo's search/filter-field convention. Same shape as
+   * stockReceivePage.js's addItemLineByCode().
+   */
+  async addItemLineByCode(itemCode) {
+    const f = this.formFrame;
+    const searchTrigger = f.locator('#ctl00_MainContent_StockIssueDetail_cbpStockIssueDetails_cpnlSIDetail_formSIDetail_PC_0_ItemAdvanceSearchControlSIDetail_txtItemSearchUpdate_B0Img');
+    await searchTrigger.click();
+    await this.page.waitForTimeout(500);
+
+    const filterBox = f.locator('#ctl00_MainContent_StockIssueDetail_cbpStockIssueDetails_cpnlSIDetail_formSIDetail_PC_0_ItemAdvanceSearchControlSIDetail_pcItemSearchControl_cpnlItemSearchControl_formItemSearchControl_txtFilterItemSearchGridView_I');
+    await filterBox.click();
+    await filterBox.pressSequentially(itemCode, { delay: 30 });
+    await this.page.waitForTimeout(800);
+
+    const itemOption = f.getByRole('cell', { name: itemCode, exact: true }).first();
+    await itemOption.waitFor({ state: 'visible', timeout: 5000 });
+    await itemOption.click();
+    await this.page.waitForTimeout(500);
+
+    const okButton = f.locator('#ctl00_MainContent_StockIssueDetail_cbpStockIssueDetails_cpnlSIDetail_formSIDetail_PC_0_ItemAdvanceSearchControlSIDetail_pcItemSearchControl_cpnlItemSearchControl_formItemSearchControl_btnItemSearchOk_CD');
+    await okButton.click();
+    await this.page.waitForTimeout(500);
+  }
+
+  /**
+   * Reads the auto-populated Qty of the line matching the given item code —
+   * CONFIRMED live (2026-08-22) same fixed column order as Stock Receive
+   * (No/Item Code/Description/2nd Description/Bin Location/UOM/Qty/Unit
+   * Cost/Total), so the last 3 numbers in the row are always Qty, Unit
+   * Cost, Total. Anchored to `^Delete\s+Edit\b` — same bug already fixed
+   * in stockReceivePage.js's getLineQty(): an unanchored match picks up
+   * the OUTER wrapping grid row (headers + data + trailing Total row
+   * concatenated) instead of the actual single data row.
+   */
+  async getLineQty(itemCode) {
+    const escaped = itemCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const row = this.formFrame.getByRole('row', {
+      name: new RegExp(`^Delete\\s+Edit\\b[\\s\\S]*\\b${escaped}\\b`, 'i'),
+    }).first();
+    const text = await row.innerText();
+    const numbers = (text.match(/\d+(?:\.\d+)?/g) || []).map(Number);
+    if (numbers.length < 3) {
+      throw new Error(`Could not read Qty for item "${itemCode}" from stock issue line: "${text}"`);
+    }
+    return numbers[numbers.length - 3];
+  }
+
   /** CONFIRMED live (2026-08-17): no confirmation dialog appears for Save Draft on this screen. */
   async clickSaveDraft() {
     const saveButton = this.formFrame.getByRole('listitem', { name: 'Save Draft [Alt + S]' });
@@ -272,6 +325,12 @@ class StockIssuePage {
    * same as Stock Receive. Scoped to this.listFrame, never page-wide.
    */
   async cancelDocument(referenceNo) {
+    // Same fix as stockReceivePage.js's cancelDocument(): if another tab
+    // (e.g. Item) was switched to in between, this screen's own tab is
+    // hidden — its grid rows resolve but report isVisible()=false, so the
+    // row-match wait fails even though the document genuinely exists.
+    // Harmless no-op if this tab is already active.
+    await this._switchBackToStockIssueTab();
     await this._resolveListFrame();
     const matched = await this._waitForRowMatchingReference(referenceNo);
     if (!matched) {

@@ -431,6 +431,89 @@ class ItemPage {
     return this._waitForGridRowMatching(searchText, 5000);
   }
 
+  /**
+   * Reads the "Qty Available" column straight off the LISTING grid's own
+   * search result row — CONFIRMED live (2026-08-22) this column is shown
+   * directly on the grid (no need to open the item form/tab at all). The
+   * row's fixed column order (confirmed live) is: Edit/Delete/CopyTo links,
+   * Description, Item Code, 2nd Description, Qty on Hand, Qty Reserved,
+   * Qty Available, Item Group, ... — so the item code anchors the regex and
+   * the THIRD decimal number after it is Qty Available.
+   *
+   * BUG FIXED (2026-08-22): searchItem()'s row-match check can return true
+   * on the very FIRST poll even before the real filter postback completes,
+   * if the target item's row happens to already be visible on the
+   * UNFILTERED grid's default first page — confirmed live for item 526014,
+   * whose short numeric code sorts ahead of most of this ~3,000-row item
+   * master's long barcode-style codes. Reading immediately after risks a
+   * mid-transition value. Guarded here by waiting for the grid's own
+   * "Rec: N" record count to drop to a genuinely-filtered small number
+   * before trusting the row's text.
+   */
+  async getQtyAvailable(itemCode) {
+    await this.searchItem(itemCode);
+    await this._waitForFilteredRecordCount(50, 8000);
+    const escaped = itemCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const row = this.frame.getByRole('row', {
+      name: new RegExp(`^Edit\\s+Delete\\s+(?:CopyTo\\s+)?[\\s\\S]*\\b${escaped}\\b`, 'i'),
+    }).first();
+    const text = await row.innerText();
+    const match = text.match(new RegExp(`${escaped}\\D*?([\\d.]+)\\s+([\\d.]+)\\s+([\\d.]+)`));
+    if (!match) {
+      await this.page.screenshot({
+        path: `test-results/debug-item-qty-available-${Date.now()}.png`,
+        fullPage: true,
+      }).catch(() => {});
+      throw new Error(`Could not read Qty Available for item "${itemCode}" from row text: "${text}"`);
+    }
+    return parseFloat(match[3]);
+  }
+
+  /**
+   * Polls the grid's own "Rec: N" record-count footer until it drops to at
+   * most maxCount — confirmed live this reads e.g. "Rec: 2,967" while
+   * genuinely unfiltered and "Rec: 1" once a specific-item filter has truly
+   * taken effect. Best-effort: if the count never appears/settles, proceeds
+   * anyway rather than failing the whole read on a footer-text quirk.
+   */
+  async _waitForFilteredRecordCount(maxCount, timeout) {
+    const recCell = this.frame.getByText(/^Rec:\s*[\d,]+$/);
+    const deadline = Date.now() + timeout;
+    while (Date.now() < deadline) {
+      const text = (await recCell.first().textContent().catch(() => '')) || '';
+      const match = text.match(/Rec:\s*([\d,]+)/);
+      if (match && parseInt(match[1].replace(/,/g, ''), 10) <= maxCount) {
+        return;
+      }
+      await this.page.waitForTimeout(300);
+    }
+  }
+
+  /**
+   * Switches to the already-open "Item" tab (rather than a fresh nav) and
+   * forces a reload of its grid data — CONFIRMED live (2026-08-22) this is
+   * required: after posting a document in another tab (e.g. Stock Receive)
+   * that changes an item's stock levels, the Item tab's grid still shows
+   * the STALE pre-post value until "Refresh Selected Tab" is clicked, even
+   * though the tab itself is already open. `.last()` targets the top
+   * in-app tab bar rather than the sidebar's identically-named menu link —
+   * same pattern already used in stockReceivePage.js's
+   * _switchBackToStockReceiveTab().
+   */
+  async _switchToOpenTabAndRefresh() {
+    const p = this.page;
+    await p.getByRole('link', { name: 'Item', exact: true }).last().click({ timeout: 3000 }).catch(() => {});
+    await p.getByRole('button', { name: 'Refresh Selected Tab' }).click({ timeout: 3000 }).catch(() => {});
+    await p.waitForTimeout(1000);
+    await this._resolveFrame();
+  }
+
+  /** Switches to the already-open Item tab, refreshes it, then reads Qty Available. */
+  async refreshAndGetQtyAvailable(itemCode) {
+    await this._switchToOpenTabAndRefresh();
+    return this.getQtyAvailable(itemCode);
+  }
+
   /** Clicks the (first/only) matching row's own "Delete" link. */
   async clickDelete() {
     await this._dismissStrayDeleteDialogIfPresent();

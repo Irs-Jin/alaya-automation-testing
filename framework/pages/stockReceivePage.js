@@ -181,6 +181,67 @@ class StockReceivePage {
     await this.page.waitForTimeout(500);
   }
 
+  /**
+   * Adds one stock receive line by ITEM CODE, filtering the item search
+   * popup's own filter box first — CONFIRMED live (2026-08-22) necessary
+   * when the target item isn't on the popup's default unfiltered first
+   * page (unlike addItemLine(), which assumes the item is already visible
+   * without filtering). Real keystrokes into the filter box per this
+   * repo's search/filter-field convention.
+   */
+  async addItemLineByCode(itemCode) {
+    const f = this.formFrame;
+    const searchTrigger = f.locator('#ctl00_MainContent_StockReceiveDetail_cbpStockReceiveDetails_cpnlSRDetail_formSRDetail_PC_0_ItemAdvanceSearchControlSRDetail_txtItemSearchUpdate_B0Img');
+    await searchTrigger.click();
+    await this.page.waitForTimeout(500);
+
+    const filterBox = f.locator('#ctl00_MainContent_StockReceiveDetail_cbpStockReceiveDetails_cpnlSRDetail_formSRDetail_PC_0_ItemAdvanceSearchControlSRDetail_pcItemSearchControl_cpnlItemSearchControl_formItemSearchControl_txtFilterItemSearchGridView_I');
+    await filterBox.click();
+    await filterBox.pressSequentially(itemCode, { delay: 30 });
+    await this.page.waitForTimeout(800);
+
+    const itemOption = f.getByRole('cell', { name: itemCode, exact: true }).first();
+    await itemOption.waitFor({ state: 'visible', timeout: 5000 });
+    await itemOption.click();
+    await this.page.waitForTimeout(500);
+
+    const okButton = f.locator('#ctl00_MainContent_StockReceiveDetail_cbpStockReceiveDetails_cpnlSRDetail_formSRDetail_PC_0_ItemAdvanceSearchControlSRDetail_pcItemSearchControl_cpnlItemSearchControl_formItemSearchControl_btnItemSearchOk_CD');
+    await okButton.click();
+    await this.page.waitForTimeout(500);
+  }
+
+  /**
+   * Reads the auto-populated Qty of the line matching the given item code —
+   * CONFIRMED live (2026-08-22) the line row's fixed column order is
+   * No/Item Code/Description/2nd Description/Bin Location/UOM/Qty/Unit
+   * Cost/Total, so regardless of description content the last 3 numbers
+   * in the row are always Qty, Unit Cost, Total in that order.
+   *
+   * BUG FIXED (2026-08-22): an unanchored `name` regex (just requiring
+   * "Delete" and the item code to appear somewhere) matched the OUTER
+   * wrapping grid row instead of the actual single data row — DevExpress
+   * nests the data row inside an ancestor row whose OWN accessible name is
+   * the concatenation of the column headers + the data row's own text +
+   * the grid's trailing "Total" row (confirmed live via a full snapshot).
+   * That inflated the extracted Qty by picking up the "Total" row's
+   * trailing numbers instead of the data row's own. Anchoring to `^Delete
+   * \s+Edit\b` (the data row's own action links, which lead its accessible
+   * name) excludes that ancestor row, whose name starts with the column
+   * headers instead.
+   */
+  async getLineQty(itemCode) {
+    const escaped = itemCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const row = this.formFrame.getByRole('row', {
+      name: new RegExp(`^Delete\\s+Edit\\b[\\s\\S]*\\b${escaped}\\b`, 'i'),
+    }).first();
+    const text = await row.innerText();
+    const numbers = (text.match(/\d+(?:\.\d+)?/g) || []).map(Number);
+    if (numbers.length < 3) {
+      throw new Error(`Could not read Qty for item "${itemCode}" from stock receive line: "${text}"`);
+    }
+    return numbers[numbers.length - 3];
+  }
+
   /** CONFIRMED live (2026-08-17): no confirmation dialog appears for Save Draft on this screen. */
   async clickSaveDraft() {
     const saveButton = this.formFrame.getByRole('listitem', { name: 'Save Draft [Alt + S]' });
@@ -265,6 +326,12 @@ class StockReceivePage {
    * page-wide.
    */
   async cancelDocument(referenceNo) {
+    // BUG FIXED (2026-08-22): if another tab (e.g. Item) was switched to in
+    // between, this screen's own tab is hidden — its grid rows resolve but
+    // report isVisible()=false, so the row-match wait fails even though the
+    // document genuinely exists. Same _switchBackToStockReceiveTab() used
+    // by clickBack(); harmless no-op if this tab is already active.
+    await this._switchBackToStockReceiveTab();
     await this._resolveListFrame();
     const matched = await this._waitForRowMatchingReference(referenceNo);
     if (!matched) {

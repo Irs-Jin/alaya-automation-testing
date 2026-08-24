@@ -204,6 +204,64 @@ class StockTakePage {
   }
 
   /**
+   * Same as addItemLine(), but filters the Item Selection combo's own
+   * search box by ITEM CODE first — CONFIRMED live (2026-08-22) necessary
+   * when the target item isn't on the combo's default unfiltered first
+   * page (unlike addItemLine(), which assumes the item is already visible
+   * without filtering; true for "SAFETY PIN" but not for an item buried
+   * among hundreds of others). The combo's search box live-filters as you
+   * type (confirmed live — no separate "Search" click needed).
+   */
+  async addItemLineByCode({ binLocationCode, itemCode }) {
+    const f = this.formFrame;
+
+    const addItemButton = f.getByText('Add Item Add Item');
+    await addItemButton.click();
+    await this.page.waitForTimeout(800);
+
+    const binLocationCombo = f.locator('#ctl00_MainContent_StockTakeDetail_pcItemFilter_formItemFilter_cbBinLocation_glBinLocation_B-1Img');
+    await binLocationCombo.click();
+    await this.page.waitForTimeout(500);
+    const binLocationRow = f.getByRole('row', { name: new RegExp(`^U\\s+${binLocationCode}\\b`) }).first();
+    await binLocationRow.waitFor({ state: 'visible', timeout: 5000 });
+    await binLocationRow.getByRole('cell', { name: 'U', exact: true }).click();
+    await this.page.waitForTimeout(300);
+
+    const itemModeSelector = f.locator('#ctl00_MainContent_StockTakeDetail_pcItemFilter_formItemFilter_cbItem_cbItem_Filter_B-1Img');
+    await itemModeSelector.click();
+    await this.page.waitForTimeout(500);
+    const filterBySelectionOption = f.getByText('Filter By Selection', { exact: true }).first();
+    await filterBySelectionOption.click();
+    await this.page.waitForTimeout(500);
+
+    const itemSelectionCombo = f.locator('#ctl00_MainContent_StockTakeDetail_pcItemFilter_formItemFilter_cbItem_glItem_B-1Img');
+    await itemSelectionCombo.click();
+    await this.page.waitForTimeout(500);
+
+    const filterBox = f.locator('#ctl00_MainContent_StockTakeDetail_pcItemFilter_formItemFilter_cbItem_glItem_DDD_gv_DXSE_I');
+    await filterBox.click();
+    await filterBox.pressSequentially(itemCode, { delay: 30 });
+    await this.page.waitForTimeout(800);
+
+    const escaped = itemCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const itemRow = f.getByRole('row', { name: new RegExp(`^U\\s+${escaped}\\b`) }).first();
+    await itemRow.waitFor({ state: 'visible', timeout: 5000 });
+    await itemRow.getByRole('cell', { name: 'U', exact: true }).click();
+    await this.page.waitForTimeout(300);
+
+    const { locator: okButton } = await heal(f, {
+      id: 'stockTake.itemFilterOkButton',
+      label: 'Item Filter OK',
+      strategies: [
+        { type: 'css', value: '[id*="formItemFilter_btnSaveItemFilter_CD" i]' },
+      ],
+      timeout: 5000,
+    });
+    await okButton.click();
+    await this.page.waitForTimeout(800);
+  }
+
+  /**
    * Fills the Physical Qty of the FIRST (and, per this class's own
    * confirmed/intended usage, only) item row — CONFIRMED live (2026-08-18)
    * mandatory before Post, optional for Save Draft. Clicks the cell by
@@ -222,6 +280,109 @@ class StockTakePage {
     await this.page.keyboard.type(String(quantity));
     await this.page.keyboard.press('Tab');
     await this.page.waitForTimeout(300);
+  }
+
+  /**
+   * Reads the FIRST (and, per this class's own single-item-row
+   * convention, only) item row's On Hand Qty — CONFIRMED live
+   * (2026-08-22) MUST be called before fillPhysicalQty(), since the row's
+   * numeric-value count (and therefore which position holds On Hand Qty)
+   * shifts once Physical Qty/Different Qty are populated. Before any
+   * Physical Qty entry the row's only numbers are No, Item Code, and On
+   * Hand Qty (plus a trailing 0 placeholder for the not-yet-computed
+   * Different Qty), so On Hand Qty is 2nd-from-last.
+   *
+   * BUG FIXED (2026-08-22): matching the row by accessible name containing
+   * the item code (as other modules' getLineQty() do) breaks here —
+   * CONFIRMED live that filling Physical Qty scrolls this grid
+   * horizontally, and DevExpress drops the now-offscreen Item
+   * Code/Description columns from the row's accessible name entirely
+   * (virtualization), not just visually. Locating the row by its stable
+   * `gvItem_DXDataRow0` id (same one fillPhysicalQty() already uses)
+   * sidesteps this — it doesn't depend on which columns are scrolled into
+   * view.
+   */
+  async getLineOnHandQty() {
+    const row = this.formFrame.locator('[id*="gvItem_DXDataRow0"]').first();
+    const text = await row.innerText();
+    const numbers = (text.match(/\d+(?:\.\d+)?/g) || []).map(Number);
+    if (numbers.length < 4) {
+      throw new Error(`Could not read On Hand Qty from stock take line: "${text}"`);
+    }
+    return numbers[numbers.length - 2];
+  }
+
+  /**
+   * Reads the FIRST item row's Different Qty (Physical Qty - On Hand
+   * Qty, auto-computed by the app) — call AFTER fillPhysicalQty(), when
+   * the row shows No/Item Code/On Hand Qty/Physical Qty/Different Qty,
+   * making Different Qty the last number in the row. Same row-lookup fix
+   * as getLineOnHandQty() — see its doc comment.
+   */
+  async getLineQtyDelta() {
+    const row = this.formFrame.locator('[id*="gvItem_DXDataRow0"]').first();
+    const text = await row.innerText();
+    // CONFIRMED live (2026-08-22): after fillPhysicalQty() scrolls the grid,
+    // the row's visible/rendered text can shrink to just UOM/On Hand
+    // Qty/Physical Qty/Different Qty (Item Code/Description scrolled out of
+    // the virtualized range) — so this only requires the 3 always-present
+    // numbers (On Hand, Physical, Different), not a fixed total count.
+    const numbers = (text.match(/\d+(?:\.\d+)?/g) || []).map(Number);
+    if (numbers.length < 3) {
+      throw new Error(`Could not read Different Qty from stock take line: "${text}"`);
+    }
+    return numbers[numbers.length - 1];
+  }
+
+  /**
+   * CONFIRMED live (2026-08-22): Posting a Stock Take whose Physical Qty
+   * genuinely differs from On Hand Qty shows an undocumented "Discrepancies
+   * detected. Posting this document will transfer items with quantity
+   * variances to Stock Adjustment. Do you want to proceed?" Confirmation
+   * dialog, followed by a mandatory "Adjustment Reason" popup (same Reason
+   * combo as Stock Adjustment) before the Post actually completes. NEITHER
+   * of these appears when Different Qty is 0 (see plain clickPost(), used
+   * by every other test in this file, which always fills Physical Qty to
+   * match On Hand Qty exactly).
+   *
+   * CRITICAL FINDING (2026-08-22): the resulting POSTED Stock Take's own
+   * row-level Cancel icon, AND the auto-created linked Stock Adjustment's
+   * own row-level Delete icon, are BOTH disabled once this flow completes
+   * (confirmed via DOM inspection: no enclosing `<a>`, plus an
+   * "InvalidAction" console log on click) — unlike a discrepancy-free
+   * Stock Take, where Cancel remains enabled. This qty change is
+   * PERMANENT; there is no UI cleanup path. Same category as Stock
+   * Transfer Receipt.
+   */
+  async clickPostWithDiscrepancy(reasonCode = 'ADJUST') {
+    const f = this.formFrame;
+    const postButton = f.getByRole('listitem', { name: 'Post [Alt + P]' });
+    await postButton.click();
+
+    const { locator: confirmYesButton } = await heal(f, {
+      id: 'stockTake.discrepancyConfirmYesButton',
+      label: 'Discrepancy Confirmation Yes',
+      strategies: [
+        { type: 'css', value: '[id*="pcConfirmMessageBox" i][id*="btnConfirmYes_CD" i]' },
+      ],
+      timeout: 8000,
+    });
+    await confirmYesButton.click();
+    await this.page.waitForTimeout(500);
+
+    const reasonDropdown = f.locator('#ctl00_MainContent_StockTakeDetail_pcStockAdjReason_ASPxFormLayout2_cbSelectInventoryReason_cbInventoryReason_B-1Img');
+    await reasonDropdown.waitFor({ state: 'visible', timeout: 8000 });
+    await reasonDropdown.click();
+    await this.page.waitForTimeout(500);
+
+    const reasonOption = f.getByRole('cell', { name: reasonCode, exact: true }).first();
+    await reasonOption.waitFor({ state: 'visible', timeout: 5000 });
+    await reasonOption.click();
+    await this.page.waitForTimeout(300);
+
+    const okButton = f.locator('#ctl00_MainContent_StockTakeDetail_pcStockAdjReason_ASPxFormLayout2_ASPxButton3_CD');
+    await okButton.click();
+    await this.page.waitForTimeout(1500);
   }
 
   /** New -> Warehouse -> Description -> Reference No -> one item line. Stops before any save action. Does NOT fill Physical Qty — call fillPhysicalQty() separately when the scenario needs to Post. */

@@ -170,6 +170,54 @@ class StockTransferPage {
     await this.page.waitForTimeout(500);
   }
 
+  /**
+   * Adds one stock transfer line by ITEM CODE, filtering the item search
+   * popup's own filter box first — same rationale/shape as
+   * stockReceivePage.js's addItemLineByCode().
+   */
+  async addItemLineByCode(itemCode) {
+    const f = this.formFrame;
+    const searchTrigger = f.locator('#ctl00_MainContent_InventoryTransferDetail1_cbpInventoryTransferDetails_cpnlITDetail_formITDetail_PC_0_ItemAdvanceSearchControlSIDetail_txtItemSearchUpdate_B0');
+    await searchTrigger.click();
+    await this.page.waitForTimeout(500);
+
+    const filterBox = f.locator('#ctl00_MainContent_InventoryTransferDetail1_cbpInventoryTransferDetails_cpnlITDetail_formITDetail_PC_0_ItemAdvanceSearchControlSIDetail_pcItemSearchControl_cpnlItemSearchControl_formItemSearchControl_txtFilterItemSearchGridView_I');
+    await filterBox.click();
+    await filterBox.pressSequentially(itemCode, { delay: 30 });
+    await this.page.waitForTimeout(800);
+
+    const itemOption = f.getByRole('cell', { name: itemCode, exact: true }).first();
+    await itemOption.waitFor({ state: 'visible', timeout: 5000 });
+    await itemOption.click();
+    await this.page.waitForTimeout(500);
+
+    const okButton = f.locator('#ctl00_MainContent_InventoryTransferDetail1_cbpInventoryTransferDetails_cpnlITDetail_formITDetail_PC_0_ItemAdvanceSearchControlSIDetail_pcItemSearchControl_cpnlItemSearchControl_formItemSearchControl_btnItemSearchOk_CD');
+    await okButton.click();
+    await this.page.waitForTimeout(500);
+  }
+
+  /**
+   * Reads the auto-populated Qty of the line matching the given item code.
+   * CONFIRMED live (2026-08-22) this screen's line row column order is
+   * No/Item Code/Description/From Warehouse/To Warehouse/UOM/Qty/Unit
+   * Cost/Total (both warehouses shown, unlike single-warehouse modules),
+   * so the last 3 numbers in the row are still always Qty, Unit Cost,
+   * Total. Anchored to `^Delete\s+Edit\b` — same outer-wrapper-row bug
+   * already fixed in stockReceivePage.js's getLineQty().
+   */
+  async getLineQty(itemCode) {
+    const escaped = itemCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const row = this.formFrame.getByRole('row', {
+      name: new RegExp(`^Delete\\s+Edit\\b[\\s\\S]*\\b${escaped}\\b`, 'i'),
+    }).first();
+    const text = await row.innerText();
+    const numbers = (text.match(/\d+(?:\.\d+)?/g) || []).map(Number);
+    if (numbers.length < 3) {
+      throw new Error(`Could not read Qty for item "${itemCode}" from stock transfer line: "${text}"`);
+    }
+    return numbers[numbers.length - 3];
+  }
+
   /** New -> From Warehouse -> To Warehouse -> Reason -> Reference No -> one item line. Stops before any save action. */
   async createStockTransfer({ fromWarehouseCode = 'AMPANG', toWarehouseCode = 'BERCHAM RAYA', reason = 'Testing', referenceNo, itemName }) {
     await this.clickNew();
@@ -348,6 +396,11 @@ class StockTransferPage {
    * control. Scoped to this.listFrame, never page-wide.
    */
   async deleteDocument(referenceNo) {
+    // Same fix as stockReceivePage.js's cancelDocument(): if another tab
+    // (e.g. Item) was switched to in between, this screen's own tab is
+    // hidden — its grid rows resolve but report isVisible()=false, so the
+    // row-match wait fails even though the document genuinely exists.
+    await this._switchBackToStockTransferTab();
     await this._resolveListFrame();
     const matched = await this._waitForRowMatchingReference(referenceNo);
     if (!matched) {
