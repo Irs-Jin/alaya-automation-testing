@@ -242,9 +242,13 @@ class GoodsReceivePage {
       timeout: 5000,
     });
     await locator.click();
-    // Same class of "posting isn't instant" timing already documented for
-    // Purchase Order / Close Purchase Order / Cash Sales' own Post.
-    await this.page.waitForTimeout(5000);
+    // Waits for the actual report-tab signal rather than guessing a fixed
+    // delay, same fix already applied to PurchaseInvoicePage's own
+    // clickPost() — a blind 5s wait was confirmed live to leave the report
+    // tab still blank/loading under server load.
+    await this.page.getByText('Good Receive Detail With Cost And Price Report', { exact: false })
+      .first().waitFor({ state: 'visible', timeout: 20000 }).catch(() => {});
+    await this.page.waitForTimeout(1000);
   }
 
   /** Full flow: select vendor, transfer from the given PO, fill Supplier D/O No., Post. */
@@ -259,12 +263,17 @@ class GoodsReceivePage {
   /**
    * Checks whether the document actually posted — same "strongest
    * available proof" approach as PurchaseOrderPage/ClosePurchaseOrderPage:
-   * Post auto-opens a report tab. CONFIRMED live: titled "Good Receive
-   * Summary With Cost And Price Report" (note "Good Receive", not "Goods
-   * Receive" — the app's own inconsistent naming, not a typo here).
+   * Post auto-opens a report tab. CORRECTED (2026-08-20): the original
+   * qa3-era title ("Good Receive Summary With Cost And Price Report") no
+   * longer matches under UAT/TANJAK MEGA GROUP SDN BHD — a live failure
+   * screenshot showed the real tab is titled "Good Receive Detail With
+   * Cost And Price Report" instead ("Summary" -> "Detail"; Post itself was
+   * genuinely succeeding the whole time, only this title string was
+   * stale). Still "Good Receive", not "Goods Receive" — the app's own
+   * inconsistent naming, not a typo here.
    */
   async expectPostSuccess() {
-    const reportTab = this.page.getByText('Good Receive Summary With Cost And Price Report', { exact: false });
+    const reportTab = this.page.getByText('Good Receive Detail With Cost And Price Report', { exact: false });
     return (await reportTab.count().catch(() => 0)) > 0;
   }
 

@@ -13,14 +13,18 @@ const { PurchaseInvoicePage } = require('../../framework/pages/purchaseInvoicePa
  * RECEIVED PO drops out of every Transfer-from-PO picker project-wide, so
  * each test needs its own untouched PO — never the same one twice).
  *
- * Test data confirmed live (2026-08-17) against qa3/SHANTHI QA BIZ 69,
- * same values as the rest of this module's specs. Different
- * clients/companies will have different master data — override via env
- * vars rather than editing this file when pointing at another one.
+ * UPDATED (2026-08-20): the shared `uat` login's default company changed
+ * server-side from qa3/SHANTHI QA BIZ 69 to UAT/TANJAK MEGA GROUP SDN BHD
+ * (see purchase-order.spec.js's own header comment for the full context).
+ * Re-probed live and confirmed real: Vendor "000001" (HAZEL CORP),
+ * Warehouse "AMPANG", item "BISKUT PLANTA" — same values now used across
+ * the rest of this module's specs. Different clients/companies will have
+ * different master data — override via env vars rather than editing this
+ * file when pointing at another one.
  */
-const VENDOR_CODE = process.env.ALAYA_TEST_VENDOR_CODE || '000002';
-const WAREHOUSE_CODE = process.env.ALAYA_TEST_WAREHOUSE_CODE || 'PRIMARY';
-const ITEM_CODE = process.env.ALAYA_TEST_ITEM_CODE || '000001';
+const VENDOR_CODE = process.env.ALAYA_TEST_VENDOR_CODE || '000001';
+const WAREHOUSE_CODE = process.env.ALAYA_TEST_WAREHOUSE_CODE || 'AMPANG';
+const ITEM_CODE = process.env.ALAYA_TEST_ITEM_CODE || 'BISKUT PLANTA';
 
 test.beforeEach(async ({ page }) => {
   await login(page, {

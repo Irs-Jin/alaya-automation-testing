@@ -1,19 +1,19 @@
 {
   "_meta": {
     "description": "Persistent locator knowledge base. Each key is a logical element ID. 'strategies' is ordered by confidence (successCount - failureCount). The self-healing locator promotes a fallback to primary once it consistently outperforms it.",
-    "lastUpdated": "2026-08-24T05:22:46.914Z"
+    "lastUpdated": "2026-08-26T10:08:16.958Z"
   },
   "elements": {
-    "login.clientId": {
-      "label": "login.clientId",
+    "deliveryOrder.customerPopupOkButton": {
+      "label": "deliveryOrder.customerPopupOkButton",
       "strategies": [
         {
           "type": "css",
-          "value": "#cbpCallback_txtClientId_I",
-          "successCount": 1694,
+          "value": "[id*=\"cbSelectCust\" i][id*=\"GeneralSearchControl\" i][id$=\"btnOk_CD\" i]",
+          "successCount": 6,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-20T01:14:02.125Z"
+          "lastUsed": "2026-08-26T08:03:18.887Z"
         }
       ]
     },
@@ -23,10 +23,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtUserName_I",
-          "successCount": 1695,
+          "successCount": 88,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-20T01:14:02.356Z"
+          "lastUsed": "2026-08-26T10:06:34.887Z"
         }
       ]
     },
@@ -36,18 +36,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_txtPassword_I_CLND",
-          "successCount": 1696,
-          "failureCount": 1,
-          "discovered": false,
-          "lastUsed": "2026-08-20T01:14:02.673Z"
-        },
-        {
-          "type": "css",
-          "value": "#cbpCallback_txtPassword_I",
-          "successCount": 1,
+          "successCount": 89,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-18T07:00:24.840Z"
+          "lastUsed": "2026-08-26T10:06:35.201Z"
         }
       ]
     },
@@ -57,3754 +49,10 @@
         {
           "type": "css",
           "value": "#cbpCallback_btnLogin",
-          "successCount": 1693,
+          "successCount": 89,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-20T01:14:02.908Z"
-        }
-      ]
-    },
-    "generalLedgerReport.viewGridButton": {
-      "label": "generalLedgerReport.viewGridButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "span:text-is(\"View Grid\")",
-          "successCount": 44,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:28:35.275Z"
-        }
-      ]
-    },
-    "generalLedgerReport.previewReportButton": {
-      "label": "generalLedgerReport.previewReportButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_ReportFrameWork1_cbpReport_cbpReportFramework_formReportFramework_btnPrint_CD",
-          "successCount": 85,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:28:35.487Z"
-        }
-      ]
-    },
-    "generalLedgerReport.previewConfirmButton": {
-      "label": "generalLedgerReport.previewConfirmButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "span:text-is(\"Preview\")",
-          "successCount": 80,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:28:37.463Z"
-        }
-      ]
-    },
-    "cashSales.customerTrigger": {
-      "label": "cashSales.customerTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashSalesDetail_cbpCashSales_cbpSalesHeader_ASPxRoundPanel1_formCashSalesHeader_cbCustomer_cbSelectCust_B1Img",
-          "successCount": 94,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T07:36:17.057Z"
-        }
-      ]
-    },
-    "cashSales.customerPopupOkButton": {
-      "label": "cashSales.customerPopupOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashSalesDetail_cbpCashSales_cbpSalesHeader_ASPxRoundPanel1_formCashSalesHeader_cbCustomer_gsc_cbSelectCust_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD",
-          "successCount": 58,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T07:35:26.166Z"
-        }
-      ]
-    },
-    "cashSales.itemTrigger": {
-      "label": "cashSales.itemTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "img[id*=\"txtItemSearchUpdate\" i]",
-          "successCount": 72,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T07:36:17.217Z"
-        },
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashSalesDetail_cbpCashSales_cbpSalesDetails_formSalesDetails_PC_0_ItemAdvanceSearchControlCashSales_txtItemSearchUpdate_B0Img",
-          "successCount": 0,
-          "failureCount": 1,
-          "discovered": false,
-          "lastUsed": "2026-07-26T04:08:48.601Z"
-        }
-      ]
-    },
-    "cashSales.itemPopupOkButton": {
-      "label": "cashSales.itemPopupOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "span.dx-vam:visible:text-is(\"OK\")",
-          "successCount": 46,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T07:35:31.427Z"
-        }
-      ]
-    },
-    "cashSales.postButton": {
-      "label": "cashSales.postButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashSalesDetail_cbpCashSales_mCashSalesDetailsToolBar_mToolBars_DXI2_T",
-          "successCount": 33,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T07:35:33.663Z"
-        }
-      ]
-    },
-    "cashSales.multiPaymentAddRow": {
-      "label": "cashSales.multiPaymentAddRow",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashSalesDetail_cbpCashSales_pcCSMultipayment_formCSMultipayment_gvCSMultiPayment_header0_Add",
-          "successCount": 34,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T07:35:36.632Z"
-        }
-      ]
-    },
-    "cashSales.multiPaymentModeTrigger": {
-      "label": "cashSales.multiPaymentModeTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashSalesDetail_cbpCashSales_pcCSMultipayment_formCSMultipayment_gvCSMultiPayment_DXEditor3_B-1Img",
-          "successCount": 34,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T07:35:38.238Z"
-        }
-      ]
-    },
-    "cashSales.multiPaymentModeOption": {
-      "label": "cashSales.multiPaymentModeOption",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "td[id*=\"CSMultipayment\" i][id*=\"DDD_L_LBI\" i]:visible:text-is(\"CASH\")",
-          "successCount": 34,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T07:35:39.535Z"
-        }
-      ]
-    },
-    "cashSales.multiPaymentOkButton": {
-      "label": "cashSales.multiPaymentOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "span.dx-vam:visible:text-is(\"OK\")",
-          "successCount": 34,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T07:35:41.500Z"
-        }
-      ]
-    },
-    "generalLedgerReport.dateField": {
-      "label": "generalLedgerReport.dateField",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "input[id*=\"dtDate\" i], input[id*=\"DateEdit\" i], input[id*=\"_dt\" i]",
-          "successCount": 1,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-07-26T07:28:34.365Z"
-        },
-        {
-          "type": "label",
-          "value": "Date",
-          "successCount": 0,
-          "failureCount": 1,
-          "discovered": false,
-          "lastUsed": "2026-07-26T07:28:34.323Z"
-        }
-      ]
-    },
-    "generalLedgerReport.calendarPrevMonthButton": {
-      "label": "generalLedgerReport.calendarPrevMonthButton",
-      "strategies": [
-        {
-          "type": "role",
-          "role": "img",
-          "options": {
-            "name": "<",
-            "exact": true
-          },
-          "successCount": 14,
-          "failureCount": 1,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:28:34.830Z"
-        },
-        {
-          "type": "css",
-          "value": "[title=\"Prev\" i]:visible",
-          "successCount": 0,
-          "failureCount": 1,
-          "discovered": false,
-          "lastUsed": "2026-07-26T07:28:37.520Z"
-        },
-        {
-          "type": "css",
-          "value": "a.dxeButtonEditButton_iOS[title*=\"Prev\" i]:visible",
-          "successCount": 0,
-          "failureCount": 1,
-          "discovered": false,
-          "lastUsed": "2026-07-26T07:28:40.567Z"
-        }
-      ]
-    },
-    "generalLedgerReport.bankSearchTrigger": {
-      "label": "generalLedgerReport.bankSearchTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "img[id*=\"Bank\" i]:visible",
-          "successCount": 11,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:44:35.897Z"
-        }
-      ]
-    },
-    "generalLedgerReport.bankPopupOkButton": {
-      "label": "generalLedgerReport.bankPopupOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "span.dx-vam:visible:text-is(\"OK\")",
-          "successCount": 11,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:44:38.200Z"
-        }
-      ]
-    },
-    "generalLedgerReport.dateFieldTrigger": {
-      "label": "generalLedgerReport.dateFieldTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_ReportFrameWork1_cbpReport_cbpReportFrameworkParameter_rpReportFramework_formReportFrameworkParameter_cbDocDate_dtDocDate_B-1Img",
-          "successCount": 14,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:28:34.597Z"
-        }
-      ]
-    },
-    "journalEntry.descriptionInput": {
-      "label": "journalEntry.descriptionInput",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_JournalEntryDetail_cbpJournalEntry_cbpJournalEntryDetail_ASPxRoundPanel1_formJEHeader_txtDescription_I",
-          "successCount": 222,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:31:51.395Z"
-        }
-      ]
-    },
-    "journalEntry.lineAddIcon": {
-      "label": "journalEntry.lineAddIcon",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_JournalEntryDetail_cbpJournalEntry_cpnlJEItem_formJEItem_PC_0_gvJEItem_header0_Add",
-          "successCount": 222,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:31:51.650Z"
-        }
-      ]
-    },
-    "journalEntry.newButton": {
-      "label": "journalEntry.newButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_JournalEntryDetail_cbpJournalEntry_mJEDetailsToolBar_mToolBars_DXI10_T",
-          "successCount": 222,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:31:51.820Z"
-        }
-      ]
-    },
-    "journalEntry.backButton": {
-      "label": "journalEntry.backButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_JournalEntryDetail_cbpJournalEntry_mJEDetailsToolBar_mToolBars_DXI0_T",
-          "successCount": 222,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:31:52.073Z"
-        }
-      ]
-    },
-    "journalEntry.postButton": {
-      "label": "journalEntry.postButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_JournalEntryDetail_cbpJournalEntry_mJEDetailsToolBar_mToolBars_DXI2_T",
-          "successCount": 222,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:31:52.194Z"
-        }
-      ]
-    },
-    "journalEntry.saveDraftButton": {
-      "label": "journalEntry.saveDraftButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_JournalEntryDetail_cbpJournalEntry_mJEDetailsToolBar_mToolBars_DXI4_T",
-          "successCount": 222,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:31:52.266Z"
-        }
-      ]
-    },
-    "journalEntry.accountTrigger": {
-      "label": "journalEntry.accountTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_JournalEntryDetail_cbpJournalEntry_cpnlJEItem_formJEItem_PC_0_gvJEItem_DXEditor3_B-1Img",
-          "successCount": 77,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:31:46.449Z"
-        }
-      ]
-    },
-    "cashBookPayment.payToInput": {
-      "label": "cashBookPayment.payToInput",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_cbpAPJournalEntryDetail_ASPxRoundPanel1_formAPJEHeader_txtPayTo_I",
-          "successCount": 150,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:16.656Z"
-        }
-      ]
-    },
-    "cashBookPayment.newButton": {
-      "label": "cashBookPayment.newButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_mAPPaymentDetailsToolBar_mToolBars_DXI10_T",
-          "successCount": 150,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:16.922Z"
-        }
-      ]
-    },
-    "cashBookPayment.backButton": {
-      "label": "cashBookPayment.backButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_mAPPaymentDetailsToolBar_mToolBars_DXI0_T",
-          "successCount": 150,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:17.063Z"
-        }
-      ]
-    },
-    "cashBookPayment.postButton": {
-      "label": "cashBookPayment.postButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_mAPPaymentDetailsToolBar_mToolBars_DXI2_T",
-          "successCount": 148,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:17.252Z"
-        }
-      ]
-    },
-    "cashBookPayment.saveDraftButton": {
-      "label": "cashBookPayment.saveDraftButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_mAPPaymentDetailsToolBar_mToolBars_DXI4_T",
-          "successCount": 148,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:17.458Z"
-        }
-      ]
-    },
-    "cashBookPayment.postAndNewButton": {
-      "label": "cashBookPayment.postAndNewButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_mAPPaymentDetailsToolBar_mToolBars_DXI1_T",
-          "successCount": 148,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:17.630Z"
-        }
-      ]
-    },
-    "cashBookPayment.paymentLineAddIcon": {
-      "label": "cashBookPayment.paymentLineAddIcon",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_ASPxFormLayout2_gvAPPItem_header0_Add",
-          "successCount": 55,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:06.286Z"
-        }
-      ]
-    },
-    "cashBookPayment.paymentModeTrigger": {
-      "label": "cashBookPayment.paymentModeTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_ASPxFormLayout2_gvAPPItem_DXEditor3_B-1Img",
-          "successCount": 56,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:07.433Z"
-        }
-      ]
-    },
-    "cashBookPayment.paymentAmountInput": {
-      "label": "cashBookPayment.paymentAmountInput",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_ASPxFormLayout2_gvAPPItem_DXEditor7_I",
-          "successCount": 56,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:09.533Z"
-        }
-      ]
-    },
-    "cashBookPayment.glAllocationAddIcon": {
-      "label": "cashBookPayment.glAllocationAddIcon",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_cbpAPPaymentDtl2_formAPPaymentDtl2_gvAPJEItem_header0_Add",
-          "successCount": 29,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:10.017Z"
-        }
-      ]
-    },
-    "cashBookPayment.glAccountFilterInput": {
-      "label": "cashBookPayment.glAccountFilterInput",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_cbpAPPaymentDtl2_formAPPaymentDtl2_gvAPJEItem_DXEditor3_I",
-          "successCount": 2,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-07-26T08:16:35.400Z"
-        }
-      ]
-    },
-    "cashBookPayment.glAllocationAmountInput": {
-      "label": "cashBookPayment.glAllocationAmountInput",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_cbpAPPaymentDtl2_formAPPaymentDtl2_gvAPJEItem_DXEditor11_I",
-          "successCount": 29,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:13.248Z"
-        }
-      ]
-    },
-    "cashBookPayment.glAccountTrigger": {
-      "label": "cashBookPayment.glAccountTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_cbpAPPaymentDtl2_formAPPaymentDtl2_gvAPJEItem_DXEditor3_B-1",
-          "successCount": 27,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:11.190Z"
-        }
-      ]
-    },
-    "cashBookPayment.paymentModeOption": {
-      "label": "cashBookPayment.paymentModeOption",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookPaymentDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_ASPxFormLayout2_gvAPPItem_DXEditor3_DDD_L_LBI4T0",
-          "successCount": 45,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:08.255Z"
-        }
-      ]
-    },
-    "cashBookReceipt.receivedFromInput": {
-      "label": "cashBookReceipt.receivedFromInput",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_cbpAPJournalEntryDetail_ASPxRoundPanel1_formAPJEHeader_txtReceivedFrom_I",
-          "successCount": 109,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:14.894Z"
-        }
-      ]
-    },
-    "cashBookReceipt.newButton": {
-      "label": "cashBookReceipt.newButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_mAPReceiptDetailsToolBar_mToolBars_DXI10_T",
-          "successCount": 109,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:14.969Z"
-        }
-      ]
-    },
-    "cashBookReceipt.backButton": {
-      "label": "cashBookReceipt.backButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_mAPReceiptDetailsToolBar_mToolBars_DXI0_T",
-          "successCount": 109,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:15.042Z"
-        }
-      ]
-    },
-    "cashBookReceipt.postButton": {
-      "label": "cashBookReceipt.postButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_mAPReceiptDetailsToolBar_mToolBars_DXI2_T",
-          "successCount": 109,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:15.132Z"
-        }
-      ]
-    },
-    "cashBookReceipt.saveDraftButton": {
-      "label": "cashBookReceipt.saveDraftButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_mAPReceiptDetailsToolBar_mToolBars_DXI4_T",
-          "successCount": 109,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:15.215Z"
-        }
-      ]
-    },
-    "cashBookReceipt.postAndNewButton": {
-      "label": "cashBookReceipt.postAndNewButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_mAPReceiptDetailsToolBar_mToolBars_DXI1_T",
-          "successCount": 108,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:15.381Z"
-        }
-      ]
-    },
-    "cashBookReceipt.paymentLineAddIcon": {
-      "label": "cashBookReceipt.paymentLineAddIcon",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_ASPxFormLayout2_gvAPPItem_header0_Add",
-          "successCount": 39,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:29:30.936Z"
-        }
-      ]
-    },
-    "cashBookReceipt.paymentModeTrigger": {
-      "label": "cashBookReceipt.paymentModeTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_ASPxFormLayout2_gvAPPItem_DXEditor3_B-1",
-          "successCount": 40,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:06.744Z"
-        }
-      ]
-    },
-    "cashBookReceipt.paymentModeOption": {
-      "label": "cashBookReceipt.paymentModeOption",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_ASPxFormLayout2_gvAPPItem_DXEditor3_DDD_L_LBI4T0",
-          "successCount": 40,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:07.520Z"
-        }
-      ]
-    },
-    "cashBookReceipt.paymentAmountInput": {
-      "label": "cashBookReceipt.paymentAmountInput",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_ASPxFormLayout2_gvAPPItem_DXEditor7_I",
-          "successCount": 40,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:08.837Z"
-        }
-      ]
-    },
-    "cashBookReceipt.glAllocationAddIcon": {
-      "label": "cashBookReceipt.glAllocationAddIcon",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_cbpAPReceiptDtl2_formAPReceiptDtl2_gvAPJEItem_header0_Add",
-          "successCount": 20,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:09.181Z"
-        }
-      ]
-    },
-    "cashBookReceipt.glAccountTrigger": {
-      "label": "cashBookReceipt.glAccountTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_cbpAPReceiptDtl2_formAPReceiptDtl2_gvAPJEItem_DXEditor3_B-1",
-          "successCount": 20,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:10.293Z"
-        }
-      ]
-    },
-    "cashBookReceipt.glAllocationAmountInput": {
-      "label": "cashBookReceipt.glAllocationAmountInput",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashBookReceiptDTL_cbpAPJournalEntry_cpnlAPJEItem_formAPJEItem_PC_0_cbpAPReceiptDtl2_formAPReceiptDtl2_gvAPJEItem_DXEditor11_I",
-          "successCount": 20,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:12.254Z"
-        }
-      ]
-    },
-    "journalEntry.postAndNewButton": {
-      "label": "journalEntry.postAndNewButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_JournalEntryDetail_cbpJournalEntry_mJEDetailsToolBar_mToolBars_DXI1_T",
-          "successCount": 218,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:31:52.346Z"
-        }
-      ]
-    },
-    "journalEntry.crInput": {
-      "label": "journalEntry.crInput",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_JournalEntryDetail_cbpJournalEntry_cpnlJEItem_formJEItem_PC_0_gvJEItem_DXEditor12_I",
-          "successCount": 44,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:31:48.006Z"
-        }
-      ]
-    },
-    "journalEntry.drInput": {
-      "label": "journalEntry.drInput",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_JournalEntryDetail_cbpJournalEntry_cpnlJEItem_formJEItem_PC_0_gvJEItem_DXEditor11_I",
-          "successCount": 21,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:31:44.497Z"
-        }
-      ]
-    },
-    "stockValue.addIcon": {
-      "label": "stockValue.addIcon",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_StockValue_cpnlStockValue_frmStockValue_gvStockValueMaintenance_header0_addButton_PRJCC",
-          "successCount": 9,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-12T07:20:36.120Z"
-        }
-      ]
-    },
-    "stockValue.projectTrigger": {
-      "label": "stockValue.projectTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_StockValue_cpnlStockValue_pcProjectCostCentre_formPopup_cbProject_B0Img",
-          "successCount": 10,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:30.168Z"
-        }
-      ]
-    },
-    "stockValue.projectPopupOkButton": {
-      "label": "stockValue.projectPopupOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_StockValue_cpnlStockValue_pcProjectCostCentre_gsc_cbProject_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD",
-          "successCount": 10,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:31.404Z"
-        }
-      ]
-    },
-    "stockValue.costCentreTrigger": {
-      "label": "stockValue.costCentreTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_StockValue_cpnlStockValue_pcProjectCostCentre_formPopup_cbCostCentre_B0Img",
-          "successCount": 10,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:32.169Z"
-        }
-      ]
-    },
-    "stockValue.costCentrePopupOkButton": {
-      "label": "stockValue.costCentrePopupOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_StockValue_cpnlStockValue_pcProjectCostCentre_gsc_cbCostCentre_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD",
-          "successCount": 10,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:33.187Z"
-        }
-      ]
-    },
-    "stockValue.popupSaveButton": {
-      "label": "stockValue.popupSaveButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_StockValue_cpnlStockValue_pcProjectCostCentre_formPopup_btnSave_CD",
-          "successCount": 10,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:33.924Z"
-        }
-      ]
-    },
-    "stockValue.monthValueInput": {
-      "label": "stockValue.monthValueInput",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_StockValue_cpnlStockValue_frmStockValue_gvStockValueMaintenance_DXEditor15_I",
-          "successCount": 10,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:35.600Z"
-        }
-      ]
-    },
-    "stockValue.mainSaveButton": {
-      "label": "stockValue.mainSaveButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_StockValue_mOBToolBar_mToolBars_DXI4_T",
-          "successCount": 20,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:40.027Z"
-        }
-      ]
-    },
-    "stockValue.deleteLink": {
-      "label": "stockValue.deleteLink",
-      "strategies": [
-        {
-          "type": "role",
-          "role": "link",
-          "options": {
-            "name": "Delete",
-            "exact": true
-          },
-          "successCount": 10,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:39.784Z"
-        }
-      ]
-    },
-    "bankReconciliation.addIcon": {
-      "label": "bankReconciliation.addIcon",
-      "strategies": [
-        {
-          "type": "role",
-          "role": "img",
-          "options": {
-            "name": "Add",
-            "exact": true
-          },
-          "successCount": 16,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:27:58.990Z"
-        }
-      ]
-    },
-    "bankReconciliation.dateDialogYesButton": {
-      "label": "bankReconciliation.dateDialogYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_BankReconciliation1_cpnlBankRecon_pcBRBankStatementDate_btnBRBankStatementDateYes_CD",
-          "successCount": 16,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:27:59.850Z"
-        }
-      ]
-    },
-    "bankReconciliation.saveButton": {
-      "label": "bankReconciliation.saveButton",
-      "strategies": [
-        {
-          "type": "text",
-          "value": "Save",
-          "options": {
-            "exact": true
-          },
-          "successCount": 12,
-          "failureCount": 4,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:28:03.007Z"
-        }
-      ]
-    },
-    "bankReconciliation.deleteButton": {
-      "label": "bankReconciliation.deleteButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_BankReconciliation1_cpnlBankRecon_formBankRecon_gvBankRecon_dxdt0_gvBankReconDTL_DXCBtn2",
-          "successCount": 19,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:28:07.946Z"
-        }
-      ]
-    },
-    "bankReconciliation.backButton": {
-      "label": "bankReconciliation.backButton",
-      "strategies": [
-        {
-          "type": "text",
-          "value": "Back",
-          "options": {
-            "exact": true
-          },
-          "successCount": 12,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:28:05.186Z"
-        }
-      ]
-    },
-    "bankReconciliation.deleteConfirmYesButton": {
-      "label": "bankReconciliation.deleteConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmDel_btnYes_CD",
-          "successCount": 12,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:28:08.920Z"
-        }
-      ]
-    },
-    "accountPayableReport.viewGridButton": {
-      "label": "accountPayableReport.viewGridButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "span:text-is(\"View Grid\")",
-          "successCount": 74,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:35:27.345Z"
-        }
-      ]
-    },
-    "accountPayableReport.previewReportButton": {
-      "label": "accountPayableReport.previewReportButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_ReportFrameWork1_cbpReport_cbpReportFramework_formReportFramework_btnPrint_CD",
-          "successCount": 74,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:35:27.622Z"
-        }
-      ]
-    },
-    "accountPayableReport.previewConfirmButton": {
-      "label": "accountPayableReport.previewConfirmButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "span:text-is(\"Preview\")",
-          "successCount": 68,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:35:30.989Z"
-        }
-      ]
-    },
-    "accountReceivableReport.viewGridButton": {
-      "label": "accountReceivableReport.viewGridButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "span:text-is(\"View Grid\")",
-          "successCount": 161,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:42:50.627Z"
-        }
-      ]
-    },
-    "accountReceivableReport.previewReportButton": {
-      "label": "accountReceivableReport.previewReportButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_ReportFrameWork1_cbpReport_cbpReportFramework_formReportFramework_btnPrint_CD",
-          "successCount": 162,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:42:52.131Z"
-        }
-      ]
-    },
-    "accountReceivableReport.previewConfirmButton": {
-      "label": "accountReceivableReport.previewConfirmButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "span:text-is(\"Preview\")",
-          "successCount": 157,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:42:53.498Z"
-        }
-      ]
-    },
-    "accountReceivableReport.customerSelectionDropdownButton": {
-      "label": "accountReceivableReport.customerSelectionDropdownButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_ReportFrameWork1_cbpReport_cbpReportFrameworkParameter_rpReportFramework_formReportFrameworkParameter_cbCustomer_glCustomer_B-1Img",
-          "successCount": 12,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:41:55.007Z"
-        }
-      ]
-    },
-    "accountReceivableReport.customerSelectionSelectAll": {
-      "label": "accountReceivableReport.customerSelectionSelectAll",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_ReportFrameWork1_cbpReport_cbpReportFrameworkParameter_rpReportFramework_formReportFrameworkParameter_cbCustomer_glCustomer_DDD_gv_DXSelAllBtn0_D",
-          "successCount": 12,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:41:55.348Z"
-        }
-      ]
-    },
-    "inventoryReport.viewGridButton": {
-      "label": "inventoryReport.viewGridButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "span:text-is(\"View Grid\")",
-          "successCount": 235,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T04:35:35.061Z"
-        }
-      ]
-    },
-    "inventoryReport.previewReportButton": {
-      "label": "inventoryReport.previewReportButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_cbpReport_cbpReportFramework_formReportFramework_btnPrint_CD\"]",
-          "successCount": 235,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T04:35:37.241Z"
-        }
-      ]
-    },
-    "inventoryReport.previewConfirmButton": {
-      "label": "inventoryReport.previewConfirmButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "span:text-is(\"Preview\")",
-          "successCount": 219,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T04:35:38.413Z"
-        }
-      ]
-    },
-    "inventoryReport.warehouseSelectionDropdownButton": {
-      "label": "inventoryReport.warehouseSelectionDropdownButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_glWarehouse_B-1Img\" i]",
-          "successCount": 66,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T04:30:15.516Z"
-        }
-      ]
-    },
-    "inventoryReport.warehouseSelectionSelectAll": {
-      "label": "inventoryReport.warehouseSelectionSelectAll",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_glWarehouse_DDD_gv_DXSelAllBtn0_D\" i]",
-          "successCount": 6,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-07-27T01:41:34.802Z"
-        }
-      ]
-    },
-    "inventoryReport.warehouseSelectionFirstRow": {
-      "label": "inventoryReport.warehouseSelectionFirstRow",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_glWarehouse_DDD_gv_DXSelBtn0_D\" i]",
-          "successCount": 60,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T04:30:16.883Z"
-        }
-      ]
-    },
-    "inventoryReport.itemSelectionDropdownButton": {
-      "label": "inventoryReport.itemSelectionDropdownButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_glItem_B-1Img\" i]",
-          "successCount": 12,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T04:24:46.334Z"
-        }
-      ]
-    },
-    "inventoryReport.itemSelectionFirstRow": {
-      "label": "inventoryReport.itemSelectionFirstRow",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_glItem_DDD_gv_DXSelBtn0_D\" i]",
-          "successCount": 12,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T04:24:47.804Z"
-        }
-      ]
-    },
-    "purchaseReport.viewGridButton": {
-      "label": "purchaseReport.viewGridButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "span:text-is(\"View Grid\")",
-          "successCount": 47,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:08:15.201Z"
-        }
-      ]
-    },
-    "purchaseReport.previewReportButton": {
-      "label": "purchaseReport.previewReportButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_cbpReport_cbpReportFramework_formReportFramework_btnPrint_CD\"]",
-          "successCount": 47,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:08:17.062Z"
-        }
-      ]
-    },
-    "purchaseReport.previewConfirmButton": {
-      "label": "purchaseReport.previewConfirmButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "span:text-is(\"Preview\")",
-          "successCount": 42,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:08:18.262Z"
-        }
-      ]
-    },
-    "purchaseReport.itemSelectionDropdownButton": {
-      "label": "purchaseReport.itemSelectionDropdownButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_glItem_B-1Img\" i]",
-          "successCount": 13,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:06:41.515Z"
-        }
-      ]
-    },
-    "purchaseReport.itemSelectionFirstRow": {
-      "label": "purchaseReport.itemSelectionFirstRow",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_glItem_DDD_gv_DXSelBtn0_D\" i]",
-          "successCount": 13,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:06:43.320Z"
-        }
-      ]
-    },
-    "purchaseReport.vendorSelectionDropdownButton": {
-      "label": "purchaseReport.vendorSelectionDropdownButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_glVendor_B-1Img\" i]",
-          "successCount": 23,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:08:11.909Z"
-        }
-      ]
-    },
-    "purchaseReport.vendorSelectionFirstRow": {
-      "label": "purchaseReport.vendorSelectionFirstRow",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_glVendor_DDD_gv_DXSelBtn0_D\" i]",
-          "successCount": 23,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:08:13.357Z"
-        }
-      ]
-    },
-    "salesReport.customerSelectionDropdownButton": {
-      "label": "salesReport.customerSelectionDropdownButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_glCustomer_B-1Img\" i]",
-          "successCount": 83,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:18:13.043Z"
-        }
-      ]
-    },
-    "salesReport.customerSelectionFirstRow": {
-      "label": "salesReport.customerSelectionFirstRow",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_glCustomer_DDD_gv_DXSelBtn0_D\" i]",
-          "successCount": 83,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:18:13.781Z"
-        }
-      ]
-    },
-    "salesReport.viewGridButton": {
-      "label": "salesReport.viewGridButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "span:text-is(\"View Grid\")",
-          "successCount": 168,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:18:56.659Z"
-        }
-      ]
-    },
-    "salesReport.previewReportButton": {
-      "label": "salesReport.previewReportButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_cbpReport_cbpReportFramework_formReportFramework_btnPrint_CD\"]",
-          "successCount": 166,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:18:58.660Z"
-        }
-      ]
-    },
-    "salesReport.previewConfirmButton": {
-      "label": "salesReport.previewConfirmButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "span:text-is(\"Preview\")",
-          "successCount": 152,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:18:59.652Z"
-        }
-      ]
-    },
-    "salesReport.itemSelectionDropdownButton": {
-      "label": "salesReport.itemSelectionDropdownButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_glItem_B-1Img\" i]",
-          "successCount": 51,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:13:58.905Z"
-        }
-      ]
-    },
-    "salesReport.itemSelectionFirstRow": {
-      "label": "salesReport.itemSelectionFirstRow",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_glItem_DDD_gv_DXSelBtn0_D\" i]",
-          "successCount": 51,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:13:59.500Z"
-        }
-      ]
-    },
-    "promotionReport.itemSelectionDropdownButton": {
-      "label": "promotionReport.itemSelectionDropdownButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_glItem_B-1Img\" i]",
-          "successCount": 3,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-07-27T05:49:40.988Z"
-        }
-      ]
-    },
-    "promotionReport.itemSelectionFirstRow": {
-      "label": "promotionReport.itemSelectionFirstRow",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_glItem_DDD_gv_DXSelBtn0_D\" i]",
-          "successCount": 3,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-07-27T05:49:42.392Z"
-        }
-      ]
-    },
-    "promotionReport.viewGridButton": {
-      "label": "promotionReport.viewGridButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "span:text-is(\"View Grid\")",
-          "successCount": 3,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-07-27T05:49:43.970Z"
-        }
-      ]
-    },
-    "promotionReport.previewReportButton": {
-      "label": "promotionReport.previewReportButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_cbpReport_cbpReportFramework_formReportFramework_btnPrint_CD\"]",
-          "successCount": 3,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-07-27T05:50:14.413Z"
-        }
-      ]
-    },
-    "gstReport.viewGridButton": {
-      "label": "gstReport.viewGridButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "span:text-is(\"View Grid\")",
-          "successCount": 8,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:47:24.545Z"
-        }
-      ]
-    },
-    "gstReport.previewReportButton": {
-      "label": "gstReport.previewReportButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_cbpReport_cbpReportFramework_formReportFramework_btnPrint_CD\"]",
-          "successCount": 8,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:47:27.349Z"
-        }
-      ]
-    },
-    "gstReport.previewConfirmButton": {
-      "label": "gstReport.previewConfirmButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "span:text-is(\"Preview\")",
-          "successCount": 8,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:47:27.987Z"
-        }
-      ]
-    },
-    "membershipVoucherReport.customerSelectionDropdownButton": {
-      "label": "membershipVoucherReport.customerSelectionDropdownButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_glCustomer_B-1Img\" i]",
-          "successCount": 7,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:05:24.602Z"
-        }
-      ]
-    },
-    "membershipVoucherReport.customerSelectionFirstRow": {
-      "label": "membershipVoucherReport.customerSelectionFirstRow",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_glCustomer_DDD_gv_DXSelBtn0_D\" i]",
-          "successCount": 7,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:05:26.195Z"
-        }
-      ]
-    },
-    "membershipVoucherReport.viewGridButton": {
-      "label": "membershipVoucherReport.viewGridButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "span:text-is(\"View Grid\")",
-          "successCount": 7,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:05:28.605Z"
-        }
-      ]
-    },
-    "membershipVoucherReport.previewReportButton": {
-      "label": "membershipVoucherReport.previewReportButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_cbpReport_cbpReportFramework_formReportFramework_btnPrint_CD\"]",
-          "successCount": 7,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:05:30.269Z"
-        }
-      ]
-    },
-    "membershipVoucherReport.previewConfirmButton": {
-      "label": "membershipVoucherReport.previewConfirmButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "span:text-is(\"Preview\")",
-          "successCount": 7,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:05:31.613Z"
-        }
-      ]
-    },
-    "staffReport.viewGridButton": {
-      "label": "staffReport.viewGridButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "span:text-is(\"View Grid\")",
-          "successCount": 6,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:19:25.415Z"
-        }
-      ]
-    },
-    "staffReport.previewReportButton": {
-      "label": "staffReport.previewReportButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_cbpReport_cbpReportFramework_formReportFramework_btnPrint_CD\"]",
-          "successCount": 6,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:19:27.925Z"
-        }
-      ]
-    },
-    "staffReport.previewConfirmButton": {
-      "label": "staffReport.previewConfirmButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "span:text-is(\"Preview\")",
-          "successCount": 6,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:19:29.379Z"
-        }
-      ]
-    },
-    "othersReport.viewGridButton": {
-      "label": "othersReport.viewGridButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "span:text-is(\"View Grid\")",
-          "successCount": 13,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:05:51.988Z"
-        }
-      ]
-    },
-    "othersReport.previewReportButton": {
-      "label": "othersReport.previewReportButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_cbpReport_cbpReportFramework_formReportFramework_btnPrint_CD\"]",
-          "successCount": 13,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:05:53.586Z"
-        }
-      ]
-    },
-    "othersReport.previewConfirmButton": {
-      "label": "othersReport.previewConfirmButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "span:text-is(\"Preview\")",
-          "successCount": 12,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:05:54.775Z"
-        }
-      ]
-    },
-    "customer.saveButton": {
-      "label": "customer.saveButton",
-      "strategies": [
-        {
-          "type": "text",
-          "value": "Save",
-          "options": {
-            "exact": true
-          },
-          "successCount": 45,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:28:16.173Z"
-        }
-      ]
-    },
-    "customer.backButton": {
-      "label": "customer.backButton",
-      "strategies": [
-        {
-          "type": "text",
-          "value": "Back",
-          "successCount": 45,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:28:19.458Z"
-        }
-      ]
-    },
-    "customer.searchFilterBox": {
-      "label": "customer.searchFilterBox",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_Customer_cbpCustomerCreation_formCustomerCreation_FilterTextBoxGridView_txtFilterGridView_I",
-          "successCount": 66,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:28:22.614Z"
-        }
-      ]
-    },
-    "customer.editLink": {
-      "label": "customer.editLink",
-      "strategies": [
-        {
-          "type": "role",
-          "role": "link",
-          "options": {
-            "name": "Edit",
-            "exact": true
-          },
-          "successCount": 21,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:28:13.079Z"
-        }
-      ]
-    },
-    "customer.deleteLink": {
-      "label": "customer.deleteLink",
-      "strategies": [
-        {
-          "type": "role",
-          "role": "link",
-          "options": {
-            "name": "Delete",
-            "exact": true
-          },
-          "successCount": 20,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:28:27.346Z"
-        }
-      ]
-    },
-    "customer.deleteConfirmYesButton": {
-      "label": "customer.deleteConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmDel_btnYes_CD span:has-text(\"Yes\")",
-          "successCount": 20,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:28:27.555Z"
-        }
-      ]
-    },
-    "customer.newIcon": {
-      "label": "customer.newIcon",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_Customer_cbpCustomerCreation_formCustomerCreation_gvCustomer_header0_Add",
-          "successCount": 23,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:27:58.645Z"
-        }
-      ]
-    },
-    "customer.companyNameField": {
-      "label": "customer.companyNameField",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CustomerDetails_cbpCustomerDetails_formCustomerHeader_txtName_I",
-          "successCount": 42,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:28:15.597Z"
-        }
-      ]
-    },
-    "birthdaySetting.BeforeBday.spinUp": {
-      "label": "birthdaySetting.BeforeBday.spinUp",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_SEBeforeBday_B-2Img\" i]",
-          "successCount": 12,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:31:26.021Z"
-        }
-      ]
-    },
-    "birthdaySetting.PointBenefit.spinUp": {
-      "label": "birthdaySetting.PointBenefit.spinUp",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_SEPointBenefit_B-2Img\" i]",
-          "successCount": 12,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:31:26.513Z"
-        }
-      ]
-    },
-    "birthdaySetting.AfterBday.spinUp": {
-      "label": "birthdaySetting.AfterBday.spinUp",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_SEAfterBday_B-2Img\" i]",
-          "successCount": 12,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:31:26.941Z"
-        }
-      ]
-    },
-    "birthdaySetting.saveButton": {
-      "label": "birthdaySetting.saveButton",
-      "strategies": [
-        {
-          "type": "text",
-          "value": "Save",
-          "options": {
-            "exact": true
-          },
-          "successCount": 23,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:31:29.907Z"
-        }
-      ]
-    },
-    "birthdaySetting.BeforeBday.spinDown": {
-      "label": "birthdaySetting.BeforeBday.spinDown",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_SEBeforeBday_B-3Img\" i]",
-          "successCount": 11,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:31:28.651Z"
-        }
-      ]
-    },
-    "birthdaySetting.PointBenefit.spinDown": {
-      "label": "birthdaySetting.PointBenefit.spinDown",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_SEPointBenefit_B-3Img\" i]",
-          "successCount": 11,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:31:29.056Z"
-        }
-      ]
-    },
-    "birthdaySetting.AfterBday.spinDown": {
-      "label": "birthdaySetting.AfterBday.spinDown",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"_SEAfterBday_B-3Img\" i]",
-          "successCount": 11,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:31:29.466Z"
-        }
-      ]
-    },
-    "createItem.itemCode": {
-      "label": "createItem.itemCode",
-      "strategies": [
-        {
-          "type": "label",
-          "value": "Item Code",
-          "successCount": 9,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-07-27T09:23:51.352Z"
-        }
-      ]
-    },
-    "createItem.unitPrice": {
-      "label": "createItem.unitPrice",
-      "strategies": [
-        {
-          "type": "label",
-          "value": "Unit Price",
-          "successCount": 0,
-          "failureCount": 9,
-          "discovered": false,
-          "lastUsed": "2026-07-27T09:23:53.223Z"
-        },
-        {
-          "type": "placeholder",
-          "value": "Unit Price",
-          "successCount": 0,
-          "failureCount": 9,
-          "discovered": false,
-          "lastUsed": "2026-07-27T09:23:54.879Z"
-        },
-        {
-          "type": "css",
-          "value": "input[id*=\"txtUnitPrice\" i]",
-          "successCount": 0,
-          "failureCount": 9,
-          "discovered": false,
-          "lastUsed": "2026-07-27T09:23:56.489Z"
-        }
-      ]
-    },
-    "createItem.isSerialItem": {
-      "label": "createItem.isSerialItem",
-      "strategies": [
-        {
-          "type": "label",
-          "value": "Serial Item",
-          "successCount": 0,
-          "failureCount": 9,
-          "discovered": false,
-          "lastUsed": "2026-07-27T09:23:58.235Z"
-        },
-        {
-          "type": "css",
-          "value": "input[type=\"checkbox\"][id*=\"chkSerial\" i]",
-          "successCount": 0,
-          "failureCount": 9,
-          "discovered": false,
-          "lastUsed": "2026-07-27T09:23:59.848Z"
-        }
-      ]
-    },
-    "createItem.itemGroupTrigger": {
-      "label": "createItem.itemGroupTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_ItemCreationDetails_cbpItemCreationDetails_cbpDtl_formItemCreationDetails_tabs_formLayoutGeneral_ddlItemGroup_B-1Img",
-          "successCount": 9,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-07-27T09:24:00.275Z"
-        }
-      ]
-    },
-    "cashSales.newButton": {
-      "label": "cashSales.newButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashSalesDetail_cbpCashSales_mCashSalesDetailsToolBar_mToolBars_DXI10_T",
-          "successCount": 18,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T07:36:17.359Z"
-        }
-      ]
-    },
-    "cashSales.saveDraftButton": {
-      "label": "cashSales.saveDraftButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashSalesDetail_cbpCashSales_mCashSalesDetailsToolBar_mToolBars_DXI4_T",
-          "successCount": 18,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T07:36:17.541Z"
-        }
-      ]
-    },
-    "cashSales.backButton": {
-      "label": "cashSales.backButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_CashSalesDetail_cbpCashSales_mCashSalesDetailsToolBar_mToolBars_DXI0_T",
-          "successCount": 18,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T07:36:17.713Z"
-        }
-      ]
-    },
-    "item.newIcon": {
-      "label": "item.newIcon",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_ItemMaster_cpnlItemMaster_formItemMaster_gvItemMaster_header38_Add",
-          "successCount": 6,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:50.069Z"
-        }
-      ]
-    },
-    "item.searchFilterBox": {
-      "label": "item.searchFilterBox",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_ItemMaster_cpnlItemMaster_formItemMaster_FilterTextBoxGridView_txtFilterGridView_I",
-          "successCount": 8,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:31:12.448Z"
-        }
-      ]
-    },
-    "item.deleteIcon": {
-      "label": "item.deleteIcon",
-      "strategies": [
-        {
-          "type": "role",
-          "role": "link",
-          "options": {
-            "name": "Delete",
-            "exact": true
-          },
-          "successCount": 4,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-15T08:13:19.328Z"
-        }
-      ]
-    },
-    "item.deleteConfirmYesButton": {
-      "label": "item.deleteConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmDel_btnYes_CD",
-          "successCount": 4,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-15T08:13:19.470Z"
-        },
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmDel_btnYes_CD span:has-text(\"Yes\")",
-          "successCount": 2,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:31:13.771Z"
-        }
-      ]
-    },
-    "apPayment.newIcon": {
-      "label": "apPayment.newIcon",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_APPaymentHdr_cpnlAPPaymentHeader_formC_gvAPPayment_header16_Add",
-          "successCount": 39,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-15T09:53:31.542Z"
-        }
-      ]
-    },
-    "apPayment.paymentModeTrigger": {
-      "label": "apPayment.paymentModeTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_APPaymentDtl_cbpAPJournalEntry_cpnlAPPItem_formAPJEItem_PC_0_ASPxFormLayout3_gvAPPItemNew_DXEditor3_I",
-          "successCount": 22,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-15T09:53:36.954Z"
-        }
-      ]
-    },
-    "apPayment.paymentAmountInput": {
-      "label": "apPayment.paymentAmountInput",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_APPaymentDtl_cbpAPJournalEntry_cpnlAPPItem_formAPJEItem_PC_0_ASPxFormLayout3_gvAPPItemNew_DXEditor7_I",
-          "successCount": 22,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-15T09:53:38.690Z"
-        }
-      ]
-    },
-    "apPayment.cancelConfirmYesButton": {
-      "label": "apPayment.cancelConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
-          "successCount": 3,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-15T09:53:43.114Z"
-        }
-      ]
-    },
-    "arInvoice.newIcon": {
-      "label": "arInvoice.newIcon",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_ARJournalEntryHDR_cpnlARJEHeader_formC_gvARJournalEntry_header17_btnCheckAll",
-          "successCount": 25,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-15T10:57:32.479Z"
-        }
-      ]
-    },
-    "arInvoice.accountNoTrigger": {
-      "label": "arInvoice.accountNoTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_ARJournalEntryDTL_cbpARJournalEntry_cpnlARJEItem_formARJEItem_PC_0_gvARJEItem_DXEditor3_B-1",
-          "successCount": 13,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-15T10:57:37.204Z"
-        }
-      ]
-    },
-    "arInvoice.cancelConfirmYesButton": {
-      "label": "arInvoice.cancelConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
-          "successCount": 5,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-15T10:57:51.744Z"
-        }
-      ]
-    },
-    "arPayment.newIcon": {
-      "label": "arPayment.newIcon",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_ARPaymentHdr_cpnlARPaymentHeader_formC_gvARPayment_header17_Add",
-          "successCount": 9,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-15T14:19:57.805Z"
-        }
-      ]
-    },
-    "arPayment.paymentModeTrigger": {
-      "label": "arPayment.paymentModeTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_ARPaymentDtl_cbpARPayment_cpnlARPaymentItem_formARPaymentItem_PC_0_ASPxFormLayout3_gvARItemNew_DXEditor3_B-1Img",
-          "successCount": 9,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-15T14:20:09.258Z"
-        }
-      ]
-    },
-    "arPayment.cancelConfirmYesButton": {
-      "label": "arPayment.cancelConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
-          "successCount": 3,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-15T14:20:18.391Z"
-        }
-      ]
-    },
-    "arPaymentRefund.newIcon": {
-      "label": "arPaymentRefund.newIcon",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_ARRefundHdr_cpnlARRefundHeader_formC_gvARRefund_header17_Add",
-          "successCount": 3,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-16T07:21:14.779Z"
-        }
-      ]
-    },
-    "arPaymentRefund.paymentModeTrigger": {
-      "label": "arPaymentRefund.paymentModeTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_ARRefundDtl_cbpARRefund_cpnlARPItem_formARJEItem_PC_0_gvARRItemNew_DXEditor3_B-1",
-          "successCount": 3,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-16T07:21:20.862Z"
-        }
-      ]
-    },
-    "arPaymentRefund.cancelConfirmYesButton": {
-      "label": "arPaymentRefund.cancelConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
-          "successCount": 3,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-16T07:21:29.685Z"
-        }
-      ]
-    },
-    "arDebitNote.newIcon": {
-      "label": "arDebitNote.newIcon",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_ARDebitNoteHdr_cpnlARDebitNoteHeader_formC_gvARDebitNote_header17_Add",
-          "successCount": 0,
-          "failureCount": 9,
-          "discovered": false,
-          "lastUsed": "2026-08-16T08:11:08.089Z"
-        }
-      ]
-    },
-    "arDebitNote.accountNoTrigger": {
-      "label": "arDebitNote.accountNoTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_ARDebitNoteDtl_cbpARDebitNote_cpnlARDNItem_formARDNItem_PC_0_gvARDNItem_DXEditor3_B-1Img",
-          "successCount": 9,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-16T08:11:16.324Z"
-        }
-      ]
-    },
-    "arDebitNote.cancelConfirmYesButton": {
-      "label": "arDebitNote.cancelConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
-          "successCount": 9,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-16T08:11:34.811Z"
-        }
-      ]
-    },
-    "arCreditNote.newIcon": {
-      "label": "arCreditNote.newIcon",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_ARCreditNoteHdr_cpnlARCreditNoteHeader_formC_gvARCreditNote_header17_Add",
-          "successCount": 0,
-          "failureCount": 23,
-          "discovered": false,
-          "lastUsed": "2026-08-16T09:47:04.522Z"
-        }
-      ]
-    },
-    "arCreditNote.accountNoTrigger": {
-      "label": "arCreditNote.accountNoTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_ARCreditNoteDtl_cbpARCreditNote_cpnlARPItem_formARCNItem_PC_0_ASPxFormLayout3_gvARCNItem_DXEditor3_I",
-          "successCount": 23,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-16T09:47:14.149Z"
-        }
-      ]
-    },
-    "arCreditNote.cancelConfirmYesButton": {
-      "label": "arCreditNote.cancelConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
-          "successCount": 8,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-16T09:47:23.292Z"
-        }
-      ]
-    },
-    "stockReceive.newIcon": {
-      "label": "stockReceive.newIcon",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_StockReceiveHeader_cbpStockReceiveHdr_formC_gvStockReceive_header17_Add",
-          "successCount": 0,
-          "failureCount": 3,
-          "discovered": false,
-          "lastUsed": "2026-08-17T01:33:28.188Z"
-        }
-      ]
-    },
-    "stockReceive.cancelConfirmYesButton": {
-      "label": "stockReceive.cancelConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
-          "successCount": 3,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-17T01:33:43.542Z"
-        }
-      ]
-    },
-    "stockIssue.newIcon": {
-      "label": "stockIssue.newIcon",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_StockIssueHeader_cbpStockIssueHdr_formC_gvStockIssue_header17_Add",
-          "successCount": 0,
-          "failureCount": 6,
-          "discovered": false,
-          "lastUsed": "2026-08-17T02:58:57.335Z"
-        }
-      ]
-    },
-    "stockIssue.cancelConfirmYesButton": {
-      "label": "stockIssue.cancelConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
-          "successCount": 6,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-17T02:59:09.350Z"
-        }
-      ]
-    },
-    "stockAdjustment.newIcon": {
-      "label": "stockAdjustment.newIcon",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_InventoryAdjustment_cpnlInventoryAdjustment_formInventoryAdjustment_gvInventoryAdjustment_header17_Add",
-          "successCount": 0,
-          "failureCount": 13,
-          "discovered": false,
-          "lastUsed": "2026-08-17T03:56:12.874Z"
-        }
-      ]
-    },
-    "stockAdjustment.deleteConfirmYesButton": {
-      "label": "stockAdjustment.deleteConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmDel_btnYes_CD",
-          "successCount": 5,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-17T03:56:29.459Z"
-        }
-      ]
-    },
-    "stockTransferRequest.newIcon": {
-      "label": "stockTransferRequest.newIcon",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_InventoryTransferRequest1_cpnlInventoryTransferRequest_formInventoryTransferRequest_gvInventoryTransferRequest_header17_Add",
-          "successCount": 0,
-          "failureCount": 43,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:56:00.354Z"
-        }
-      ]
-    },
-    "stockTransferRequest.deleteConfirmYesButton": {
-      "label": "stockTransferRequest.deleteConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmDel_btnYes_CD",
-          "successCount": 11,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:56:39.084Z"
-        }
-      ]
-    },
-    "closeStockTransferRequest.transferFromOkButton": {
-      "label": "closeStockTransferRequest.transferFromOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"formTransferFrom_btnPurchaseTransferOk_CD\" i]",
-          "successCount": 14,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:14:30.542Z"
-        }
-      ]
-    },
-    "closeStockTransferRequest.deleteConfirmYesButton": {
-      "label": "closeStockTransferRequest.deleteConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmDel_btnYes_CD",
-          "successCount": 14,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:14:37.230Z"
-        }
-      ]
-    },
-    "stockTransfer.deleteConfirmYesButton": {
-      "label": "stockTransfer.deleteConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmDel_btnYes_CD",
-          "successCount": 19,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:56:34.943Z"
-        }
-      ]
-    },
-    "stockTransfer.transferFromOkButton": {
-      "label": "stockTransfer.transferFromOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"formTransferFrom_btnPurchaseTransferOk_CD\" i]",
-          "successCount": 9,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T03:56:27.774Z"
-        }
-      ]
-    },
-    "stockTake.itemFilterOkButton": {
-      "label": "stockTake.itemFilterOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"formItemFilter_btnSaveItemFilter_CD\" i]",
-          "successCount": 4,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:03:30.748Z"
-        }
-      ]
-    },
-    "stockTake.cancelConfirmYesButton": {
-      "label": "stockTake.cancelConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
-          "successCount": 4,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:03:39.053Z"
-        }
-      ]
-    },
-    "purchaseOrder.newIcon": {
-      "label": "purchaseOrder.newIcon",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"header19_btnCheckAll\" i]",
-          "successCount": 146,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T10:00:09.832Z"
-        }
-      ]
-    },
-    "purchaseOrder.vendorTrigger": {
-      "label": "purchaseOrder.vendorTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"cbVendor_cbVendor_B1Img\" i]",
-          "successCount": 141,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T10:00:15.897Z"
-        }
-      ]
-    },
-    "purchaseOrder.vendorPopupOkButton": {
-      "label": "purchaseOrder.vendorPopupOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"cbVendor_gsc_cbVendor_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
-          "successCount": 133,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T10:00:20.292Z"
-        }
-      ]
-    },
-    "purchaseOrder.warehouseTrigger": {
-      "label": "purchaseOrder.warehouseTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"cbSelectWareHouse_cbWarehouse_B-1Img\" i]",
-          "successCount": 133,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T10:00:21.066Z"
-        }
-      ]
-    },
-    "purchaseOrder.itemTrigger": {
-      "label": "purchaseOrder.itemTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"ItemAdvanceSearchControlPODetail_txtItemSearchUpdate_B0Img\" i]",
-          "successCount": 132,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T10:00:23.090Z"
-        }
-      ]
-    },
-    "purchaseOrder.itemPopupOkButton": {
-      "label": "purchaseOrder.itemPopupOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"formItemSearchControl_btnItemSearchOk_CD\" i]",
-          "successCount": 125,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T10:00:25.961Z"
-        }
-      ]
-    },
-    "purchaseOrder.duplicateItemYesButton": {
-      "label": "purchaseOrder.duplicateItemYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"pcInfoMessageBox_btnInfoYes_CD\" i]",
-          "successCount": 125,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T10:00:27.034Z"
-        }
-      ]
-    },
-    "purchaseOrder.postButton": {
-      "label": "purchaseOrder.postButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Post [Alt + P]\"]",
-          "successCount": 111,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T10:00:28.624Z"
-        }
-      ]
-    },
-    "closePurchaseOrder.vendorTrigger": {
-      "label": "closePurchaseOrder.vendorTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"cbVendor_cbVendor_B1Img\" i]",
-          "successCount": 12,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:43:01.034Z"
-        }
-      ]
-    },
-    "closePurchaseOrder.vendorPopupOkButton": {
-      "label": "closePurchaseOrder.vendorPopupOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"cbVendor_gsc_cbVendor_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
-          "successCount": 12,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:43:03.498Z"
-        }
-      ]
-    },
-    "closePurchaseOrder.copyFromButton": {
-      "label": "closePurchaseOrder.copyFromButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Copy From [Alt + M]\"]",
-          "successCount": 12,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:43:04.681Z"
-        }
-      ]
-    },
-    "closePurchaseOrder.transferOkButton": {
-      "label": "closePurchaseOrder.transferOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"btnPurchaseTransferOk_CD\" i]",
-          "successCount": 12,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:43:08.047Z"
-        }
-      ]
-    },
-    "closePurchaseOrder.postButton": {
-      "label": "closePurchaseOrder.postButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Post [Alt + P]\"]",
-          "successCount": 12,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:43:10.397Z"
-        }
-      ]
-    },
-    "goodsReceive.vendorTrigger": {
-      "label": "goodsReceive.vendorTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"cbVendor_cbVendor_B1Img\" i]",
-          "successCount": 23,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T10:00:47.494Z"
-        }
-      ]
-    },
-    "goodsReceive.vendorPopupOkButton": {
-      "label": "goodsReceive.vendorPopupOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"cbVendor_gsc_cbVendor_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
-          "successCount": 22,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T10:00:53.503Z"
-        }
-      ]
-    },
-    "goodsReceive.copyFromButton": {
-      "label": "goodsReceive.copyFromButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Copy From [Alt + M]\"]",
-          "successCount": 22,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T10:00:55.168Z"
-        }
-      ]
-    },
-    "goodsReceive.transferOkButton": {
-      "label": "goodsReceive.transferOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"btnPurchaseTransferOk_CD\" i]",
-          "successCount": 23,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T10:01:00.015Z"
-        }
-      ]
-    },
-    "goodsReceive.postButton": {
-      "label": "goodsReceive.postButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Post [Alt + P]\"]",
-          "successCount": 23,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T10:01:06.474Z"
-        }
-      ]
-    },
-    "purchaseInvoice.vendorTrigger": {
-      "label": "purchaseInvoice.vendorTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"cbVendor_cbVendor_B1Img\" i]",
-          "successCount": 58,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T09:00:16.130Z"
-        }
-      ]
-    },
-    "purchaseInvoice.vendorPopupOkButton": {
-      "label": "purchaseInvoice.vendorPopupOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"cbVendor_gsc_cbVendor_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
-          "successCount": 58,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T09:00:20.499Z"
-        }
-      ]
-    },
-    "purchaseInvoice.copyFromButton": {
-      "label": "purchaseInvoice.copyFromButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Copy From [Alt + M]\"]",
-          "successCount": 58,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T09:00:21.356Z"
-        }
-      ]
-    },
-    "purchaseInvoice.transferOkButton": {
-      "label": "purchaseInvoice.transferOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"btnPurchaseTransferOk_CD\" i]",
-          "successCount": 57,
-          "failureCount": 1,
-          "discovered": false,
-          "lastUsed": "2026-08-18T09:00:27.372Z"
-        }
-      ]
-    },
-    "purchaseInvoice.saveDraftButton": {
-      "label": "purchaseInvoice.saveDraftButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Save Draft [Alt + S]\"]",
-          "successCount": 8,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:50:48.652Z"
-        }
-      ]
-    },
-    "purchaseInvoice.postButton": {
-      "label": "purchaseInvoice.postButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Post [Alt + P]\"]",
-          "successCount": 39,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T09:00:32.555Z"
-        }
-      ]
-    },
-    "purchaseInvoice.postAndNewButton": {
-      "label": "purchaseInvoice.postAndNewButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Post & New [Alt + Ctrl + P]\"]",
-          "successCount": 9,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:49:33.382Z"
-        }
-      ]
-    },
-    "purchaseReturn.vendorTrigger": {
-      "label": "purchaseReturn.vendorTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"cbVendor_cbVendor_B1Img\" i]",
-          "successCount": 22,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T09:01:19.381Z"
-        }
-      ]
-    },
-    "purchaseReturn.vendorPopupOkButton": {
-      "label": "purchaseReturn.vendorPopupOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"cbVendor_gsc_cbVendor_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
-          "successCount": 22,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T09:01:25.613Z"
-        }
-      ]
-    },
-    "purchaseReturn.copyFromButton": {
-      "label": "purchaseReturn.copyFromButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Copy From [Alt + M]\"]",
-          "successCount": 22,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T09:01:27.208Z"
-        }
-      ]
-    },
-    "purchaseReturn.transferOkButton": {
-      "label": "purchaseReturn.transferOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"btnPurchaseTransferOk_CD\" i]",
-          "successCount": 22,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T09:01:34.153Z"
-        }
-      ]
-    },
-    "purchaseReturn.cityTrigger": {
-      "label": "purchaseReturn.cityTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"cbCity_B0Img\" i]",
-          "successCount": 22,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T09:01:40.833Z"
-        }
-      ]
-    },
-    "purchaseReturn.cityPopupOkButton": {
-      "label": "purchaseReturn.cityPopupOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"gsc_cbCity_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
-          "successCount": 22,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T09:01:45.443Z"
-        }
-      ]
-    },
-    "purchaseReturn.postButton": {
-      "label": "purchaseReturn.postButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Post [Alt + P]\"]",
-          "successCount": 17,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T09:01:47.400Z"
-        }
-      ]
-    },
-    "purchaseReturn.postAndNewButton": {
-      "label": "purchaseReturn.postAndNewButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Post & New [Alt + Ctrl + P]\"]",
-          "successCount": 5,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:59:18.049Z"
-        }
-      ]
-    },
-    "cashPurchase.vendorTrigger": {
-      "label": "cashPurchase.vendorTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"cbVendor_cbVendor_B1Img\" i]",
-          "successCount": 29,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:40:47.812Z"
-        }
-      ]
-    },
-    "cashPurchase.vendorPopupOkButton": {
-      "label": "cashPurchase.vendorPopupOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"cbVendor_gsc_cbVendor_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
-          "successCount": 29,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:40:49.796Z"
-        }
-      ]
-    },
-    "cashPurchase.warehouseTrigger": {
-      "label": "cashPurchase.warehouseTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"cbSelectWareHouse_cbWarehouse_B-1Img\" i]",
-          "successCount": 29,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:40:50.318Z"
-        }
-      ]
-    },
-    "cashPurchase.itemTrigger": {
-      "label": "cashPurchase.itemTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"txtItemSearchUpdate_B0Img\" i]",
-          "successCount": 29,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:40:53.566Z"
-        }
-      ]
-    },
-    "cashPurchase.itemPopupOkButton": {
-      "label": "cashPurchase.itemPopupOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"formItemSearchControl_btnItemSearchOk_CD\" i]",
-          "successCount": 29,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:40:56.435Z"
-        }
-      ]
-    },
-    "cashPurchase.saveDraftButton": {
-      "label": "cashPurchase.saveDraftButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Save Draft [Alt + S]\"]",
-          "successCount": 23,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:41:02.330Z"
-        }
-      ]
-    },
-    "cashPurchase.multiPaymentAddRow": {
-      "label": "cashPurchase.multiPaymentAddRow",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "img[id*=\"CPMultipayment\" i][id*=\"header0_Add\" i]",
-          "successCount": 29,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:41:05.216Z"
-        }
-      ]
-    },
-    "cashPurchase.multiPaymentModeTrigger": {
-      "label": "cashPurchase.multiPaymentModeTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"CPMultipayment\" i][id*=\"DXEditor3\" i][id*=\"B-1Img\" i]:visible",
-          "successCount": 26,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:41:06.776Z"
-        }
-      ]
-    },
-    "cashPurchase.multiPaymentModeOption": {
-      "label": "cashPurchase.multiPaymentModeOption",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "td[id*=\"CPMultipayment\" i][id*=\"DDD_L_LBI\" i]:visible:text-is(\"CASH\")",
-          "successCount": 26,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:41:08.092Z"
-        }
-      ]
-    },
-    "cashPurchase.multiPaymentOkButton": {
-      "label": "cashPurchase.multiPaymentOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"CPMultipayment\" i][id$=\"btnMakePaymentClick_CD\" i]",
-          "successCount": 26,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:41:09.150Z"
-        }
-      ]
-    },
-    "cashPurchase.postButton": {
-      "label": "cashPurchase.postButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Post [Alt + P]\"]",
-          "successCount": 3,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:39:18.377Z"
-        }
-      ]
-    },
-    "cashPurchase.postAndNewButton": {
-      "label": "cashPurchase.postAndNewButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Post & New [Alt + Ctrl + P]\"]",
-          "successCount": 3,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:40:04.111Z"
-        }
-      ]
-    },
-    "item.itemTypeTrigger": {
-      "label": "item.itemTypeTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_ItemCreationDetails_cbpItemCreationDetails_formItemCreationHeader_ddlItemType_B-1Img",
-          "successCount": 2,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:53.276Z"
-        }
-      ]
-    },
-    "item.descriptionField": {
-      "label": "item.descriptionField",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_ItemCreationDetails_cbpItemCreationDetails_formItemCreationHeader_txtDescription_I",
-          "successCount": 2,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:56.624Z"
-        }
-      ]
-    },
-    "item.itemGroupTrigger": {
-      "label": "item.itemGroupTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_ItemCreationDetails_cbpItemCreationDetails_cbpDtl_formItemCreationDetails_tabs_formLayoutGeneral_ddlItemGroup_B-1Img",
-          "successCount": 2,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:30:58.285Z"
-        }
-      ]
-    },
-    "item.saveButton": {
-      "label": "item.saveButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_ItemCreationDetails_mItemCreationDetailsToolBar_mToolBars_DXI4_T",
-          "successCount": 2,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:31:00.185Z"
-        }
-      ]
-    },
-    "item.backButton": {
-      "label": "item.backButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_MainContent_ItemCreationDetails_mItemCreationDetailsToolBar_mToolBars_DXI0_T",
-          "successCount": 2,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:31:06.355Z"
-        }
-      ]
-    },
-    "item.deleteLink": {
-      "label": "item.deleteLink",
-      "strategies": [
-        {
-          "type": "role",
-          "role": "link",
-          "options": {
-            "name": "Delete",
-            "exact": true
-          },
-          "successCount": 2,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T02:31:13.603Z"
-        }
-      ]
-    },
-    "cashPurchase.listingSearchFilterBox": {
-      "label": "cashPurchase.listingSearchFilterBox",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"FilterTextBoxGridView_txtFilterGridView_I\" i]",
-          "successCount": 4,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:41:29.371Z"
-        }
-      ]
-    },
-    "cashPurchase.cancelConfirmYesButton": {
-      "label": "cashPurchase.cancelConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
-          "successCount": 2,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:41:27.904Z"
-        }
-      ]
-    },
-    "probe.filterBox": {
-      "label": "probe.filterBox",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"FilterTextBoxGridView_txtFilterGridView_I\" i]",
-          "successCount": 2,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T06:15:04.841Z"
-        }
-      ]
-    },
-    "purchaseOrder.saveDraftButton": {
-      "label": "purchaseOrder.saveDraftButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Save Draft [Alt + S]\"]",
-          "successCount": 3,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T06:25:35.821Z"
-        }
-      ]
-    },
-    "goodsReceive.listingSearchFilterBox": {
-      "label": "goodsReceive.listingSearchFilterBox",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"FilterTextBoxGridView_txtFilterGridView_I\" i]",
-          "successCount": 15,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:46:27.562Z"
-        }
-      ]
-    },
-    "goodsReceive.cancelConfirmYesButton": {
-      "label": "goodsReceive.cancelConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
-          "successCount": 6,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:46:24.758Z"
-        }
-      ]
-    },
-    "purchaseInvoice.listingSearchFilterBox": {
-      "label": "purchaseInvoice.listingSearchFilterBox",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"FilterTextBoxGridView_txtFilterGridView_I\" i]",
-          "successCount": 7,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:51:13.888Z"
-        }
-      ]
-    },
-    "purchaseInvoice.cancelConfirmYesButton": {
-      "label": "purchaseInvoice.cancelConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
-          "successCount": 3,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:51:11.181Z"
-        }
-      ]
-    },
-    "purchaseReturn.listingSearchFilterBox": {
-      "label": "purchaseReturn.listingSearchFilterBox",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"FilterTextBoxGridView_txtFilterGridView_I\" i]",
-          "successCount": 13,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T09:02:31.708Z"
-        }
-      ]
-    },
-    "purchaseReturn.cancelConfirmYesButton": {
-      "label": "purchaseReturn.cancelConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
-          "successCount": 7,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T09:02:19.970Z"
-        }
-      ]
-    },
-    "purchaseReturn.cancelReasonTrigger": {
-      "label": "purchaseReturn.cancelReasonTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"pcCancelReason\" i][id*=\"cbReason_B-1Img\" i]",
-          "successCount": 4,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T09:02:22.413Z"
-        }
-      ]
-    },
-    "purchaseReturn.cancelReasonOkButton": {
-      "label": "purchaseReturn.cancelReasonOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"pcCancelReason\" i][id*=\"btnCancelDocument_CD\" i]",
-          "successCount": 2,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T09:02:25.880Z"
-        }
-      ]
-    },
-    "purchaseOrder.listingSearchFilterBox": {
-      "label": "purchaseOrder.listingSearchFilterBox",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"FilterTextBoxGridView_txtFilterGridView_I\" i]",
-          "successCount": 4,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:54:54.878Z"
-        }
-      ]
-    },
-    "purchaseOrder.cancelConfirmYesButton": {
-      "label": "purchaseOrder.cancelConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
-          "successCount": 2,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:54:43.051Z"
-        }
-      ]
-    },
-    "closePurchaseOrder.listingSearchFilterBox": {
-      "label": "closePurchaseOrder.listingSearchFilterBox",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"FilterTextBoxGridView_txtFilterGridView_I\" i]",
-          "successCount": 4,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:43:55.824Z"
-        }
-      ]
-    },
-    "closePurchaseOrder.cancelConfirmYesButton": {
-      "label": "closePurchaseOrder.cancelConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
-          "successCount": 2,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T08:43:40.978Z"
-        }
-      ]
-    },
-    "goodsReturn.vendorTrigger": {
-      "label": "goodsReturn.vendorTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"cbVendor_cbVendor_B1Img\" i]",
-          "successCount": 5,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T10:01:44.053Z"
-        }
-      ]
-    },
-    "goodsReturn.vendorPopupOkButton": {
-      "label": "goodsReturn.vendorPopupOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"cbVendor_gsc_cbVendor_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
-          "successCount": 5,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T10:01:50.489Z"
-        }
-      ]
-    },
-    "goodsReturn.copyFromButton": {
-      "label": "goodsReturn.copyFromButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Copy From [Alt + M]\"]",
-          "successCount": 5,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T10:01:52.170Z"
-        }
-      ]
-    },
-    "goodsReturn.transferOkButton": {
-      "label": "goodsReturn.transferOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"btnPurchaseTransferOk_CD\" i]",
-          "successCount": 5,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T10:01:58.671Z"
-        }
-      ]
-    },
-    "goodsReturn.cityTrigger": {
-      "label": "goodsReturn.cityTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"cbCity_B0Img\" i]",
-          "successCount": 5,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T10:02:10.280Z"
-        }
-      ]
-    },
-    "goodsReturn.cityPopupOkButton": {
-      "label": "goodsReturn.cityPopupOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"gsc_cbCity_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
-          "successCount": 5,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T10:02:13.969Z"
-        }
-      ]
-    },
-    "goodsReturn.postButton": {
-      "label": "goodsReturn.postButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Post [Alt + P]\"]",
-          "successCount": 4,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T10:02:16.425Z"
-        }
-      ]
-    },
-    "goodsReturn.postAndNewButton": {
-      "label": "goodsReturn.postAndNewButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Post & New [Alt + Ctrl + P]\"]",
-          "successCount": 1,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T09:47:20.446Z"
-        }
-      ]
-    },
-    "goodsReturn.listingSearchFilterBox": {
-      "label": "goodsReturn.listingSearchFilterBox",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"FilterTextBoxGridView_txtFilterGridView_I\" i]",
-          "successCount": 4,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T10:03:07.823Z"
-        }
-      ]
-    },
-    "goodsReturn.cancelConfirmYesButton": {
-      "label": "goodsReturn.cancelConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
-          "successCount": 2,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-18T10:02:50.127Z"
-        }
-      ]
-    },
-    "quotation.customerTrigger": {
-      "label": "quotation.customerTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"cbCustomer_cbSelectCust_B1Img\" i]",
-          "successCount": 47,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-20T01:14:14.384Z"
-        }
-      ]
-    },
-    "quotation.customerPopupOkButton": {
-      "label": "quotation.customerPopupOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"cbSelectCust\" i][id*=\"GeneralSearchControl\" i][id$=\"btnOk_CD\" i]",
-          "successCount": 46,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-20T01:14:17.122Z"
-        }
-      ]
-    },
-    "quotation.itemTrigger": {
-      "label": "quotation.itemTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"ItemAdvanceSearchControlSQDetail_txtItemSearchUpdate_B0Img\" i]",
-          "successCount": 43,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-20T01:14:20.530Z"
-        }
-      ]
-    },
-    "quotation.itemPopupOkButton": {
-      "label": "quotation.itemPopupOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"formItemSearchControl_btnItemSearchOk_CD\" i]",
-          "successCount": 42,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-20T01:14:22.983Z"
-        }
-      ]
-    },
-    "quotation.saveDraftButton": {
-      "label": "quotation.saveDraftButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Save Draft [Alt + S]\"]",
-          "successCount": 7,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T08:17:01.507Z"
-        }
-      ]
-    },
-    "quotation.postButton": {
-      "label": "quotation.postButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Post [Alt + P]\"]",
-          "successCount": 33,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-20T01:14:25.294Z"
-        }
-      ]
-    },
-    "quotation.postAndNewButton": {
-      "label": "quotation.postAndNewButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Post & New [Alt + Ctrl + P]\"]",
-          "successCount": 2,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T07:40:44.857Z"
-        }
-      ]
-    },
-    "quotation.listingSearchFilterBox": {
-      "label": "quotation.listingSearchFilterBox",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"FilterTextBoxGridView_txtFilterGridView_I\" i]",
-          "successCount": 13,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T08:17:32.655Z"
-        }
-      ]
-    },
-    "quotation.cancelConfirmYesButton": {
-      "label": "quotation.cancelConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
-          "successCount": 6,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T08:17:20.875Z"
-        }
-      ]
-    },
-    "salesOrder.customerTrigger": {
-      "label": "salesOrder.customerTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"cbCustomer_cbSelectCust_B1Img\" i]",
-          "successCount": 28,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T08:19:25.982Z"
-        }
-      ]
-    },
-    "salesOrder.customerPopupOkButton": {
-      "label": "salesOrder.customerPopupOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"cbSelectCust\" i][id*=\"GeneralSearchControl\" i][id$=\"btnOk_CD\" i]",
-          "successCount": 28,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T08:19:28.412Z"
-        }
-      ]
-    },
-    "salesOrder.itemTrigger": {
-      "label": "salesOrder.itemTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"ItemAdvanceSearchControlSalesOrder_txtItemSearchUpdate_B0Img\" i]",
-          "successCount": 28,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T08:19:31.301Z"
-        }
-      ]
-    },
-    "salesOrder.itemPopupOkButton": {
-      "label": "salesOrder.itemPopupOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"formItemSearchControl_btnItemSearchOk_CD\" i]",
-          "successCount": 28,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T08:19:33.203Z"
-        }
-      ]
-    },
-    "salesOrder.saveDraftButton": {
-      "label": "salesOrder.saveDraftButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Save Draft [Alt + S]\"]",
-          "successCount": 9,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T08:15:33.634Z"
-        }
-      ]
-    },
-    "salesOrder.postButton": {
-      "label": "salesOrder.postButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Post [Alt + P]\"]",
-          "successCount": 17,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T08:19:35.615Z"
-        }
-      ]
-    },
-    "salesOrder.postAndNewButton": {
-      "label": "salesOrder.postAndNewButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Post & New [Alt + Ctrl + P]\"]",
-          "successCount": 2,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T08:00:10.251Z"
-        }
-      ]
-    },
-    "salesOrder.listingSearchFilterBox": {
-      "label": "salesOrder.listingSearchFilterBox",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"FilterTextBoxGridView_txtFilterGridView_I\" i]",
-          "successCount": 14,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T08:16:09.753Z"
-        }
-      ]
-    },
-    "salesOrder.cancelConfirmYesButton": {
-      "label": "salesOrder.cancelConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
-          "successCount": 7,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T08:15:57.444Z"
-        }
-      ]
-    },
-    "closeSalesOrder.customerTrigger": {
-      "label": "closeSalesOrder.customerTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"cbCustomer_cbSelectCust_B1Img\" i]",
-          "successCount": 6,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T08:20:04.447Z"
-        }
-      ]
-    },
-    "closeSalesOrder.customerPopupOkButton": {
-      "label": "closeSalesOrder.customerPopupOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"cbSelectCust\" i][id*=\"GeneralSearchControl\" i][id$=\"btnOk_CD\" i]",
-          "successCount": 6,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T08:20:11.832Z"
-        }
-      ]
-    },
-    "closeSalesOrder.copyFromButton": {
-      "label": "closeSalesOrder.copyFromButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Copy From [Alt + M]\"]",
-          "successCount": 6,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T08:20:14.051Z"
-        }
-      ]
-    },
-    "closeSalesOrder.transferOkButton": {
-      "label": "closeSalesOrder.transferOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"btnPurchaseTransferOk_CD\" i]",
-          "successCount": 6,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T08:20:21.609Z"
-        }
-      ]
-    },
-    "closeSalesOrder.postButton": {
-      "label": "closeSalesOrder.postButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Post [Alt + P]\"]",
-          "successCount": 4,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T08:20:25.793Z"
-        }
-      ]
-    },
-    "closeSalesOrder.listingSearchFilterBox": {
-      "label": "closeSalesOrder.listingSearchFilterBox",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"FilterTextBoxGridView_txtFilterGridView_I\" i]",
-          "successCount": 4,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T08:21:07.686Z"
-        }
-      ]
-    },
-    "closeSalesOrder.cancelConfirmYesButton": {
-      "label": "closeSalesOrder.cancelConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
-          "successCount": 2,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T08:20:53.872Z"
-        }
-      ]
-    },
-    "deliveryOrder.customerTrigger": {
-      "label": "deliveryOrder.customerTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"cbCustomer_cbSelectCust_B1Img\" i]",
-          "successCount": 28,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-20T01:14:54.836Z"
-        }
-      ]
-    },
-    "deliveryOrder.customerPopupOkButton": {
-      "label": "deliveryOrder.customerPopupOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"cbSelectCust\" i][id*=\"GeneralSearchControl\" i][id$=\"btnOk_CD\" i]",
-          "successCount": 28,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-20T01:14:58.968Z"
+          "lastUsed": "2026-08-26T10:06:35.449Z"
         }
       ]
     },
@@ -3814,10 +62,10 @@
         {
           "type": "css",
           "value": "[title=\"Copy From [Alt + M]\"]",
-          "successCount": 28,
+          "successCount": 6,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-20T01:14:59.738Z"
+          "lastUsed": "2026-08-26T08:03:19.715Z"
         }
       ]
     },
@@ -3827,10 +75,23 @@
         {
           "type": "css",
           "value": "[id$=\"btnPurchaseTransferOk_CD\" i]",
-          "successCount": 28,
+          "successCount": 6,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-20T01:15:04.200Z"
+          "lastUsed": "2026-08-26T08:03:23.736Z"
+        }
+      ]
+    },
+    "purchaseOrder.newIcon": {
+      "label": "purchaseOrder.newIcon",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id*=\"header19_btnCheckAll\" i]",
+          "successCount": 61,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:06:43.831Z"
         }
       ]
     },
@@ -3840,10 +101,36 @@
         {
           "type": "css",
           "value": "[id$=\"cbCity_B0Img\" i]",
-          "successCount": 28,
+          "successCount": 6,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-20T01:15:11.774Z"
+          "lastUsed": "2026-08-26T08:03:29.640Z"
+        }
+      ]
+    },
+    "purchaseOrder.vendorPopupOkButton": {
+      "label": "purchaseOrder.vendorPopupOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbVendor_gsc_cbVendor_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
+          "successCount": 60,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:06:52.027Z"
+        }
+      ]
+    },
+    "purchaseOrder.warehouseTrigger": {
+      "label": "purchaseOrder.warehouseTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbSelectWareHouse_cbWarehouse_B-1Img\" i]",
+          "successCount": 59,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:06:52.946Z"
         }
       ]
     },
@@ -3853,10 +140,23 @@
         {
           "type": "css",
           "value": "[id$=\"gsc_cbCity_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
-          "successCount": 28,
+          "successCount": 6,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-20T01:15:15.362Z"
+          "lastUsed": "2026-08-26T08:03:32.312Z"
+        }
+      ]
+    },
+    "purchaseOrder.itemTrigger": {
+      "label": "purchaseOrder.itemTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"ItemAdvanceSearchControlPODetail_txtItemSearchUpdate_B0Img\" i]",
+          "successCount": 60,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:06:54.636Z"
         }
       ]
     },
@@ -3866,166 +166,10 @@
         {
           "type": "css",
           "value": "[title=\"Post [Alt + P]\"]",
-          "successCount": 26,
+          "successCount": 6,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-20T01:15:16.872Z"
-        }
-      ]
-    },
-    "deliveryOrder.postAndNewButton": {
-      "label": "deliveryOrder.postAndNewButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Post & New [Alt + Ctrl + P]\"]",
-          "successCount": 2,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T08:36:39.494Z"
-        }
-      ]
-    },
-    "deliveryOrder.listingSearchFilterBox": {
-      "label": "deliveryOrder.listingSearchFilterBox",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"FilterTextBoxGridView_txtFilterGridView_I\" i]",
-          "successCount": 2,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T08:39:02.772Z"
-        }
-      ]
-    },
-    "deliveryOrder.cancelConfirmYesButton": {
-      "label": "deliveryOrder.cancelConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
-          "successCount": 1,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T08:38:48.675Z"
-        }
-      ]
-    },
-    "probe.customerTrigger": {
-      "label": "probe.customerTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"cbCustomer_cbSelectCust_B1Img\" i]",
-          "successCount": 14,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-20T01:02:11.755Z"
-        }
-      ]
-    },
-    "deliveryReturn.customerTrigger": {
-      "label": "deliveryReturn.customerTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"cbCustomer_cbSelectCust_B1Img\" i]",
-          "successCount": 3,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T09:37:51.897Z"
-        }
-      ]
-    },
-    "deliveryReturn.customerPopupOkButton": {
-      "label": "deliveryReturn.customerPopupOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"cbSelectCust\" i][id*=\"GeneralSearchControl\" i][id$=\"btnOk_CD\" i]",
-          "successCount": 3,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T09:37:57.075Z"
-        }
-      ]
-    },
-    "deliveryReturn.copyFromButton": {
-      "label": "deliveryReturn.copyFromButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Copy From [Alt + M]\"]",
-          "successCount": 3,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T09:37:58.263Z"
-        }
-      ]
-    },
-    "deliveryReturn.transferOkButton": {
-      "label": "deliveryReturn.transferOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id$=\"btnPurchaseTransferOk_CD\" i]",
-          "successCount": 3,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T09:38:04.472Z"
-        }
-      ]
-    },
-    "deliveryReturn.postButton": {
-      "label": "deliveryReturn.postButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Post [Alt + P]\"]",
-          "successCount": 2,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T09:38:07.313Z"
-        }
-      ]
-    },
-    "deliveryReturn.postAndNewButton": {
-      "label": "deliveryReturn.postAndNewButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Post & New [Alt + Ctrl + P]\"]",
-          "successCount": 1,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T09:35:51.966Z"
-        }
-      ]
-    },
-    "deliveryReturn.listingSearchFilterBox": {
-      "label": "deliveryReturn.listingSearchFilterBox",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"FilterTextBoxGridView_txtFilterGridView_I\" i]",
-          "successCount": 2,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T09:38:54.529Z"
-        }
-      ]
-    },
-    "deliveryReturn.cancelConfirmYesButton": {
-      "label": "deliveryReturn.cancelConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
-          "successCount": 1,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T09:38:38.666Z"
+          "lastUsed": "2026-08-26T08:03:33.583Z"
         }
       ]
     },
@@ -4035,10 +179,23 @@
         {
           "type": "css",
           "value": "[id$=\"cbCustomer_cbSelectCust_B1Img\" i]",
-          "successCount": 10,
+          "successCount": 6,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-20T01:15:47.373Z"
+          "lastUsed": "2026-08-26T08:04:00.704Z"
+        }
+      ]
+    },
+    "login.clientId": {
+      "label": "login.clientId",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#cbpCallback_txtClientId_I",
+          "successCount": 89,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:06:34.649Z"
         }
       ]
     },
@@ -4048,10 +205,10 @@
         {
           "type": "css",
           "value": "[id*=\"cbSelectCust\" i][id*=\"GeneralSearchControl\" i][id$=\"btnOk_CD\" i]",
-          "successCount": 10,
+          "successCount": 6,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-20T01:15:54.837Z"
+          "lastUsed": "2026-08-26T08:04:05.819Z"
         }
       ]
     },
@@ -4061,10 +218,10 @@
         {
           "type": "css",
           "value": "[title=\"Copy From [Alt + M]\"]",
-          "successCount": 10,
+          "successCount": 6,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-20T01:15:56.154Z"
+          "lastUsed": "2026-08-26T08:04:06.774Z"
         }
       ]
     },
@@ -4074,10 +231,10 @@
         {
           "type": "css",
           "value": "[id$=\"btnPurchaseTransferOk_CD\" i]",
-          "successCount": 10,
+          "successCount": 6,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-20T01:16:05.881Z"
+          "lastUsed": "2026-08-26T08:04:17.402Z"
         }
       ]
     },
@@ -4087,75 +244,10 @@
         {
           "type": "css",
           "value": "[title=\"Post [Alt + P]\"]",
-          "successCount": 9,
+          "successCount": 6,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-20T01:16:10.481Z"
-        }
-      ]
-    },
-    "salesInvoice.postAndNewButton": {
-      "label": "salesInvoice.postAndNewButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[title=\"Post & New [Alt + Ctrl + P]\"]",
-          "successCount": 1,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T10:04:05.981Z"
-        }
-      ]
-    },
-    "salesInvoice.listingSearchFilterBox": {
-      "label": "salesInvoice.listingSearchFilterBox",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"FilterTextBoxGridView_txtFilterGridView_I\" i]",
-          "successCount": 2,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T10:07:55.785Z"
-        }
-      ]
-    },
-    "salesInvoice.cancelConfirmYesButton": {
-      "label": "salesInvoice.cancelConfirmYesButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
-          "successCount": 1,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T10:07:39.586Z"
-        }
-      ]
-    },
-    "salesInvoice.cancelReasonTrigger": {
-      "label": "salesInvoice.cancelReasonTrigger",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"pcCancelReason\" i][id*=\"cbReason_B-1Img\" i]",
-          "successCount": 1,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T10:07:42.956Z"
-        }
-      ]
-    },
-    "salesInvoice.cancelReasonOkButton": {
-      "label": "salesInvoice.cancelReasonOkButton",
-      "strategies": [
-        {
-          "type": "css",
-          "value": "[id*=\"pcCancelReason\" i][id*=\"btnCancelDocument_CD\" i]",
-          "successCount": 1,
-          "failureCount": 0,
-          "discovered": false,
-          "lastUsed": "2026-08-19T10:07:47.288Z"
+          "lastUsed": "2026-08-26T08:04:22.731Z"
         }
       ]
     },
@@ -4165,10 +257,10 @@
         {
           "type": "css",
           "value": "[id$=\"cbCustomer_cbSelectCust_B1Img\" i]",
-          "successCount": 3,
+          "successCount": 4,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-20T01:16:47.357Z"
+          "lastUsed": "2026-08-26T08:05:03.207Z"
         }
       ]
     },
@@ -4178,10 +270,10 @@
         {
           "type": "css",
           "value": "[id*=\"cbSelectCust\" i][id*=\"GeneralSearchControl\" i][id$=\"btnOk_CD\" i]",
-          "successCount": 3,
+          "successCount": 4,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-20T01:16:57.960Z"
+          "lastUsed": "2026-08-26T08:05:13.443Z"
         }
       ]
     },
@@ -4191,10 +283,10 @@
         {
           "type": "css",
           "value": "[title=\"Copy From [Alt + M]\"]",
-          "successCount": 3,
+          "successCount": 4,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-20T01:16:59.511Z"
+          "lastUsed": "2026-08-26T08:05:15.340Z"
         }
       ]
     },
@@ -4204,10 +296,10 @@
         {
           "type": "css",
           "value": "[id$=\"btnPurchaseTransferOk_CD\" i]",
-          "successCount": 3,
+          "successCount": 4,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-20T01:17:10.116Z"
+          "lastUsed": "2026-08-26T08:05:23.725Z"
         }
       ]
     },
@@ -4217,10 +309,101 @@
         {
           "type": "css",
           "value": "[title=\"Post [Alt + P]\"]",
-          "successCount": 2,
+          "successCount": 3,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-20T01:17:15.512Z"
+          "lastUsed": "2026-08-26T08:05:26.861Z"
+        }
+      ]
+    },
+    "quotation.customerTrigger": {
+      "label": "quotation.customerTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbCustomer_cbSelectCust_B1Img\" i]",
+          "successCount": 5,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T08:02:37.180Z"
+        }
+      ]
+    },
+    "quotation.customerPopupOkButton": {
+      "label": "quotation.customerPopupOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id*=\"cbSelectCust\" i][id*=\"GeneralSearchControl\" i][id$=\"btnOk_CD\" i]",
+          "successCount": 5,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T08:02:40.359Z"
+        }
+      ]
+    },
+    "quotation.itemTrigger": {
+      "label": "quotation.itemTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"ItemAdvanceSearchControlSQDetail_txtItemSearchUpdate_B0Img\" i]",
+          "successCount": 5,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T08:02:42.864Z"
+        }
+      ]
+    },
+    "quotation.itemPopupOkButton": {
+      "label": "quotation.itemPopupOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"formItemSearchControl_btnItemSearchOk_CD\" i]",
+          "successCount": 5,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T08:02:45.856Z"
+        }
+      ]
+    },
+    "quotation.postButton": {
+      "label": "quotation.postButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Post [Alt + P]\"]",
+          "successCount": 5,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T08:02:48.506Z"
+        }
+      ]
+    },
+    "deliveryOrder.customerTrigger": {
+      "label": "deliveryOrder.customerTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbCustomer_cbSelectCust_B1Img\" i]",
+          "successCount": 4,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T08:03:15.866Z"
+        }
+      ]
+    },
+    "purchaseOrder.vendorTrigger": {
+      "label": "purchaseOrder.vendorTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbVendor_cbVendor_B1Img\" i]",
+          "successCount": 59,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:06:47.126Z"
         }
       ]
     },
@@ -4233,7 +416,7 @@
           "successCount": 1,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-20T01:13:37.222Z"
+          "lastUsed": "2026-08-26T07:59:00.688Z"
         }
       ]
     },
@@ -4246,7 +429,7 @@
           "successCount": 2,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-20T01:18:26.706Z"
+          "lastUsed": "2026-08-26T08:06:17.649Z"
         }
       ]
     },
@@ -4259,7 +442,7 @@
           "successCount": 1,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-20T01:18:06.453Z"
+          "lastUsed": "2026-08-26T08:06:04.433Z"
         }
       ]
     },
@@ -4272,7 +455,7 @@
           "successCount": 1,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-20T01:18:10.434Z"
+          "lastUsed": "2026-08-26T08:06:07.008Z"
         }
       ]
     },
@@ -4285,7 +468,839 @@
           "successCount": 1,
           "failureCount": 0,
           "discovered": false,
-          "lastUsed": "2026-08-20T01:18:14.023Z"
+          "lastUsed": "2026-08-26T08:06:10.304Z"
+        }
+      ]
+    },
+    "cashPurchase.vendorTrigger": {
+      "label": "cashPurchase.vendorTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbVendor_cbVendor_B1Img\" i]",
+          "successCount": 8,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:06:46.254Z"
+        }
+      ]
+    },
+    "cashPurchase.vendorPopupOkButton": {
+      "label": "cashPurchase.vendorPopupOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbVendor_gsc_cbVendor_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
+          "successCount": 8,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:06:48.417Z"
+        }
+      ]
+    },
+    "cashPurchase.warehouseTrigger": {
+      "label": "cashPurchase.warehouseTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbSelectWareHouse_cbWarehouse_B-1Img\" i]",
+          "successCount": 8,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:06:48.941Z"
+        }
+      ]
+    },
+    "cashPurchase.itemTrigger": {
+      "label": "cashPurchase.itemTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"txtItemSearchUpdate_B0Img\" i]",
+          "successCount": 8,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:06:52.244Z"
+        }
+      ]
+    },
+    "cashPurchase.itemPopupOkButton": {
+      "label": "cashPurchase.itemPopupOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"formItemSearchControl_btnItemSearchOk_CD\" i]",
+          "successCount": 8,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:06:54.291Z"
+        }
+      ]
+    },
+    "cashPurchase.saveDraftButton": {
+      "label": "cashPurchase.saveDraftButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Save Draft [Alt + S]\"]",
+          "successCount": 4,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:07:00.163Z"
+        }
+      ]
+    },
+    "cashPurchase.multiPaymentAddRow": {
+      "label": "cashPurchase.multiPaymentAddRow",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "img[id*=\"CPMultipayment\" i][id*=\"header0_Add\" i]",
+          "successCount": 8,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:07:03.000Z"
+        }
+      ]
+    },
+    "cashPurchase.multiPaymentModeTrigger": {
+      "label": "cashPurchase.multiPaymentModeTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id*=\"CPMultipayment\" i][id*=\"DXEditor3\" i][id*=\"B-1Img\" i]:visible",
+          "successCount": 8,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:07:04.654Z"
+        }
+      ]
+    },
+    "cashPurchase.multiPaymentModeOption": {
+      "label": "cashPurchase.multiPaymentModeOption",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "td[id*=\"CPMultipayment\" i][id*=\"DDD_L_LBI\" i]:visible:text-is(\"CASH\")",
+          "successCount": 8,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:07:05.945Z"
+        }
+      ]
+    },
+    "cashPurchase.multiPaymentOkButton": {
+      "label": "cashPurchase.multiPaymentOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id*=\"CPMultipayment\" i][id$=\"btnMakePaymentClick_CD\" i]",
+          "successCount": 8,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:07:07.148Z"
+        }
+      ]
+    },
+    "cashPurchase.postButton": {
+      "label": "cashPurchase.postButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Post [Alt + P]\"]",
+          "successCount": 2,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:05:17.864Z"
+        }
+      ]
+    },
+    "cashPurchase.postAndNewButton": {
+      "label": "cashPurchase.postAndNewButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Post & New [Alt + Ctrl + P]\"]",
+          "successCount": 2,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:06:01.813Z"
+        }
+      ]
+    },
+    "cashPurchase.listingSearchFilterBox": {
+      "label": "cashPurchase.listingSearchFilterBox",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id*=\"FilterTextBoxGridView_txtFilterGridView_I\" i]",
+          "successCount": 4,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:07:28.220Z"
+        }
+      ]
+    },
+    "cashPurchase.cancelConfirmYesButton": {
+      "label": "cashPurchase.cancelConfirmYesButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
+          "successCount": 2,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:07:26.795Z"
+        }
+      ]
+    },
+    "purchaseOrder.itemPopupOkButton": {
+      "label": "purchaseOrder.itemPopupOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"formItemSearchControl_btnItemSearchOk_CD\" i]",
+          "successCount": 52,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:06:57.324Z"
+        }
+      ]
+    },
+    "purchaseOrder.duplicateItemYesButton": {
+      "label": "purchaseOrder.duplicateItemYesButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"pcInfoMessageBox_btnInfoYes_CD\" i]",
+          "successCount": 52,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:06:58.038Z"
+        }
+      ]
+    },
+    "purchaseOrder.postButton": {
+      "label": "purchaseOrder.postButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Post [Alt + P]\"]",
+          "successCount": 50,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:07:00.032Z"
+        }
+      ]
+    },
+    "closePurchaseOrder.vendorTrigger": {
+      "label": "closePurchaseOrder.vendorTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbVendor_cbVendor_B1Img\" i]",
+          "successCount": 10,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:07:17.600Z"
+        }
+      ]
+    },
+    "closePurchaseOrder.vendorPopupOkButton": {
+      "label": "closePurchaseOrder.vendorPopupOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbVendor_gsc_cbVendor_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
+          "successCount": 10,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:07:21.729Z"
+        }
+      ]
+    },
+    "closePurchaseOrder.copyFromButton": {
+      "label": "closePurchaseOrder.copyFromButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Copy From [Alt + M]\"]",
+          "successCount": 10,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:07:22.680Z"
+        }
+      ]
+    },
+    "closePurchaseOrder.transferOkButton": {
+      "label": "closePurchaseOrder.transferOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"btnPurchaseTransferOk_CD\" i]",
+          "successCount": 10,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:07:27.635Z"
+        }
+      ]
+    },
+    "closePurchaseOrder.postButton": {
+      "label": "closePurchaseOrder.postButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Post [Alt + P]\"]",
+          "successCount": 10,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:07:30.052Z"
+        }
+      ]
+    },
+    "goodsReceive.vendorTrigger": {
+      "label": "goodsReceive.vendorTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbVendor_cbVendor_B1Img\" i]",
+          "successCount": 15,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:55:33.521Z"
+        }
+      ]
+    },
+    "goodsReceive.vendorPopupOkButton": {
+      "label": "goodsReceive.vendorPopupOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbVendor_gsc_cbVendor_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
+          "successCount": 15,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:55:39.118Z"
+        }
+      ]
+    },
+    "goodsReceive.copyFromButton": {
+      "label": "goodsReceive.copyFromButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Copy From [Alt + M]\"]",
+          "successCount": 15,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:55:39.843Z"
+        }
+      ]
+    },
+    "goodsReceive.transferOkButton": {
+      "label": "goodsReceive.transferOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"btnPurchaseTransferOk_CD\" i]",
+          "successCount": 15,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:55:45.060Z"
+        }
+      ]
+    },
+    "goodsReceive.postButton": {
+      "label": "goodsReceive.postButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Post [Alt + P]\"]",
+          "successCount": 15,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:55:51.251Z"
+        }
+      ]
+    },
+    "purchaseInvoice.vendorTrigger": {
+      "label": "purchaseInvoice.vendorTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbVendor_cbVendor_B1Img\" i]",
+          "successCount": 21,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:02:44.823Z"
+        }
+      ]
+    },
+    "purchaseInvoice.vendorPopupOkButton": {
+      "label": "purchaseInvoice.vendorPopupOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbVendor_gsc_cbVendor_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
+          "successCount": 21,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:02:48.700Z"
+        }
+      ]
+    },
+    "purchaseInvoice.copyFromButton": {
+      "label": "purchaseInvoice.copyFromButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Copy From [Alt + M]\"]",
+          "successCount": 21,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:02:49.477Z"
+        }
+      ]
+    },
+    "purchaseInvoice.transferOkButton": {
+      "label": "purchaseInvoice.transferOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"btnPurchaseTransferOk_CD\" i]",
+          "successCount": 21,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:02:54.850Z"
+        }
+      ]
+    },
+    "purchaseInvoice.saveDraftButton": {
+      "label": "purchaseInvoice.saveDraftButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Save Draft [Alt + S]\"]",
+          "successCount": 4,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:25:25.801Z"
+        }
+      ]
+    },
+    "purchaseInvoice.postButton": {
+      "label": "purchaseInvoice.postButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Post [Alt + P]\"]",
+          "successCount": 15,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:02:59.433Z"
+        }
+      ]
+    },
+    "purchaseInvoice.postAndNewButton": {
+      "label": "purchaseInvoice.postAndNewButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Post & New [Alt + Ctrl + P]\"]",
+          "successCount": 2,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:23:59.844Z"
+        }
+      ]
+    },
+    "purchaseInvoice.listingSearchFilterBox": {
+      "label": "purchaseInvoice.listingSearchFilterBox",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id*=\"FilterTextBoxGridView_txtFilterGridView_I\" i]",
+          "successCount": 4,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:25:52.889Z"
+        }
+      ]
+    },
+    "purchaseInvoice.cancelConfirmYesButton": {
+      "label": "purchaseInvoice.cancelConfirmYesButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
+          "successCount": 2,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:25:49.387Z"
+        }
+      ]
+    },
+    "purchaseOrder.listingSearchFilterBox": {
+      "label": "purchaseOrder.listingSearchFilterBox",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id*=\"FilterTextBoxGridView_txtFilterGridView_I\" i]",
+          "successCount": 4,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:29:50.878Z"
+        }
+      ]
+    },
+    "purchaseOrder.cancelConfirmYesButton": {
+      "label": "purchaseOrder.cancelConfirmYesButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
+          "successCount": 2,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:29:38.521Z"
+        }
+      ]
+    },
+    "goodsReceive.listingSearchFilterBox": {
+      "label": "goodsReceive.listingSearchFilterBox",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id*=\"FilterTextBoxGridView_txtFilterGridView_I\" i]",
+          "successCount": 2,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:15:33.954Z"
+        }
+      ]
+    },
+    "goodsReceive.cancelConfirmYesButton": {
+      "label": "goodsReceive.cancelConfirmYesButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
+          "successCount": 1,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:15:31.007Z"
+        }
+      ]
+    },
+    "goodsReturn.vendorTrigger": {
+      "label": "goodsReturn.vendorTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbVendor_cbVendor_B1Img\" i]",
+          "successCount": 4,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:56:21.444Z"
+        }
+      ]
+    },
+    "goodsReturn.vendorPopupOkButton": {
+      "label": "goodsReturn.vendorPopupOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbVendor_gsc_cbVendor_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
+          "successCount": 4,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:56:26.376Z"
+        }
+      ]
+    },
+    "goodsReturn.copyFromButton": {
+      "label": "goodsReturn.copyFromButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Copy From [Alt + M]\"]",
+          "successCount": 4,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:56:27.791Z"
+        }
+      ]
+    },
+    "goodsReturn.transferOkButton": {
+      "label": "goodsReturn.transferOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"btnPurchaseTransferOk_CD\" i]",
+          "successCount": 4,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:56:31.873Z"
+        }
+      ]
+    },
+    "goodsReturn.cityTrigger": {
+      "label": "goodsReturn.cityTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbCity_B0Img\" i]",
+          "successCount": 4,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:56:42.023Z"
+        }
+      ]
+    },
+    "goodsReturn.cityPopupOkButton": {
+      "label": "goodsReturn.cityPopupOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"gsc_cbCity_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
+          "successCount": 4,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:56:46.007Z"
+        }
+      ]
+    },
+    "goodsReturn.postButton": {
+      "label": "goodsReturn.postButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Post [Alt + P]\"]",
+          "successCount": 3,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:56:47.842Z"
+        }
+      ]
+    },
+    "purchaseReturn.vendorTrigger": {
+      "label": "purchaseReturn.vendorTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbVendor_cbVendor_B1Img\" i]",
+          "successCount": 7,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:03:28.962Z"
+        }
+      ]
+    },
+    "purchaseReturn.vendorPopupOkButton": {
+      "label": "purchaseReturn.vendorPopupOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbVendor_gsc_cbVendor_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
+          "successCount": 7,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:03:33.485Z"
+        }
+      ]
+    },
+    "purchaseReturn.copyFromButton": {
+      "label": "purchaseReturn.copyFromButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Copy From [Alt + M]\"]",
+          "successCount": 7,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:03:34.309Z"
+        }
+      ]
+    },
+    "purchaseReturn.transferOkButton": {
+      "label": "purchaseReturn.transferOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"btnPurchaseTransferOk_CD\" i]",
+          "successCount": 7,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:03:40.190Z"
+        }
+      ]
+    },
+    "purchaseReturn.cityTrigger": {
+      "label": "purchaseReturn.cityTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"cbCity_B0Img\" i]",
+          "successCount": 7,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:03:46.408Z"
+        }
+      ]
+    },
+    "purchaseReturn.cityPopupOkButton": {
+      "label": "purchaseReturn.cityPopupOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id$=\"gsc_cbCity_pcGeneralSearchControl_cpnlGeneralSearchControl_formGeneralSearchControl_btnOk_CD\" i]",
+          "successCount": 7,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:03:49.537Z"
+        }
+      ]
+    },
+    "purchaseReturn.postButton": {
+      "label": "purchaseReturn.postButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Post [Alt + P]\"]",
+          "successCount": 5,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:03:51.112Z"
+        }
+      ]
+    },
+    "purchaseReturn.postAndNewButton": {
+      "label": "purchaseReturn.postAndNewButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Post & New [Alt + Ctrl + P]\"]",
+          "successCount": 2,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:01:43.806Z"
+        }
+      ]
+    },
+    "goodsReturn.postAndNewButton": {
+      "label": "goodsReturn.postAndNewButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[title=\"Post & New [Alt + Ctrl + P]\"]",
+          "successCount": 1,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:54:31.211Z"
+        }
+      ]
+    },
+    "goodsReturn.listingSearchFilterBox": {
+      "label": "goodsReturn.listingSearchFilterBox",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id*=\"FilterTextBoxGridView_txtFilterGridView_I\" i]",
+          "successCount": 2,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:57:40.729Z"
+        }
+      ]
+    },
+    "goodsReturn.cancelConfirmYesButton": {
+      "label": "goodsReturn.cancelConfirmYesButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
+          "successCount": 1,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T09:57:21.885Z"
+        }
+      ]
+    },
+    "purchaseReturn.listingSearchFilterBox": {
+      "label": "purchaseReturn.listingSearchFilterBox",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id*=\"FilterTextBoxGridView_txtFilterGridView_I\" i]",
+          "successCount": 2,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:04:28.734Z"
+        }
+      ]
+    },
+    "purchaseReturn.cancelConfirmYesButton": {
+      "label": "purchaseReturn.cancelConfirmYesButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
+          "successCount": 1,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:04:18.774Z"
+        }
+      ]
+    },
+    "purchaseReturn.cancelReasonTrigger": {
+      "label": "purchaseReturn.cancelReasonTrigger",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id*=\"pcCancelReason\" i][id*=\"cbReason_B-1Img\" i]",
+          "successCount": 1,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:04:20.924Z"
+        }
+      ]
+    },
+    "purchaseReturn.cancelReasonOkButton": {
+      "label": "purchaseReturn.cancelReasonOkButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id*=\"pcCancelReason\" i][id*=\"btnCancelDocument_CD\" i]",
+          "successCount": 1,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:04:24.007Z"
+        }
+      ]
+    },
+    "closePurchaseOrder.listingSearchFilterBox": {
+      "label": "closePurchaseOrder.listingSearchFilterBox",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "[id*=\"FilterTextBoxGridView_txtFilterGridView_I\" i]",
+          "successCount": 2,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:08:16.958Z"
+        }
+      ]
+    },
+    "closePurchaseOrder.cancelConfirmYesButton": {
+      "label": "closePurchaseOrder.cancelConfirmYesButton",
+      "strategies": [
+        {
+          "type": "css",
+          "value": "#ctl00_pcConfirmCancel_btnYesCancel_CD",
+          "successCount": 1,
+          "failureCount": 0,
+          "discovered": false,
+          "lastUsed": "2026-08-26T10:08:03.679Z"
         }
       ]
     },

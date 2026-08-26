@@ -10,17 +10,23 @@ const { PurchaseOrderPage } = require('../../framework/pages/purchaseOrderPage')
  * POSTED record. Same shape as cash-sales.spec.js per the user's explicit
  * instruction ("same like testing for Cash Sales").
  *
- * Test data confirmed live (2026-08-17) via a diagnostic probe against
- * qa3/SHANTHI QA BIZ 69: Vendor "000002" (Vendor 1), Warehouse "PRIMARY"
- * (PRIMARY WAREHOUSE), Item "000001" (FLAVETTES EFFERVESCENT GLOW NI) —
- * matched by Item Code rather than the full (column-truncated)
- * description, same reasoning as Cash Sales' item-selection approach.
- * Different clients/companies will have different master data — override
- * via env vars rather than editing this file when pointing at another one.
+ * UPDATED (2026-08-20): the shared `uat` login's default company changed
+ * server-side from qa3/SHANTHI QA BIZ 69 to UAT/TANJAK MEGA GROUP SDN BHD
+ * (same change already documented in the Sales module's own specs — see
+ * tests/sales/quotation.spec.js's header comment) — the old qa3-era
+ * Vendor/Warehouse/Item defaults below never actually resolved against
+ * UAT in the first place (this file's own prior comment already flagged
+ * them as qa3-only, unconfirmed against UAT). Re-probed live and confirmed
+ * real: Vendor "000001" (HAZEL CORP), Warehouse "AMPANG", item "BISKUT
+ * PLANTA" (same item already used across the whole Sales module) — matched
+ * by exact Description text, same as PurchaseOrderPage.selectItem()'s own
+ * convention. Different clients/companies will have different master
+ * data — override via env vars rather than editing this file when
+ * pointing at another one.
  */
-const VENDOR_CODE = process.env.ALAYA_TEST_VENDOR_CODE || '000002';
-const WAREHOUSE_CODE = process.env.ALAYA_TEST_WAREHOUSE_CODE || 'PRIMARY';
-const ITEM_CODE = process.env.ALAYA_TEST_ITEM_CODE || '000001';
+const VENDOR_CODE = process.env.ALAYA_TEST_VENDOR_CODE || '000001';
+const WAREHOUSE_CODE = process.env.ALAYA_TEST_WAREHOUSE_CODE || 'AMPANG';
+const ITEM_CODE = process.env.ALAYA_TEST_ITEM_CODE || 'BISKUT PLANTA';
 
 test.beforeEach(async ({ page }) => {
   await login(page, {

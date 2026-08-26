@@ -267,7 +267,7 @@ class PurchaseReturnPage {
       timeout: 5000,
     });
     await locator.click();
-    await this.page.getByText('Purchase Return Detail GST (eInvoice)', { exact: false })
+    await this.page.getByText('PurchaseReturnDetailGST Report', { exact: false })
       .first().waitFor({ state: 'visible', timeout: 20000 }).catch(() => {});
     await this.page.waitForTimeout(1000);
   }
@@ -310,11 +310,15 @@ class PurchaseReturnPage {
 
   /**
    * Checks whether the document actually posted — Post auto-opens a
-   * report tab. CONFIRMED live: titled "Purchase Return Detail GST
-   * (eInvoice) Report".
+   * report tab. CORRECTED (2026-08-20): the original qa3-era title
+   * ("Purchase Return Detail GST (eInvoice) Report") no longer matches
+   * under UAT/TANJAK MEGA GROUP SDN BHD — a live failure screenshot showed
+   * the real tab is titled "PurchaseReturnDetailGST Report" instead (Post
+   * itself was genuinely succeeding the whole time, only this title
+   * string was stale).
    */
   async expectPostSuccess() {
-    const reportTab = this.page.getByText('Purchase Return Detail GST (eInvoice)', { exact: false });
+    const reportTab = this.page.getByText('PurchaseReturnDetailGST Report', { exact: false });
     return (await reportTab.count().catch(() => 0)) > 0;
   }
 
