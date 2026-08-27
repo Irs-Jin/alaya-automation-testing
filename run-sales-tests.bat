@@ -1,15 +1,14 @@
 @echo off
 REM Run this from anywhere by double-clicking it, or from cmd.exe.
-REM Runs every Sales test (the Cash Sales transactional spec + the whole
-REM Reports > Sales category) against UAT, one test at a time
-REM (--workers=1), headless. Same rationale as run-all-tests.bat, just
+REM Runs every Sales transactional test against UAT, one test at a time
+REM (--workers=1), headless. Reports > Sales is a SEPARATE run - see
+REM run-sales-reports-tests.bat. Same rationale as run-all-tests.bat, just
 REM scoped to this one module - see run-account-receivable-tests.bat's
 REM header comment for the full reasoning behind splitting by module.
 REM
-REM cash-sales.spec.js defaults to qa3-only test data (customer
-REM "000000002") if ALAYA_TEST_CUSTOMER_CODE/ALAYA_TEST_ITEM_DESCRIPTION
-REM aren't set - UAT (the client every test in this suite targets) uses
-REM 6-digit customer codes like "000001", not qa3's 9-digit codes.
+REM Customer/Sales Branch/Item defaults below match UAT/TANJAK MEGA GROUP
+REM SDN BHD (re-probed live 2026-08-19/20) - override via ALAYA_TEST_* env
+REM vars when pointing at another client/company.
 
 cd /d "%~dp0"
 
@@ -19,7 +18,7 @@ set ALAYA_PASSWORD=123
 set ALAYA_TEST_CUSTOMER_CODE=000001
 set ALAYA_TEST_ITEM_DESCRIPTION=BISKUT PLANTA
 
-npx playwright test tests/sales tests/reports/sales --workers=1
+npx playwright test tests/sales --workers=1
 
 echo.
 echo ================================================
