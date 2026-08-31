@@ -63,6 +63,15 @@ async function openPluginViaTestLoad() {
   // The list rendering proves the plugin HTML rendered and JS executed (a
   // text/plain URL would show raw source with no #task-tbody rows).
   await plugin.locator('#task-tbody tr').first().waitFor({ state: 'visible', timeout: 20000 });
+
+  // Wait for the DB-load chain (ALAYA_INIT -> token -> tasks + users) to
+  // finish BEFORE returning. loadTasksFromDb() REPLACES the tasks array, so
+  // any test action that mutates a demo task before DB load completes will
+  // be lost when the array is replaced mid-action (causing flaky KPI fails).
+  await expect(plugin.locator('#log', { hasText: 'Loaded 6 tasks from DB table jm6data' }))
+    .toBeVisible({ timeout: 40000 });
+  await expect(plugin.locator('#log', { hasText: 'Loaded 53 users from DB table jm6usr' }))
+    .toBeVisible({ timeout: 40000 });
   return plugin;
 }
 
