@@ -154,6 +154,16 @@ test('TC-052: Create a new task increases KPI totals @PBI21103 @happy-path', asy
   await expect(plugin.locator('#task-tbody strong', { hasText: newTaskTitle })).toHaveCount(1);
 
   await page.screenshot({ path: 'test-results/todo-plugin-task-created.png', fullPage: true }).catch(() => {});
+
+  // Clean up: the save handler now auto-persists to DB. Wait for the
+  // create-save to finish, then delete the task and wait for the delete-save
+  // so subsequent tests see 6 tasks (not 7).
+  await expect(plugin.locator('#log', { hasText: 'DB save OK — 7 tasks persisted' }))
+    .toBeVisible({ timeout: 30000 });
+  await plugin.locator('#task-tbody tr', { hasText: newTaskTitle })
+    .locator('.task-action-btn.danger').click();
+  await expect(plugin.locator('#log', { hasText: 'DB save OK — 6 tasks persisted' }))
+    .toBeVisible({ timeout: 30000 });
 });
 
 // ==================== TC-053: Mark a pending task complete via checkbox ====================
@@ -333,4 +343,60 @@ test('TC-057: Export SQL button generates DELETE+INSERT statements for Module Qu
   await expect(plugin.locator('#export-sql-modal')).not.toHaveClass(/show/);
 
   await page.screenshot({ path: 'test-results/todo-plugin-export-sql.png', fullPage: true }).catch(() => {});
+});
+
+// ==================== TC-058: Auto-persist via host eval bridge (WebForm_DoCallback) ====================
+test('TC-058: Create + delete auto-persist to ZZT_jm6data via host eval bridge @PBI21103 @db @persistence @auto-save', async ({ page }) => {
+  const plugin = await openPluginViaTestLoad();
+
+  // Verify initial DB state: 6 tasks loaded.
+  await expect(plugin.locator('#kpi-total')).toHaveText('6');
+
+  // ── Phase 1: Create a task and verify it auto-persists to DB ──
+  const taskTitle = `AutoSave TC058 ${Date.now()}`;
+  await plugin.locator('#btn-new-task').click();
+  await plugin.locator('#inp-title').fill(taskTitle);
+  await plugin.locator('#inp-group').selectOption('General');
+  await plugin.locator('#inp-priority').selectOption('medium');
+  await plugin.locator('#inp-status').selectOption('pending');
+  await plugin.locator('#btn-modal-save').click();
+
+  // Modal closes (local state updated synchronously by renderAll).
+  await expect(plugin.locator('#task-modal')).not.toHaveClass(/show/);
+
+  // KPI updates to 7 locally.
+  await expect(plugin.locator('#kpi-total')).toHaveText('7', { timeout: 15000 });
+
+  // The save handler fired saveTasksToDb() → host eval bridge →
+  // WebForm_DoCallback. Wait for the DB-write confirmation in the log.
+  // saveTasksToDb auto-reloads from DB after success, so we also assert the
+  // auto-reload log line — the task surviving that reload proves it's in the DB.
+  await expect(plugin.locator('#log', { hasText: 'DB save OK — 7 tasks persisted' }))
+    .toBeVisible({ timeout: 30000 });
+  await expect(plugin.locator('#log', { hasText: 'Loaded 7 tasks from DB table jm6data' }))
+    .toBeVisible({ timeout: 40000 });
+
+  // The persisted task survives the auto-reload (genuine DB read), so it's
+  // in the database, not just in-memory.
+  await expect(plugin.locator('#task-tbody strong', { hasText: taskTitle })).toHaveCount(1);
+
+  await page.screenshot({ path: 'test-results/todo-plugin-auto-save-created.png', fullPage: true }).catch(() => {});
+
+  // ── Phase 2: Delete the task and verify the deletion also persists ──
+  await plugin.locator('#task-tbody tr', { hasText: taskTitle })
+    .locator('.task-action-btn.danger').click();
+
+  // KPI drops back to 6 locally.
+  await expect(plugin.locator('#kpi-total')).toHaveText('6', { timeout: 15000 });
+
+  // Wait for the delete-triggered auto-save to confirm the DB is back to 6.
+  await expect(plugin.locator('#log', { hasText: 'DB save OK — 6 tasks persisted' }))
+    .toBeVisible({ timeout: 30000 });
+  await expect(plugin.locator('#log', { hasText: 'Loaded 6 tasks from DB table jm6data' }))
+    .toBeVisible({ timeout: 40000 });
+
+  // The task is gone from the reloaded list — deletion persisted.
+  await expect(plugin.locator('#task-tbody strong', { hasText: taskTitle })).toHaveCount(0);
+
+  await page.screenshot({ path: 'test-results/todo-plugin-auto-save-deleted.png', fullPage: true }).catch(() => {});
 });
