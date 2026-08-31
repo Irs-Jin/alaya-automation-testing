@@ -279,3 +279,58 @@ test('TC-056: Plugin loads 53 users from ZZT_jm6usr into Manage Users modal @PBI
 
   await page.screenshot({ path: 'test-results/todo-plugin-manage-users.png', fullPage: true }).catch(() => {});
 });
+
+// ==================== TC-057: Export SQL serialises tasks as DELETE + INSERTs ====================
+test('TC-057: Export SQL button generates DELETE+INSERT statements for Module Query Execute @PBI21103 @db @persistence', async ({ page }) => {
+  const plugin = await openPluginViaTestLoad();
+
+  // Open the Export SQL modal.
+  await plugin.locator('#btn-export-sql').click();
+  await expect(plugin.locator('#export-sql-modal')).toHaveClass(/show/);
+
+  // Header reflects current task count + target table.
+  await expect(plugin.locator('#export-sql-count')).toHaveText('6');
+  await expect(plugin.locator('#export-sql-table')).toHaveText('jm6data');
+
+  // The textarea contains a DELETE followed by 6 INSERT statements.
+  const sql = await plugin.locator('#export-sql-textarea').inputValue();
+  expect(sql).toMatch(/^DELETE FROM ZZT_jm6data;/);
+  const insertCount = (sql.match(/^INSERT INTO ZZT_jm6data \(ZZC_Code, ZZC_Description\) VALUES \(/gm) || []).length;
+  expect(insertCount).toBe(6);
+
+  // Each INSERT's ZZC_Code follows the T001..T006 pattern.
+  for (let i = 1; i <= 6; i++) {
+    const code = 'T' + String(i).padStart(3, '0');
+    expect(sql).toContain("'" + code + "',");
+  }
+
+  // A DB-specific task title must appear inside one of the INSERT JSON payloads.
+  expect(sql).toContain('Review AR aging report');
+  expect(sql).toContain('Prepare GST return');
+
+  // JSON payload is valid and the title round-trips. Pull the first INSERT's
+  // JSON (after the comma following the code) and verify it parses.
+  const firstInsert = sql.split('\n').find(l => l.startsWith('INSERT INTO'));
+  expect(firstInsert).toBeTruthy();
+  const jsonMatch = firstInsert.match(/'\{.+\}'\);$/);
+  expect(jsonMatch).toBeTruthy();
+  // Strip the surrounding SQL quotes (undo the doubled-quote escaping once
+  // to confirm a single-quoted title survives the round-trip).
+  const jsonStr = jsonMatch[0].slice(1, -3).replace(/''/g, "'");
+  const parsed = JSON.parse(jsonStr);
+  expect(parsed).toHaveProperty('title');
+  expect(parsed).toHaveProperty('status');
+  expect(parsed).toHaveProperty('dueDate');
+
+  // Copy-to-clipboard button is wired (clipboard API may be blocked in
+  // headless, so assert the click doesn't throw and the log records the attempt).
+  await plugin.locator('#btn-export-sql-copy').click();
+  const logText = await plugin.locator('#log').innerText();
+  expect(logText).toMatch(/SQL copied to clipboard|Clipboard API failed/);
+
+  // Close the modal.
+  await plugin.locator('#btn-export-sql-close').click();
+  await expect(plugin.locator('#export-sql-modal')).not.toHaveClass(/show/);
+
+  await page.screenshot({ path: 'test-results/todo-plugin-export-sql.png', fullPage: true }).catch(() => {});
+});
