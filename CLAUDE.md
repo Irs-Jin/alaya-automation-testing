@@ -9,6 +9,12 @@ Full rationale for everything below lives in **CONTRIBUTING.md** — read it
 before your first test case in a session if you have any doubt about a
 convention here. This file is the actionable checklist version.
 
+If the user asks you to run their tests with the "email a report to the QA
+team when done" pipeline (a `run-<name>-selected-tests.bat` /
+`run-<name>-selected-tests.ps1` pair), read **[EMAIL-REPORT-GUIDE.md](EMAIL-REPORT-GUIDE.md)**
+first — each person has their own, and there are credential-handling rules
+you must follow.
+
 ## Before writing anything
 
 Ask what ground truth is available, in this order of preference, and use

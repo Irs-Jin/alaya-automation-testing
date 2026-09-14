@@ -23,3 +23,13 @@ Thumbs.db
 # to this folder if another machine hits the same issue — otherwise this
 # doesn't need to exist at all.
 .pw-browsers/
+
+# Per-runner artifacts from any run-<name>-selected-tests.ps1 (see
+# EMAIL-REPORT-GUIDE.md) - each colleague's copy generates its own
+# .send-report-credential.<scriptname>.dat ("Remember password" cache,
+# DPAPI-encrypted to that Windows user/machine - never commit it, useless
+# elsewhere anyway), last-report-email.<scriptname>.log, and
+# playwright-report-summary.<scriptname>.json scratch file.
+.send-report-credential*.dat
+last-report-email*.log
+playwright-report-summary*.json

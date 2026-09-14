@@ -11,7 +11,11 @@ it. Using Claude Code (or another AI agent) to generate a test case? It should
 pick up **[CLAUDE.md](CLAUDE.md)** automatically — don't skip it manually.
 Claude Code should also pick up the **`playwright-cli`** skill under
 `.claude/skills/` automatically when live-exploring a screen via the
-`@playwright/cli` tool rather than writing a full spec blind.
+`@playwright/cli` tool rather than writing a full spec blind. Want your own
+test run to auto-email a report (Task Breakdown / Testing Result / Time
+Used) to the QA team when it finishes? See
+**[EMAIL-REPORT-GUIDE.md](EMAIL-REPORT-GUIDE.md)** — point your AI agent at
+it, or read it yourself.
 
 ## Prerequisites
 

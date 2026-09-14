@@ -23,7 +23,13 @@ test.beforeEach(async ({ page }) => {
 test.describe('Reports > Inventory > Stock Balance', () => {
 
   test('[Happy Path] views, previews, and prints the Stock Balance report', async ({ page }) => {
-    test.setTimeout(90000);
+    // Bumped 90000->150000 (2026-09-14): Warehouse defaults to ALL and
+    // selectFirstWarehouseIfNeeded() self-skips, so this scans every
+    // warehouse/item unfiltered - same heavy shape as stock-aging,
+    // item-reorder-point, etc. (already bumped for the same reason per
+    // CLAUDE.md). Confirmed live: the report itself renders correctly
+    // (full data, right layout) - it just needs more than 90s under load.
+    test.setTimeout(150000);
     const inventoryReportPage = new InventoryReportPage(page);
     await inventoryReportPage.goto('Stock Balance');
 
