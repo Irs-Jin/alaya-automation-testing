@@ -157,7 +157,7 @@ class StockTakePage {
    * (Bin Location's Selection combo is ready immediately; Item's requires
    * switching its mode to "Filter By Selection" first).
    */
-  async addItemLine({ binLocationCode, itemName }) {
+  async addItemLine({ binLocationCode, itemName }, _isRetry = false) {
     const f = this.formFrame;
 
     const addItemButton = f.getByText('Add Item Add Item');
@@ -201,6 +201,24 @@ class StockTakePage {
     });
     await okButton.click();
     await this.page.waitForTimeout(800);
+
+    // BUG FIX (2026-08-26): CONFIRMED live via a failed test's trace
+    // screenshot — the Items grid can show "No data to display" after
+    // this OK click even though every step above reported success (no
+    // exception thrown), silently leaving the grid empty. Every
+    // downstream call (fillPhysicalQty(), clickPost()) then fails for a
+    // reason that looks completely unrelated to the real cause. Verify a
+    // line genuinely landed before returning; retry the whole sequence
+    // once rather than failing on a symptom several steps removed from
+    // the actual problem.
+    const lineAdded = await f.locator('[id*="gvItem_DXDataRow0"]').first()
+      .waitFor({ state: 'visible', timeout: 8000 }).then(() => true).catch(() => false);
+    if (!lineAdded) {
+      if (_isRetry) {
+        throw new Error('Add Item did not add a line to the Stock Take Items grid, even after retrying once.');
+      }
+      return this.addItemLine({ binLocationCode, itemName }, true);
+    }
   }
 
   /**
@@ -212,7 +230,7 @@ class StockTakePage {
    * among hundreds of others). The combo's search box live-filters as you
    * type (confirmed live — no separate "Search" click needed).
    */
-  async addItemLineByCode({ binLocationCode, itemCode }) {
+  async addItemLineByCode({ binLocationCode, itemCode }, _isRetry = false) {
     const f = this.formFrame;
 
     const addItemButton = f.getByText('Add Item Add Item');
@@ -259,6 +277,18 @@ class StockTakePage {
     });
     await okButton.click();
     await this.page.waitForTimeout(800);
+
+    // BUG FIX (2026-08-26): same silent-empty-grid failure mode confirmed
+    // for addItemLine() above — see its comment for the full detail and
+    // the trace screenshot that confirmed it.
+    const lineAdded = await f.locator('[id*="gvItem_DXDataRow0"]').first()
+      .waitFor({ state: 'visible', timeout: 8000 }).then(() => true).catch(() => false);
+    if (!lineAdded) {
+      if (_isRetry) {
+        throw new Error('Add Item did not add a line to the Stock Take Items grid, even after retrying once.');
+      }
+      return this.addItemLineByCode({ binLocationCode, itemCode }, true);
+    }
   }
 
   /**

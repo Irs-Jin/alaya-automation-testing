@@ -23,8 +23,21 @@ async function login(page, { baseURL, clientId, username, password } = {}) {
       { type: 'css', value: 'input[id*="txtClientId" i]' },
     ],
   });
+  // BUG FIXED (2026-08-27): under server load, the FIRST keystroke sent
+  // immediately after .click() can be dropped (confirmed live via a
+  // dedicated diagnostic run showing "uat" consistently landing as "at",
+  // producing a real "Connection not found" login failure, not just a
+  // cosmetic display glitch) — the field's ASPxClientEdit JS handler isn't
+  // always attached yet at the moment Playwright's first keydown fires.
+  // Verify the committed value and retry the full type once if it doesn't
+  // match, same verify-then-retry principle already used throughout this
+  // suite's grid Amount fields.
   await clientIdField.click();
   await clientIdField.pressSequentially(clientId, { delay: 30 });
+  if ((await clientIdField.inputValue().catch(() => '')) !== clientId) {
+    await clientIdField.click({ clickCount: 3 });
+    await clientIdField.pressSequentially(clientId, { delay: 30 });
+  }
 
   const { locator: usernameField } = await heal(page, {
     id: 'login.username',

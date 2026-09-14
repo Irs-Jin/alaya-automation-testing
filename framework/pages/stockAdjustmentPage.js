@@ -96,7 +96,17 @@ class StockAdjustmentPage {
     const p = this.page;
     this.listFrame = await findFrame(p, async (frame) => {
       const addIcon = frame.getByRole('img', { name: /Click Here Or Press \[Insert\]/i });
-      return (await addIcon.count().catch(() => 0)) > 0 && (await addIcon.first().isVisible().catch(() => false));
+      if ((await addIcon.count().catch(() => 0)) > 0 && (await addIcon.first().isVisible().catch(() => false))) {
+        return true;
+      }
+      // BUG FIX (2026-08-26): CONFIRMED live via a failed test's trace
+      // screenshot — this listing page can render with a "+ New" green
+      // button instead of the "Click Here Or Press [Insert]" img icon
+      // (same underlying grid, different skin/state), which the check
+      // above alone doesn't catch. Same CSS id clickNew() already uses as
+      // its own primary strategy.
+      const newButton = frame.locator('#ctl00_MainContent_InventoryAdjustment_cpnlInventoryAdjustment_formInventoryAdjustment_gvInventoryAdjustment_header17_Add');
+      return (await newButton.count().catch(() => 0)) > 0 && (await newButton.first().isVisible().catch(() => false));
     });
     if (!this.listFrame) {
       await p.screenshot({ path: 'test-results/debug-stock-adjustment-list-page.png', fullPage: true }).catch(() => {});
@@ -153,6 +163,26 @@ class StockAdjustmentPage {
   }
 
   /**
+   * DevExpress shows an app-wide loading overlay (`#ctl00_LoadingPanel_LD`)
+   * during any server postback, which can linger long enough to
+   * intercept a click on the element underneath it even though that
+   * element itself reports "visible, enabled and stable" — CONFIRMED live
+   * (2026-08-26) on this exact screen: clicking the Reason dropdown arrow
+   * timed out for the FULL 10s retry window with
+   * `<div id="ctl00_LoadingPanel_LD" ...> intercepts pointer events`
+   * repeated on every attempt (same root cause already fixed in
+   * accountReceivableReportPage.js/gstReportPage.js/inventoryReportPage.js/
+   * customerPage.js). Waiting for this overlay to actually disappear
+   * before a critical click is more reliable than just retrying the click
+   * itself. Best-effort — some pages never show it at all, so a missing
+   * overlay isn't an error.
+   */
+  async _waitForLoadingPanelHidden(timeout = 15000) {
+    await this.formFrame.locator('#ctl00_LoadingPanel_LD').first()
+      .waitFor({ state: 'hidden', timeout }).catch(() => {});
+  }
+
+  /**
    * Opens the Warehouse combo's dropdown and selects a row by its Code —
    * CONFIRMED live this is a popup list (Code/Name columns). "AMPANG"
    * confirmed the first option, same master data already confirmed in
@@ -160,6 +190,7 @@ class StockAdjustmentPage {
    */
   async selectWarehouse(warehouseCode) {
     const f = this.formFrame;
+    await this._waitForLoadingPanelHidden();
     const dropdownArrow = f.locator('#ctl00_MainContent_InventoryAdjustmentDetail1_cbpInventoryAdjustmentDetails_ASPxRoundPanel1_formInventoryAdjustment_cbWarehouse_cbWarehouse_B-1Img');
     await dropdownArrow.click();
     await this.page.waitForTimeout(500);
@@ -178,6 +209,7 @@ class StockAdjustmentPage {
    */
   async selectReason(reasonCode) {
     const f = this.formFrame;
+    await this._waitForLoadingPanelHidden();
     const dropdownArrow = f.locator('#ctl00_MainContent_InventoryAdjustmentDetail1_cbpInventoryAdjustmentDetails_ASPxRoundPanel1_formInventoryAdjustment_cbSelectInventoryReason_cbInventoryReason_B-1Img');
     await dropdownArrow.click();
     await this.page.waitForTimeout(500);
