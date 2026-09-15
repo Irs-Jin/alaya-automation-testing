@@ -14,6 +14,13 @@ module.exports = defineConfig({
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     actionTimeout: 10 * 1000,
+    // Opt-in only (ALAYA_MINIMIZED=1) — starts the --headed Chromium window
+    // minimized instead of stealing focus, for unattended/background
+    // verification runs. Off by default so the runner .bat files (meant
+    // for a human to watch) are unaffected.
+    launchOptions: {
+      args: process.env.ALAYA_MINIMIZED === '1' ? ['--start-minimized'] : [],
+    },
   },
   projects: [
     {
