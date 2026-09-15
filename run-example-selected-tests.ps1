@@ -16,8 +16,15 @@
 # full ~91-test set, so the report/email/rerun flow can be verified quickly
 # without waiting on the whole suite. Remove -Smoke from the .bat once
 # that's confirmed working end to end.
+#
+# -ResendOnly skips running any tests entirely and reuses the LAST run's
+# JSON report (still on disk from last time) to go straight to the
+# send-report popup - for when the tests already passed/reported fine but
+# the email send itself failed (e.g. a transient SMTP/TLS blip) and you
+# just want to retry sending, not re-run everything.
 param(
-    [switch]$Smoke
+    [switch]$Smoke,
+    [switch]$ResendOnly
 )
 
 # Self-derived so a colleague's copy (run-<yourname>-selected-tests.ps1)
@@ -48,7 +55,16 @@ $env:ALAYA_TEST_CUSTOMER_CODE = "000001"
 $env:ALAYA_TEST_ITEM_DESCRIPTION = "BISKUT PLANTA"
 
 $jsonReportPath = Join-Path $PSScriptRoot "playwright-report-summary.$($scriptName -replace '\.ps1$','').json"
-if (Test-Path $jsonReportPath) { Remove-Item $jsonReportPath -Force }
+
+if ($ResendOnly -and -not (Test-Path $jsonReportPath)) {
+    Write-Host "No previous report found at $jsonReportPath - nothing to resend. Run without -ResendOnly first." -ForegroundColor Red
+    Read-Host "Press Enter to close"
+    exit 1
+}
+
+if (-not $ResendOnly) {
+    if (Test-Path $jsonReportPath) { Remove-Item $jsonReportPath -Force }
+}
 $env:PLAYWRIGHT_JSON_OUTPUT_NAME = $jsonReportPath
 
 $recipients = @(
@@ -58,29 +74,37 @@ $recipients = @(
     "jin@irs.com.my"
 )
 
-$startTime = Get-Date
-
-if ($Smoke) {
-    Write-Host "*** SMOKE MODE: running $($smokeSpecFiles.Count) test cases across A/R, GL, POS and Reports ***"
-    Write-Host "*** to verify the report/email/rerun flow before running the full set.                 ***"
-    Write-Host ""
-    npx playwright test $smokeSpecFiles --workers=2 --reporter=list,json
+if ($ResendOnly) {
+    Write-Host "*** RESEND-ONLY MODE: reusing the last saved report, no tests will be run. ***" -ForegroundColor Yellow
+    $reportFileInfo = Get-Item $jsonReportPath
+    $startTime = $reportFileInfo.LastWriteTime
+    $endTime = $reportFileInfo.LastWriteTime
+    $testExitCode = 0
 } else {
-    npx playwright test tests/account-receivable/customer.spec.js tests/general-ledger tests/pos tests/reports --grep-invert "PBI 21784" --workers=2 --reporter=list,json
+    $startTime = Get-Date
+
+    if ($Smoke) {
+        Write-Host "*** SMOKE MODE: running $($smokeSpecFiles.Count) test cases across A/R, GL, POS and Reports ***"
+        Write-Host "*** to verify the report/email/rerun flow before running the full set.                 ***"
+        Write-Host ""
+        npx playwright test $smokeSpecFiles --workers=2 --reporter=list,json
+    } else {
+        npx playwright test tests/account-receivable/customer.spec.js tests/general-ledger tests/pos tests/reports --grep-invert "PBI 21784" --workers=2 --reporter=list,json
+    }
+    $testExitCode = $LASTEXITCODE
+
+    $endTime = Get-Date
+
+    Write-Host ""
+    Write-Host "================================================"
+    Write-Host " Test run finished. Opening the HTML report..."
+    Write-Host "================================================"
+    # `playwright show-report` starts a local server and blocks until closed
+    # (like `npx serve`) - run it detached so this script can carry on to
+    # the report/email prompt below instead of hanging here forever.
+    Start-Process -FilePath "cmd.exe" -ArgumentList "/c npx playwright show-report" -WindowStyle Minimized
 }
-$testExitCode = $LASTEXITCODE
-
-$endTime = Get-Date
 $elapsed = $endTime - $startTime
-
-Write-Host ""
-Write-Host "================================================"
-Write-Host " Test run finished. Opening the HTML report..."
-Write-Host "================================================"
-# `playwright show-report` starts a local server and blocks until closed
-# (like `npx serve`) - run it detached so this script can carry on to the
-# report/email prompt below instead of hanging here forever.
-Start-Process -FilePath "cmd.exe" -ArgumentList "/c npx playwright show-report" -WindowStyle Minimized
 
 # ---- Parse the JSON report into a Task Breakdown + Testing Result ----
 
@@ -134,6 +158,11 @@ Add-Type -AssemblyName System.Drawing
 
 $rerunNote = $null
 if ($failed.Count -gt 0) {
+    # This still offers to rerun even under -ResendOnly - that mode only
+    # skips re-running the FULL selected set; rerunning just the handful of
+    # still-failing tests is the same cheap, targeted rerun this already
+    # does normally, and updates the saved JSON report so the next
+    # -ResendOnly (or this same run's send) reflects the new result.
     $failedListPreview = ($failed | ForEach-Object { "  - $($_.File) :: $($_.Title)" }) -join "`n"
     $rerunConfirm = [System.Windows.Forms.MessageBox]::Show(
         "$($failed.Count) test(s) still failed after retry:`n`n$failedListPreview`n`nRerun just these now before building the report?",
@@ -149,18 +178,35 @@ if ($failed.Count -gt 0) {
         Write-Host ""
         Write-Host "*** Rerunning $($failed.Count) previously-failed test(s)... ***" -ForegroundColor Yellow
 
-        npx playwright test $failedFilesForRerun --grep $grepPattern --workers=1 --reporter=list,json
-        $rerunExitCode = $LASTEXITCODE
+        # BUG FIXED (2026-09-15): this used to point PLAYWRIGHT_JSON_OUTPUT_NAME
+        # at the SAME $jsonReportPath as the full run, which overwrote the
+        # full run's saved report down to just this small rerun subset -
+        # corrupting it for any later -ResendOnly (confirmed live: a 91-test
+        # report got shrunk to 1 test across two rerun cycles). Use a
+        # separate scratch file for the rerun's own output instead, so the
+        # main report file is never touched by this step.
+        $rerunJsonPath = Join-Path $PSScriptRoot "playwright-rerun-summary.$($scriptName -replace '\.ps1$','').json"
+        if (Test-Path $rerunJsonPath) { Remove-Item $rerunJsonPath -Force }
+        $previousJsonOutputName = $env:PLAYWRIGHT_JSON_OUTPUT_NAME
+        $env:PLAYWRIGHT_JSON_OUTPUT_NAME = $rerunJsonPath
+        try {
+            npx playwright test $failedFilesForRerun --grep $grepPattern --workers=1 --reporter=list,json
+            $rerunExitCode = $LASTEXITCODE
+        } finally {
+            $env:PLAYWRIGHT_JSON_OUTPUT_NAME = $previousJsonOutputName
+        }
 
         $rerunSpecs = @()
-        if (Test-Path $jsonReportPath) {
+        if (Test-Path $rerunJsonPath) {
             try {
-                $rerunJson = Get-Content $jsonReportPath -Raw | ConvertFrom-Json
+                $rerunJson = Get-Content $rerunJsonPath -Raw | ConvertFrom-Json
                 foreach ($suite in $rerunJson.suites) {
                     $rerunSpecs += Get-FlatSpecs -suite $suite -filePath $null
                 }
             } catch {
                 Write-Host "Warning: could not parse rerun results ($_). Original failures kept as-is in the report."
+            } finally {
+                Remove-Item $rerunJsonPath -Force -ErrorAction SilentlyContinue
             }
         }
 
@@ -377,20 +423,24 @@ if ($confirmResult -ne [System.Windows.Forms.DialogResult]::Yes) {
     exit 0
 }
 
-# ---- Popup for the sender's own webmail credentials ----
-# "Remember password" uses Windows DPAPI (CurrentUser scope) - the password
-# is encrypted with a key tied to this Windows account on this machine, so
-# the cache file is useless if copied elsewhere or opened by another user.
-# It is still local plaintext-equivalent access for *this* Windows login,
-# so it's opt-in via the checkbox, not on by default.
+# ---- Popup for the sender's own outgoing-mail login + SMTP settings ----
+# "Remember" uses Windows DPAPI (CurrentUser scope) for the password - it's
+# encrypted with a key tied to this Windows account on this machine, so the
+# cache file is useless if copied elsewhere or opened by another user. It
+# is still local plaintext-equivalent access for *this* Windows login, so
+# it's opt-in via the checkbox, not on by default. SMTP host/port/security
+# mode are saved alongside it in plain text (not secrets) so the whole
+# outgoing-mail setup only needs to be entered once, per Jin's request -
+# useful if the company mail server's IP ever gets blocked and someone
+# wants to switch to sending via their own personal mail account instead.
 
 Add-Type -AssemblyName System.Security
 $credCachePath = Join-Path $PSScriptRoot ".send-report-credential.$($scriptName -replace '\.ps1$','').dat"
 
-function Save-CachedCredential([string]$id, [string]$password) {
+function Save-CachedCredential([string]$id, [string]$password, [string]$smtpHost, [int]$smtpPort, [bool]$implicitTls) {
     $bytes = [System.Text.Encoding]::UTF8.GetBytes($password)
     $encrypted = [System.Security.Cryptography.ProtectedData]::Protect($bytes, $null, [System.Security.Cryptography.DataProtectionScope]::CurrentUser)
-    $payload = "$id`n$([Convert]::ToBase64String($encrypted))"
+    $payload = "$id`n$([Convert]::ToBase64String($encrypted))`n$smtpHost`n$smtpPort`n$implicitTls"
     Set-Content -Path $credCachePath -Value $payload -Encoding utf8
 }
 
@@ -401,7 +451,13 @@ function Load-CachedCredential {
         if ($lines.Count -lt 2) { return $null }
         $encrypted = [Convert]::FromBase64String($lines[1])
         $bytes = [System.Security.Cryptography.ProtectedData]::Unprotect($encrypted, $null, [System.Security.Cryptography.DataProtectionScope]::CurrentUser)
-        return @{ Id = $lines[0]; Password = [System.Text.Encoding]::UTF8.GetString($bytes) }
+        return @{
+            Id          = $lines[0]
+            Password    = [System.Text.Encoding]::UTF8.GetString($bytes)
+            SmtpHost    = if ($lines.Count -ge 3) { $lines[2] } else { "mail.irs.com.my" }
+            SmtpPort    = if ($lines.Count -ge 4) { [int]$lines[3] } else { 587 }
+            ImplicitTls = if ($lines.Count -ge 5) { [bool]::Parse($lines[4]) } else { $false }
+        }
     } catch {
         # Cache unreadable (different user/machine, corrupted, etc.) - ignore and ask fresh.
         return $null
@@ -412,12 +468,25 @@ function Clear-CachedCredential {
     if (Test-Path $credCachePath) { Remove-Item $credCachePath -Force }
 }
 
+# Preset outgoing-mail providers for the popup's dropdown - picking one
+# auto-fills server/port/security mode below. Gmail/Yahoo/Outlook.com all
+# commonly require an app-specific password (not your normal login
+# password) once 2-factor auth is on for that account - that's an account
+# setting on the provider's side, nothing this script can do about it.
+$mailPresets = @(
+    [PSCustomObject]@{ Name = "Custom / other"; Host = $null; Port = $null; ImplicitTls = $null }
+    [PSCustomObject]@{ Name = "IRS company mail (mail.irs.com.my)"; Host = "mail.irs.com.my"; Port = 587; ImplicitTls = $false }
+    [PSCustomObject]@{ Name = "Gmail (smtp.gmail.com)"; Host = "smtp.gmail.com"; Port = 587; ImplicitTls = $false }
+    [PSCustomObject]@{ Name = "Yahoo Mail (smtp.mail.yahoo.com)"; Host = "smtp.mail.yahoo.com"; Port = 587; ImplicitTls = $false }
+    [PSCustomObject]@{ Name = "Outlook / Hotmail (smtp-mail.outlook.com)"; Host = "smtp-mail.outlook.com"; Port = 587; ImplicitTls = $false }
+)
+
 function Show-CredentialForm {
     $saved = Load-CachedCredential
 
     $form = New-Object System.Windows.Forms.Form
-    $form.Text = "Send report - your webmail login"
-    $form.Size = New-Object System.Drawing.Size(380, 230)
+    $form.Text = "Send report - your outgoing mail settings"
+    $form.Size = New-Object System.Drawing.Size(400, 420)
     $form.StartPosition = "CenterScreen"
     $form.FormBorderStyle = "FixedDialog"
     $form.MaximizeBox = $false
@@ -431,7 +500,7 @@ function Show-CredentialForm {
 
     $txtId = New-Object System.Windows.Forms.TextBox
     $txtId.Location = New-Object System.Drawing.Point(10, 35)
-    $txtId.Size = New-Object System.Drawing.Size(340, 20)
+    $txtId.Size = New-Object System.Drawing.Size(360, 20)
     if ($saved) { $txtId.Text = $saved.Id }
     $form.Controls.Add($txtId)
 
@@ -443,104 +512,325 @@ function Show-CredentialForm {
 
     $txtPw = New-Object System.Windows.Forms.TextBox
     $txtPw.Location = New-Object System.Drawing.Point(10, 85)
-    $txtPw.Size = New-Object System.Drawing.Size(340, 20)
+    $txtPw.Size = New-Object System.Drawing.Size(360, 20)
     $txtPw.PasswordChar = "*"
     if ($saved) { $txtPw.Text = $saved.Password }
     $form.Controls.Add($txtPw)
 
+    $lblPreset = New-Object System.Windows.Forms.Label
+    $lblPreset.Text = "Mail provider:"
+    $lblPreset.Location = New-Object System.Drawing.Point(10, 115)
+    $lblPreset.AutoSize = $true
+    $form.Controls.Add($lblPreset)
+
+    $comboPreset = New-Object System.Windows.Forms.ComboBox
+    $comboPreset.Location = New-Object System.Drawing.Point(10, 135)
+    $comboPreset.Size = New-Object System.Drawing.Size(360, 20)
+    $comboPreset.DropDownStyle = [System.Windows.Forms.ComboBoxStyle]::DropDownList
+    foreach ($p in $mailPresets) { $comboPreset.Items.Add($p.Name) | Out-Null }
+    $form.Controls.Add($comboPreset)
+
+    $lblHost = New-Object System.Windows.Forms.Label
+    $lblHost.Text = "Outgoing (SMTP) server:"
+    $lblHost.Location = New-Object System.Drawing.Point(10, 165)
+    $lblHost.AutoSize = $true
+    $form.Controls.Add($lblHost)
+
+    $txtHost = New-Object System.Windows.Forms.TextBox
+    $txtHost.Location = New-Object System.Drawing.Point(10, 185)
+    $txtHost.Size = New-Object System.Drawing.Size(250, 20)
+    $txtHost.Text = if ($saved) { $saved.SmtpHost } else { "mail.irs.com.my" }
+    $form.Controls.Add($txtHost)
+
+    $lblPort = New-Object System.Windows.Forms.Label
+    $lblPort.Text = "Port:"
+    $lblPort.Location = New-Object System.Drawing.Point(270, 188)
+    $lblPort.AutoSize = $true
+    $form.Controls.Add($lblPort)
+
+    $txtPort = New-Object System.Windows.Forms.TextBox
+    $txtPort.Location = New-Object System.Drawing.Point(305, 185)
+    $txtPort.Size = New-Object System.Drawing.Size(65, 20)
+    $txtPort.Text = if ($saved) { $saved.SmtpPort } else { "587" }
+    $form.Controls.Add($txtPort)
+
+    $chkImplicitTls = New-Object System.Windows.Forms.CheckBox
+    $chkImplicitTls.Text = "Use SSL/implicit TLS (usually port 465, not 587/STARTTLS)"
+    $chkImplicitTls.Location = New-Object System.Drawing.Point(10, 215)
+    $chkImplicitTls.Size = New-Object System.Drawing.Size(360, 20)
+    $chkImplicitTls.Checked = if ($saved) { $saved.ImplicitTls } else { $false }
+    $form.Controls.Add($chkImplicitTls)
+
+    # Picking a preset auto-fills server/port/security mode; picking
+    # "Custom / other" leaves whatever's already typed alone.
+    $comboPreset.add_SelectedIndexChanged({
+        $selected = $mailPresets[$comboPreset.SelectedIndex]
+        if ($null -ne $selected.Host) {
+            $txtHost.Text = $selected.Host
+            $txtPort.Text = $selected.Port
+            $chkImplicitTls.Checked = $selected.ImplicitTls
+        }
+    }.GetNewClosure())
+
+    # Default the dropdown to whichever preset matches the saved/default
+    # host, so reopening the form doesn't silently show "Custom" for a
+    # server that actually IS one of the presets.
+    $currentHost = $txtHost.Text
+    $matchedIndex = 0
+    for ($i = 1; $i -lt $mailPresets.Count; $i++) {
+        if ($mailPresets[$i].Host -eq $currentHost) { $matchedIndex = $i; break }
+    }
+    $comboPreset.SelectedIndex = $matchedIndex
+
+    $lblHint = New-Object System.Windows.Forms.Label
+    $lblHint.Text = "Default is the company mail server. To send via your own personal`nmail instead (e.g. if the office IP gets blocked), pick a provider`nabove or type its settings manually. Gmail/Yahoo/Outlook usually`nneed an app-specific password, not your normal login password,`nonce 2-factor auth is on for that account."
+    $lblHint.Location = New-Object System.Drawing.Point(10, 245)
+    $lblHint.Size = New-Object System.Drawing.Size(360, 65)
+    $lblHint.ForeColor = [System.Drawing.Color]::Gray
+    $form.Controls.Add($lblHint)
+
     $chkRemember = New-Object System.Windows.Forms.CheckBox
-    $chkRemember.Text = "Remember password on this PC"
-    $chkRemember.Location = New-Object System.Drawing.Point(10, 115)
-    $chkRemember.Size = New-Object System.Drawing.Size(340, 20)
+    $chkRemember.Text = "Remember these settings (incl. password) on this PC"
+    $chkRemember.Location = New-Object System.Drawing.Point(10, 315)
+    $chkRemember.Size = New-Object System.Drawing.Size(360, 20)
     $chkRemember.Checked = [bool]$saved
     $form.Controls.Add($chkRemember)
 
     $btnOk = New-Object System.Windows.Forms.Button
     $btnOk.Text = "Send"
-    $btnOk.Location = New-Object System.Drawing.Point(190, 150)
+    $btnOk.Location = New-Object System.Drawing.Point(210, 345)
     $btnOk.DialogResult = [System.Windows.Forms.DialogResult]::OK
     $form.Controls.Add($btnOk)
     $form.AcceptButton = $btnOk
 
     $btnCancel = New-Object System.Windows.Forms.Button
     $btnCancel.Text = "Cancel"
-    $btnCancel.Location = New-Object System.Drawing.Point(275, 150)
+    $btnCancel.Location = New-Object System.Drawing.Point(295, 345)
     $btnCancel.DialogResult = [System.Windows.Forms.DialogResult]::Cancel
     $form.Controls.Add($btnCancel)
     $form.CancelButton = $btnCancel
 
     $result = $form.ShowDialog()
     if ($result -eq [System.Windows.Forms.DialogResult]::OK) {
-        return @{ Id = $txtId.Text; Password = $txtPw.Text; Remember = $chkRemember.Checked }
+        $portNum = 587
+        [int]::TryParse($txtPort.Text, [ref]$portNum) | Out-Null
+        return @{
+            Id          = $txtId.Text
+            Password    = $txtPw.Text
+            SmtpHost    = $txtHost.Text
+            SmtpPort    = $portNum
+            ImplicitTls = $chkImplicitTls.Checked
+            Remember    = $chkRemember.Checked
+        }
     }
     return $null
 }
 
 $cred = Show-CredentialForm
-if (-not $cred -or [string]::IsNullOrWhiteSpace($cred.Id) -or [string]::IsNullOrWhiteSpace($cred.Password)) {
-    Write-Host "Report not sent (no credentials entered)."
+if (-not $cred -or [string]::IsNullOrWhiteSpace($cred.Id) -or [string]::IsNullOrWhiteSpace($cred.Password) -or [string]::IsNullOrWhiteSpace($cred.SmtpHost)) {
+    Write-Host "Report not sent (no credentials/SMTP settings entered)."
     Read-Host "Press Enter to close"
     exit 0
 }
 
 if ($cred.Remember) {
-    Save-CachedCredential -id $cred.Id -password $cred.Password
+    Save-CachedCredential -id $cred.Id -password $cred.Password -smtpHost $cred.SmtpHost -smtpPort $cred.SmtpPort -implicitTls $cred.ImplicitTls
 } else {
     Clear-CachedCredential
 }
 
-# ---- Send via the company's SMTP (mail.irs.com.my, STARTTLS port 587) ----
-# NOTE: port 465 is "implicit TLS" and .NET's SmtpClient does NOT support
-# it (only explicit STARTTLS) - using 465 here fails/hangs silently instead
-# of sending. Port 587 (STARTTLS) is what SmtpClient actually supports and
-# matches the webmail portal's own "Non-SSL Settings" SMTP port.
-
+# ---- Send via SMTP - server/port/security mode all come from the popup ----
+# (default: mail.irs.com.my:587/STARTTLS, the company server). CONFIRMED
+# (2026-09-15): System.Net.Mail.SmtpClient always sends the local Windows
+# computer name (e.g. "DESKTOP-F1OQ6G8") as its EHLO identity with NO
+# public/supported way to override it (known .NET Framework limitation),
+# and the company server's anti-spam rule rejects that - reproduced twice,
+# a real repeatable bug, not a one-off. Using a hand-rolled sender instead
+# so we can send a proper EHLO, and so the server itself is configurable
+# (per Jin: lets you switch to a personal mail account if the office IP
+# ever gets blocked, instead of being stuck on the company server).
 $logPath = Join-Path $PSScriptRoot "last-report-email.$($scriptName -replace '\.ps1$','').log"
 
-try {
-    # Windows PowerShell 5.1's default SecurityProtocol often omits TLS 1.2,
-    # which makes modern mail servers forcibly reset the connection mid-
-    # handshake ("Unable to read data from the transport connection").
-    # Force TLS 1.2 explicitly before connecting.
-    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
+# Windows PowerShell 5.1's default SecurityProtocol often omits TLS 1.2,
+# which makes modern mail servers forcibly reset the connection mid-
+# handshake ("Unable to read data from the transport connection").
+# Force TLS 1.2 explicitly before connecting.
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
 
-    $smtp = New-Object System.Net.Mail.SmtpClient("mail.irs.com.my", 587)
-    $smtp.EnableSsl = $true
-    $smtp.Timeout = 30000
-    $smtp.Credentials = New-Object System.Net.NetworkCredential($cred.Id, $cred.Password)
+function Send-SmtpMailRaw {
+    param(
+        [string]$SmtpHost,
+        [int]$Port,
+        [string]$User,
+        [string]$Password,
+        [string]$From,
+        [string[]]$To,
+        [string]$Subject,
+        [string]$HtmlBody,
+        [int]$TimeoutMs = 30000,
+        # $true (typically port 465) = TLS wraps the connection immediately,
+        # before any SMTP command. $false (typically port 587) = plaintext
+        # EHLO first, then STARTTLS upgrades the same connection mid-
+        # session. Configurable per the send-report popup's checkbox, since
+        # this may now point at a personal mail provider instead of the
+        # company server.
+        [bool]$ImplicitTls = $false
+    )
 
-    $mail = New-Object System.Net.Mail.MailMessage
-    $mail.From = $cred.Id
-    foreach ($r in $recipients) { $mail.To.Add($r) }
-    $mail.Subject = "Test Report - $scriptName ($($endTime.ToString('yyyy-MM-dd HH:mm')))"
-    $mail.Body = $reportHtml
-    $mail.IsBodyHtml = $true
+    $heloDomain = $From -replace '^[^@]*@', ''
+    if ([string]::IsNullOrWhiteSpace($heloDomain)) { $heloDomain = "irs.com.my" }
 
-    $smtp.Send($mail)
-    "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') OK - sent to $($recipients -join ', ') as $($cred.Id)" | Out-File -FilePath $logPath -Append -Encoding utf8
-    [System.Windows.Forms.MessageBox]::Show("Report sent to: $($recipients -join ', ')", "Sent", "OK", "Information") | Out-Null
-    Write-Host "Report emailed successfully."
-} catch {
-    # PowerShell wraps direct .NET method-call exceptions in a
-    # MethodInvocationException - the real SMTP exception (with the
-    # specific rejected recipient) is the InnerException, not $_.Exception.
-    $realEx = if ($_.Exception.InnerException) { $_.Exception.InnerException } else { $_.Exception }
+    function Read-SmtpResponse($reader) {
+        $lines = @()
+        do {
+            $line = $reader.ReadLine()
+            if ($null -eq $line) { throw "SMTP connection closed unexpectedly while reading a response." }
+            $lines += $line
+        } while ($line.Length -ge 4 -and $line[3] -eq '-')
+        # BUG FIXED (2026-09-15): most SMTP responses are a single line (220,
+        # 250, 334, 235, ...) - PowerShell "unwraps" a single-element array
+        # into the bare scalar when a function returns it, so $lines here
+        # silently became a plain STRING instead of a 1-item array. The
+        # caller's `$lines[-1]` then indexed the string's last CHARACTER,
+        # not the line, and `.Substring()` doesn't exist on a Char -
+        # confirmed live ("[System.Char] does not contain a method named
+        # 'Substring'"). The leading comma forces this to stay an array of
+        # strings regardless of how many lines it holds.
+        return ,$lines
+    }
 
-    if ($realEx -is [System.Net.Mail.SmtpFailedRecipientsException]) {
-        $badOnes = ($realEx.InnerExceptions | ForEach-Object { "$($_.FailedRecipient): $($_.Message)" }) -join "`n"
-        "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') FAILED (bad recipient) - $badOnes" | Out-File -FilePath $logPath -Append -Encoding utf8
-        [System.Windows.Forms.MessageBox]::Show("Failed to send - server rejected these address(es):`n`n$badOnes", "Send failed", "OK", "Error") | Out-Null
-        Write-Host "Failed to send - rejected recipient(s):`n$badOnes"
-    } elseif ($realEx -is [System.Net.Mail.SmtpFailedRecipientException]) {
-        $badOne = "$($realEx.FailedRecipient): $($realEx.Message)"
-        "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') FAILED (bad recipient) - $badOne" | Out-File -FilePath $logPath -Append -Encoding utf8
-        [System.Windows.Forms.MessageBox]::Show("Failed to send - server rejected this address:`n`n$badOne", "Send failed", "OK", "Error") | Out-Null
-        Write-Host "Failed to send - rejected recipient: $badOne"
-    } else {
-        "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') FAILED - $($_.Exception.ToString())" | Out-File -FilePath $logPath -Append -Encoding utf8
-        [System.Windows.Forms.MessageBox]::Show("Failed to send report:`n$($realEx.Message)`n`nDetails logged to:`n$logPath", "Send failed", "OK", "Error") | Out-Null
-        Write-Host "Failed to send report: $($realEx.Message)"
-        Write-Host "Full details logged to $logPath"
+    function Send-Cmd($writer, $reader, [string]$command, [int[]]$expectedCodes) {
+        if ($null -ne $command) { $writer.Write("$command`r`n") }
+        $lines = Read-SmtpResponse $reader
+        $code = [int]($lines[-1].Substring(0, 3))
+        if ($expectedCodes -and ($expectedCodes -notcontains $code)) {
+            throw "SMTP error ($code): $($lines -join ' | ')"
+        }
+        return @{ Code = $code; Lines = $lines }
+    }
+
+    $tcp = New-Object System.Net.Sockets.TcpClient
+    $connectTask = $tcp.ConnectAsync($SmtpHost, $Port)
+    if (-not $connectTask.Wait($TimeoutMs)) { throw "Connection to $SmtpHost`:$Port timed out." }
+    $tcp.ReceiveTimeout = $TimeoutMs
+    $tcp.SendTimeout = $TimeoutMs
+
+    try {
+        $stream = $tcp.GetStream()
+
+        if ($ImplicitTls) {
+            # TLS handshake happens FIRST, before any SMTP command - no
+            # plaintext EHLO/STARTTLS exchange beforehand.
+            $sslStream = New-Object System.Net.Security.SslStream($stream, $false)
+            $sslStream.AuthenticateAsClient($SmtpHost, $null, [System.Security.Authentication.SslProtocols]::Tls12, $false)
+            $reader = New-Object System.IO.StreamReader($sslStream)
+            $writer = New-Object System.IO.StreamWriter($sslStream)
+            $writer.AutoFlush = $true
+
+            Read-SmtpResponse $reader | Out-Null # 220 greeting (already over TLS)
+            Send-Cmd $writer $reader "EHLO $heloDomain" @(250) | Out-Null
+        } else {
+            # Plaintext EHLO first, then STARTTLS upgrades this same
+            # connection in place.
+            $reader = New-Object System.IO.StreamReader($stream)
+            $writer = New-Object System.IO.StreamWriter($stream)
+            $writer.AutoFlush = $true
+
+            Read-SmtpResponse $reader | Out-Null # 220 greeting
+            Send-Cmd $writer $reader "EHLO $heloDomain" @(250) | Out-Null
+            Send-Cmd $writer $reader "STARTTLS" @(220) | Out-Null
+
+            $sslStream = New-Object System.Net.Security.SslStream($stream, $false)
+            $sslStream.AuthenticateAsClient($SmtpHost, $null, [System.Security.Authentication.SslProtocols]::Tls12, $false)
+            $reader = New-Object System.IO.StreamReader($sslStream)
+            $writer = New-Object System.IO.StreamWriter($sslStream)
+            $writer.AutoFlush = $true
+
+            Send-Cmd $writer $reader "EHLO $heloDomain" @(250) | Out-Null
+        }
+
+        Send-Cmd $writer $reader "AUTH LOGIN" @(334) | Out-Null
+        Send-Cmd $writer $reader ([Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($User))) @(334) | Out-Null
+        Send-Cmd $writer $reader ([Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($Password))) @(235) | Out-Null
+
+        Send-Cmd $writer $reader "MAIL FROM:<$From>" @(250) | Out-Null
+
+        $rcptFailures = @()
+        $rcptOk = @()
+        foreach ($recipient in $To) {
+            try {
+                Send-Cmd $writer $reader "RCPT TO:<$recipient>" @(250, 251) | Out-Null
+                $rcptOk += $recipient
+            } catch {
+                $rcptFailures += "$recipient : $($_.Exception.Message)"
+            }
+        }
+        if ($rcptOk.Count -eq 0) {
+            throw "BadRecipient: $($rcptFailures -join '; ')"
+        }
+
+        Send-Cmd $writer $reader "DATA" @(354) | Out-Null
+
+        $headers = "From: $From`r`nTo: $($rcptOk -join ', ')`r`nSubject: $Subject`r`nMIME-Version: 1.0`r`nContent-Type: text/html; charset=utf-8`r`n`r`n"
+        # RFC 5321 dot-stuffing: a line starting with "." must be escaped as
+        # ".." so it isn't mistaken for the end-of-DATA terminator below.
+        $bodyLines = ($headers + $HtmlBody) -split "`r`n|`n" | ForEach-Object { if ($_.StartsWith('.')) { ".$_" } else { $_ } }
+        $writer.Write(($bodyLines -join "`r`n") + "`r`n.`r`n")
+        $dataResult = Read-SmtpResponse $reader
+        $dataCode = [int]($dataResult[-1].Substring(0, 3))
+        if ($dataCode -ne 250) { throw "SMTP error ($dataCode) after DATA: $($dataResult -join ' | ')" }
+
+        try { Send-Cmd $writer $reader "QUIT" @(221) | Out-Null } catch {}
+
+        if ($rcptFailures.Count -gt 0) {
+            throw "BadRecipient: $($rcptFailures -join '; ')"
+        }
+    } finally {
+        $tcp.Close()
+    }
+}
+
+# Confirmed live (2026-09-15): the TLS handshake to this server occasionally
+# resets ("connection forcibly closed") as a one-off. Per Jin: 2 attempts is
+# enough - don't keep hammering the server. Bad-recipient errors are
+# deterministic (the address itself is wrong) so those are NEVER retried -
+# only the generic transport-level catch below is.
+$maxSendAttempts = 2
+$retryDelaysSeconds = @(3)
+$sendSucceeded = $false
+for ($attempt = 1; $attempt -le $maxSendAttempts -and -not $sendSucceeded; $attempt++) {
+    try {
+        Send-SmtpMailRaw -SmtpHost $cred.SmtpHost -Port $cred.SmtpPort -ImplicitTls $cred.ImplicitTls -User $cred.Id -Password $cred.Password `
+            -From $cred.Id -To $recipients `
+            -Subject "Test Report - $scriptName ($($endTime.ToString('yyyy-MM-dd HH:mm')))" `
+            -HtmlBody $reportHtml -TimeoutMs 30000
+
+        "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') OK - sent to $($recipients -join ', ') as $($cred.Id) (attempt $attempt/$maxSendAttempts)" | Out-File -FilePath $logPath -Append -Encoding utf8
+        [System.Windows.Forms.MessageBox]::Show("Report sent to: $($recipients -join ', ')", "Sent", "OK", "Information") | Out-Null
+        Write-Host "Report emailed successfully."
+        $sendSucceeded = $true
+    } catch {
+        $realEx = if ($_.Exception.InnerException) { $_.Exception.InnerException } else { $_.Exception }
+        $isBadRecipient = $realEx.Message -like "BadRecipient:*"
+
+        if (-not $isBadRecipient -and $attempt -lt $maxSendAttempts) {
+            $delay = $retryDelaysSeconds[[Math]::Min($attempt - 1, $retryDelaysSeconds.Count - 1)]
+            Write-Host "Send attempt $attempt/$maxSendAttempts failed ($($realEx.Message)) - retrying in ${delay}s..." -ForegroundColor Yellow
+            Start-Sleep -Seconds $delay
+            continue
+        }
+
+        if ($isBadRecipient) {
+            $badOnes = $realEx.Message -replace '^BadRecipient:\s*', ''
+            "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') FAILED (bad recipient) - $badOnes" | Out-File -FilePath $logPath -Append -Encoding utf8
+            [System.Windows.Forms.MessageBox]::Show("Failed to send - server rejected these address(es):`n`n$badOnes", "Send failed", "OK", "Error") | Out-Null
+            Write-Host "Failed to send - rejected recipient(s):`n$badOnes"
+        } else {
+            "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') FAILED - $($_.Exception.ToString())" | Out-File -FilePath $logPath -Append -Encoding utf8
+            [System.Windows.Forms.MessageBox]::Show("Failed to send report:`n$($realEx.Message)`n`nDetails logged to:`n$logPath", "Send failed", "OK", "Error") | Out-Null
+            Write-Host "Failed to send report: $($realEx.Message)"
+            Write-Host "Full details logged to $logPath"
+        }
     }
 }
 

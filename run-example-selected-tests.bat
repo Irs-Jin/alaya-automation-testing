@@ -36,7 +36,10 @@ REM 90000->150000 test.setTimeout bumps in customer-last-visit-listing,
 REM item-point-setting-listing, item-price-level-listing, item-reorder-
 REM point, and stock-aging report specs). stock-balance-report got the same
 REM 90000->150000 bump on 2026-09-14 (unfiltered ALL-warehouse/ALL-item
-REM scan - same heavy shape as the others in that list).
+REM scan - same heavy shape as the others in that list). customer-aging-
+REM report got a further 150000->210000 bump on 2026-09-15 (whole-ledger
+REM report, kept hitting 150000ms specifically when run concurrently with
+REM other heavy report tests under --workers=2).
 
 cd /d "%~dp0"
 
@@ -46,5 +49,9 @@ REM credential popup that batch can't do on its own).
 REM
 REM Full selected set (the ~91 tests described above). Pass -Smoke instead
 REM of nothing if you ever need to re-verify the report/email/rerun flow
-REM quickly against a small 10-test slice before trusting a full run.
+REM quickly against a small 10-test slice before trusting a full run. If
+REM the test run/report was fine but only the EMAIL send failed (e.g. a
+REM transient SMTP/TLS blip), don't re-run everything - just run once from
+REM a terminal with -ResendOnly added, which reuses the last saved report
+REM and goes straight to the send-report popup.
 powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0run-example-selected-tests.ps1"

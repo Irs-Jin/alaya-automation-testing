@@ -24,7 +24,13 @@ test.describe('Reports > Account Receivable > Customer Aging', () => {
   test('[Happy Path] views, previews, and prints the Customer Aging report', async ({ page }) => {
     // Large-data report (per-customer aging across the whole ledger) — same
     // slow-render lesson as Vendor Aging, needs more than the default 90s.
-    test.setTimeout(150000);
+    // Bumped 150000->210000 (2026-09-15): confirmed live, this consistently
+    // hit the 150000ms ceiling when run concurrently with other heavy report
+    // tests (--workers=2) even though the report itself renders correctly
+    // (full, correct data - see test-results screenshot) - it passed fine
+    // once already when run alone with less contention. Same "slower under
+    // load" pattern CLAUDE.md documents for the other bumped reports.
+    test.setTimeout(210000);
     const arReportPage = new AccountReceivableReportPage(page);
     await arReportPage.goto('Customer Aging');
 

@@ -39,9 +39,15 @@ one — see "Setting up your own copy" below.
    time used) and pops up a Yes/No dialog asking whether to email it to the
    QA team.
 5. If Yes, pops up a small form asking for **the person currently running
-   it**'s own email + password, with a "Remember password on this PC"
-   checkbox.
-6. Sends the report by SMTP using those credentials.
+   it**'s own email + password, plus which outgoing (SMTP) server to send
+   through - a dropdown offers the company mail server, Gmail, Yahoo Mail,
+   and Outlook/Hotmail as presets (auto-filling server/port/security mode),
+   or "Custom / other" to type any provider's settings by hand. Useful if
+   the office IP ever gets blocked by the company mail server - switch to a
+   personal account instead without editing the script. There's a
+   "Remember these settings on this PC" checkbox to save all of it
+   (including the password) for next time.
+6. Sends the report by SMTP using those settings.
 
 ## Credentials — what to tell the user, and what NOT to do
 
